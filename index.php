@@ -38,7 +38,7 @@
 <div class="container">
     <h3>Right Aligned Navbar</h3>
     <p>The .navbar-right class is used to right-align navigation bar buttons.</p>
-    <p>OpenShift-ENV-Test: TEST_ENV=<?php echo $_SERVER['TEST_ENV'];?></p>
+    <p>OpenShift-ENV-Test: TEST_ENV=<?php var_dump($_ENV['TEST_ENV']);?></p>
 </div>
 
 </body>

@@ -11,7 +11,7 @@ $sites = [
         'icon' => 'glyphicon-list'
     ],
     'marketplace' => [
-        'title' => 'Dashboard',
+        'title' => 'Marketplace',
         'pos' => 'left',
         'icon' => 'glyphicon-shopping-cart'
     ],

@@ -19,7 +19,7 @@
                 echo " <td><a href=\"?s=gearview&id=".$key."\">".$gear['title']."</a></td>";
                 echo " <td>".$gear['category']."</td>";
                 echo " <td>".$gear['purchase_date']."</td>";
-                echo " <td>".$gear['currency']." ".$gear['price']."</td>";
+                echo " <td>".$gear['currency']." ".$gear['purchase_price']."</td>";
                 echo "</tr>";
             }
         ?>

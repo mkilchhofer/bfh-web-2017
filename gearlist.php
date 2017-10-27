@@ -13,18 +13,16 @@
         </tr>
         </thead>
         <tbody id="myTable">
-        <tr>
-            <td><a href="?s=gearview&?id=1e4e0fae-c4ac-4caf-9731-80b4096fe01d">iPod</a></td>
-            <td>Multimedia</td>
-            <td>01.02.2009</td>
-            <td>CHF 149.00</td>
-        </tr>
-        <tr>
-            <td><a href="?s=gearview&?id=ec15264c-5506-468f-ad00-4ee64237ad2a">Macbook</a></td>
-            <td>Multimedia</td>
-            <td>01.02.2011</td>
-            <td>CHF 1149.00</td>
-        </tr>
+        <?php
+            foreach ($mygear as $key => $gear) {
+                echo "<tr>";
+                echo " <td><a href=\"?s=gearview&id=".$key."\">".$gear['title']."</a></td>";
+                echo " <td>".$gear['category']."</td>";
+                echo " <td>".$gear['purchase_date']."</td>";
+                echo " <td>".$gear['currency']." ".$gear['price']."</td>";
+                echo "</tr>";
+            }
+        ?>
         </tbody>
     </table>
 

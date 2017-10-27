@@ -31,3 +31,34 @@ $sites = [
         'icon' => 'glyphicon-log-in'
     ],
 ];
+
+$mygear = [
+    '1e4e0fae-c4ac-4caf-9731-80b4096fe01d' => [
+        'title' => 'iPod',
+        'category' => 'Multimedia',
+        'price' => 1121.00,
+        'currency' => 'CHF',
+        'purchase_date' => "01.01.2010",
+        'purchase_location' => "Mediamarkt",
+        'picture' => "<svg width=\"100\" height=\"100\"><circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"blue\" /></svg>",
+    ],
+    'ec15264c-5506-468f-ad00-4ee64237ad2a' => [
+        'title' => 'Macbook',
+        'category' => 'Multimedia',
+        'price' => 444.00,
+        'currency' => 'CHF',
+        'purchase_date' => "02.03.2011",
+        'purchase_location' => "Grosis Brockenstube",
+        'picture' => "<svg width=\"100\" height=\"100\"><circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" /></svg>",
+    ],
+    'ec15264c-5506-468f-ad00-4ee64237ad2f' => [
+        'title' => 'Schmudis Laptop',
+        'category' => 'Multimedia',
+        'price' => 2.00,
+        'currency' => 'EUR',
+        'purchase_date' => "03.03.2011",
+        'purchase_location' => "Privatverkauf von Schmudi",
+        'picture' => "<svg width=\"100\" height=\"100\"><circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"red\" /></svg>",
+    ],
+
+];

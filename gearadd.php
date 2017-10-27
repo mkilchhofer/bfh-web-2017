@@ -10,6 +10,10 @@ require_once ('constants.php');
         <input type="text" class="form-control" id="name">
     </div>
     <div class="form-group">
+        <label for="uploadPicture">Upload Picture</label>
+        <input type="file" class="form-control" id="uploadPicture">
+    </div>
+    <div class="form-group">
         <label for="category">Select category</label>
         <select class="form-control" id="category">
             <option>Notebook</option>
@@ -21,7 +25,7 @@ require_once ('constants.php');
     </div>
     <div class="form-group">
         <label for="purchasePrice">Purchase Price</label>
-        <input type="number" class="form-control" id="purchasePrice">
+        <input type="number" class="form-control" id="purchasePrice" min="0.00" step="0.01">
     </div>
     <div class="form-group">
         <label for="purchaseDate">Purchase Date</label>

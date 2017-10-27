@@ -1,5 +1,5 @@
     <h3>My Gear
-    <a href="#" class="btn btn-primary" role="button" style="float: right">Neues Gerät erfassen</a></h3>
+    <a href="?s=add" class="btn btn-primary" role="button" style="float: right">Neues Gerät erfassen</a></h3>
 
     <input class="form-control" id="myInput" type="text" placeholder="Search..">
     <br>

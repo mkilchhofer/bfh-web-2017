@@ -1,8 +1,10 @@
 <?php
 
-$s = $_GET['s'];
-if(empty($s))
+if(empty($_GET['s'])){
     $s="dashboard";
+} else {
+    $s = $_GET['s'];
+}
 
 switch ($s) {
     case "gearview":

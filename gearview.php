@@ -2,8 +2,8 @@
 require_once ('constants.php');
 ?>
 <h3><?php echo $mygear[$_GET['id']]['title']; ?>
-<button type="button" class="btn btn-primary" style="float: right">Verkaufen</button>
-<button type="button" class="btn btn-primary" style="float: right">Bearbeiten</button></h3>
+<a href="#" class="btn" role="button" style="float: right">Verkaufen</a>
+<a href="#" class="btn" role="button" style="float: right">Bearbeiten</a></h3>
 
     <table class="table table-striped">
         <tbody id="myTable">

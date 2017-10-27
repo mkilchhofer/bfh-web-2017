@@ -1,3 +1,6 @@
+<?php
+require_once ('constants.php');
+?>
 <h3><?php echo $mygear[$_GET['id']]['title']; ?>
 <button type="button" class="btn btn-primary" style="float: right">Verkaufen</button>
 <button type="button" class="btn btn-primary" style="float: right">Bearbeiten</button></h3>
@@ -5,31 +8,31 @@
     <table class="table table-striped">
         <tbody id="myTable">
         <tr>
-            <th scope="row">Bild</th>
+            <th scope="row"><?php echo $strings[$language]['picture']; ?></th>
             <td><?php echo $mygear[$_GET['id']]['picture']; ?></td>
         </tr>
         <tr>
-            <th scope="row">Id</th>
+            <th scope="row"><?php echo $strings[$language]['id']; ?></th>
             <td><?php echo $_GET['id'] ; ?></td>
         </tr>
         <tr>
-            <th scope="row">Kategorie</th>
+            <th scope="row"><?php echo $strings[$language]['category']; ?></th>
             <td><?php echo $mygear[$_GET['id']]['category']; ?></td>
         </tr>
         <tr>
-            <th scope="row">Preis</th>
-            <td><?php echo $mygear[$_GET['id']]['price']; ?></td>
+            <th scope="row"><?php echo $strings[$language]['purchase_price']; ?></th>
+            <td><?php echo $mygear[$_GET['id']]['purchase_price']; ?></td>
         </tr>
         <tr>
-            <th scope="row">Kaufdatum</th>
+            <th scope="row"><?php echo $strings[$language]['purchase_date']; ?></th>
             <td><?php echo $mygear[$_GET['id']]['purchase_date']; ?></td>
         </tr>
         <tr>
-            <th scope="row">Gekauft bei:</th>
+            <th scope="row"><?php echo $strings[$language]['purchase_location']; ?></th>
             <td><?php echo $mygear[$_GET['id']]['purchase_location']; ?></td>
         </tr>
         <tr>
-            <th scope="row">Quittung:</th>
+            <th scope="row"><?php echo $strings[$language]['receipt']; ?></th>
             <td>nicht verfügbar</td>
         </tr>
         </tbody>

@@ -1,10 +1,15 @@
 <?php
 
-if(empty($_GET['lang'])){
-    $language="en";
+if(isset($_GET['lang'])) {
+    setcookie ( 'language', $_GET['lang'], time() + 60*60*24*30);
+    $language=$_GET['lang'];
+} elseif(isset( $_COOKIE["language"] )) {
+    $language=$_COOKIE["language"];
 } else {
-    $language= $_GET['lang'];
+    $language= "de";
+    setcookie ( 'language', $language, time() + 60*60*24*30);
 }
+
 
 $sites = [
     'dashboard' => [

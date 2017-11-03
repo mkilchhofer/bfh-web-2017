@@ -1,34 +1,48 @@
 <?php
+require_once 'db.inc.php';
 
 
-class Gear {
+class Gear
+{
 
-    static public function getProducts($owner) {
-        require_once "db.inc.php";
-        $result = $db->query("SELECT * FROM GearItem;");
+    static public function getGearByOwner($ownerId)
+    {
+        $id = (int)$ownerId;
+        $sql_query = "SELECT * FROM GearItem WHERE currentOwnerId = $id;";
+        $result = DB::doQuery($sql_query);
 
-        $productsByOwner = array();
-
-        while ($gearItem = $result->fetch_assoc()) {
-            if($gearItem['currentOwnerId']==$owner){
-                $productsByOwner[]=$gearItem;
-            }
+        $gearItems = array();
+        if (!$result) {
+            return null;
         }
 
-        $result->close();
-        $db->close();
+        while ($gearItem = $result->fetch_assoc()) {
+            $gearItems[] = $gearItem;
+        }
 
-        return $productsByOwner;
+        return $gearItems;
     }
 
-    static public function getProduct($itemId) {
-        require_once "db.inc.php";
-        $result = $db->query("SELECT * FROM GearItem WHERE gearItemId = $itemId;");
+    static public function getGear($itemId)
+    {
+        $id = (int)$itemId;
+        $sql_query = "SELECT * FROM GearItem WHERE gearItemId = $id;";
+        $result = DB::doQuery($sql_query);
 
         $gearItem = $result->fetch_assoc();
-        $result->close();
-        $db->close();
 
         return $gearItem;
+    }
+
+    static public function addGear($name, $currentOwnerId, $purchasePrice, $purchaseDate, $purchasePlace, $receiptImageId, $picture)
+    {
+        $sql_query = "INSERT INTO `GearItem` (`gearItemId`, `name`, `currentOwnerId`,
+                                              `purchasePrice`, `purchaseDate`, `purchasePlace`,
+                                              `receiptImageId`, `picture`)
+                                              VALUES
+                                              (NULL, '$name', '$currentOwnerId', '$purchasePrice'
+                                              '$purchaseDate', '$purchasePlace', '$receiptImageId', '$picture');";
+        $result = DB::doQuery($sql_query);
+        var_dump($result);
     }
 }

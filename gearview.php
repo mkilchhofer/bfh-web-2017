@@ -1,10 +1,10 @@
 <?php
-require_once ('constants.php');
-require_once('gear.php');
+require_once 'constants.php';
+require_once 'gear.php';
 $gearId = $_GET['id'];
 $userId = $_COOKIE['userId'];
 
-$item = Gear::getProduct($gearId);
+$item = Gear::getGear($gearId);
 
 ?>
 <h3><?php echo $item['name']; ?>

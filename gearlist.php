@@ -2,7 +2,7 @@
 require_once('gear.php');
 $userId = $_COOKIE['userId'];
 
-$items = Gear::getProducts($userId);
+$items = Gear::getGearByOwner($userId);
 ?>
     <h3>My Gear
     <a href="?s=add" class="btn" role="button" style="float: right">Neues Gerät erfassen</a></h3>

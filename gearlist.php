@@ -1,3 +1,9 @@
+<?php
+require_once('gear.php');
+$userId = $_COOKIE['userId'];
+
+$items = Gear::getProducts($userId);
+?>
     <h3>My Gear
     <a href="?s=add" class="btn" role="button" style="float: right">Neues Gerät erfassen</a></h3>
 
@@ -6,20 +12,20 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Gear</th>
-            <th>Kategorie</th>
-            <th>Kaufdatum</th>
-            <th>Preis</th>
+            <th><?php echo $strings[$language]['name']; ?></th>
+            <th><?php echo $strings[$language]['category']; ?></th>
+            <th><?php echo $strings[$language]['purchaseDate']; ?></th>
+            <th><?php echo $strings[$language]['purchasePrice']; ?></th>
         </tr>
         </thead>
         <tbody id="myTable">
         <?php
-            foreach ($mygear as $key => $gear) {
+            foreach ($items as $item) {
                 echo "<tr>";
-                echo " <td><a href=\"?s=gearview&id=".$key."\">".$gear['title']."</a></td>";
-                echo " <td>".$gear['category']."</td>";
-                echo " <td>".$gear['purchase_date']."</td>";
-                echo " <td>".$gear['currency']." ".$gear['purchase_price']."</td>";
+                echo " <td><a href=\"?s=gearview&id=".$item['gearItemId']."\">".$item['name']."</a></td>";
+                echo " <td>".$item['category']."</td>";
+                echo " <td>".$item['purchaseDate']."</td>";
+                echo " <td>".$item['currency']." ".$item['purchasePrice']."</td>";
                 echo "</tr>";
             }
         ?>

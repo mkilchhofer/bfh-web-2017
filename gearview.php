@@ -1,7 +1,13 @@
 <?php
 require_once ('constants.php');
+require_once('gear.php');
+$gearId = $_GET['id'];
+$userId = $_COOKIE['userId'];
+
+$item = Gear::getProduct($gearId);
+
 ?>
-<h3><?php echo $mygear[$_GET['id']]['title']; ?>
+<h3><?php echo $item['name']; ?>
 <a href="#" class="btn" role="button" style="float: right">Verkaufen</a>
 <a href="#" class="btn" role="button" style="float: right">Bearbeiten</a></h3>
 
@@ -9,31 +15,27 @@ require_once ('constants.php');
         <tbody id="myTable">
         <tr>
             <th scope="row"><?php echo $strings[$language]['picture']; ?></th>
-            <td><?php echo $mygear[$_GET['id']]['picture']; ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?php echo $strings[$language]['id']; ?></th>
-            <td><?php echo $_GET['id'] ; ?></td>
+            <td><?php echo $item['picture']; ?></td>
         </tr>
         <tr>
             <th scope="row"><?php echo $strings[$language]['category']; ?></th>
-            <td><?php echo $mygear[$_GET['id']]['category']; ?></td>
+            <td><?php echo $item['category'];    ?></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $strings[$language]['purchase_price']; ?></th>
-            <td><?php echo $mygear[$_GET['id']]['purchase_price']; ?></td>
+            <th scope="row"><?php echo $strings[$language]['purchasePrice']; ?></th>
+            <td><?php echo $item['purchasePrice']; ?></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $strings[$language]['purchase_date']; ?></th>
-            <td><?php echo $mygear[$_GET['id']]['purchase_date']; ?></td>
+            <th scope="row"><?php echo $strings[$language]['purchaseDate']; ?></th>
+            <td><?php echo $item['purchaseDate']; ?></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $strings[$language]['purchase_location']; ?></th>
-            <td><?php echo $mygear[$_GET['id']]['purchase_location']; ?></td>
+            <th scope="row"><?php echo $strings[$language]['purchasePlace']; ?></th>
+            <td><?php echo $item['purchasePlace']; ?></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $strings[$language]['receipt']; ?></th>
-            <td>nicht verfügbar</td>
+            <th scope="row"><?php echo $strings[$language]['receiptImageId']; ?></th>
+            <td><?php echo $item['receiptImageId']; ?></td>
         </tr>
         </tbody>
     </table>

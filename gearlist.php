@@ -12,10 +12,10 @@ $items = Gear::getProducts($userId);
     <table class="table table-striped">
         <thead>
         <tr>
-            <th><?php echo $strings[$language]['name']; ?></th>
-            <th><?php echo $strings[$language]['category']; ?></th>
-            <th><?php echo $strings[$language]['purchaseDate']; ?></th>
-            <th><?php echo $strings[$language]['purchasePrice']; ?></th>
+            <th><?php echo $lang['name']; ?></th>
+            <th><?php echo $lang['category']; ?></th>
+            <th><?php echo $lang['purchaseDate']; ?></th>
+            <th><?php echo $lang['purchasePrice']; ?></th>
         </tr>
         </thead>
         <tbody id="myTable">

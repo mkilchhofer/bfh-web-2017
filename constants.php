@@ -43,30 +43,3 @@ $sites = [
         'icon' => 'glyphicon-log-in'
     ],
 ];
-
-$strings = [
-    'de' =>   [
-        'name' => 'Name',
-        'category' => 'Kategorie',
-        'price' => 'Preis',
-        'picture' => 'Bild',
-        'currency' => 'Währung',
-        'id' => 'Id',
-        'purchaseDate' => 'Gekauft am',
-        'purchasePrice' => 'Kaufpreis',
-        'purchasePlace' => 'Gekauft bei',
-        'receiptImageId' => 'Quittung',
-    ],
-    'en' =>   [
-        'name' => 'Name',
-        'category' => 'Category',
-        'price' => 'Price',
-        'picture' => 'Picture',
-        'currency' => 'Currency',
-        'id' => 'Id',
-        'purchaseDate' => 'Purchase',
-        'purchasePrice' => 'Purchase Price',
-        'purchasePlace' => 'Purchased from',
-        'receiptImageId' => 'Receipt',
-    ],
-];

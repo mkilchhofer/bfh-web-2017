@@ -1,5 +1,6 @@
 <?php
-require_once ('constants.php');
+require_once 'constants.php';
+require_once 'common.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

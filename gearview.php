@@ -14,27 +14,27 @@ $item = Gear::getProduct($gearId);
     <table class="table table-striped">
         <tbody id="myTable">
         <tr>
-            <th scope="row"><?php echo $strings[$language]['picture']; ?></th>
+            <th scope="row"><?php echo $lang['picture']; ?></th>
             <td><?php echo $item['picture']; ?></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $strings[$language]['category']; ?></th>
+            <th scope="row"><?php echo $lang['category']; ?></th>
             <td><?php echo $item['category'];    ?></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $strings[$language]['purchasePrice']; ?></th>
+            <th scope="row"><?php echo $lang['purchasePrice']; ?></th>
             <td><?php echo $item['purchasePrice']; ?></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $strings[$language]['purchaseDate']; ?></th>
+            <th scope="row"><?php echo $lang['purchaseDate']; ?></th>
             <td><?php echo $item['purchaseDate']; ?></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $strings[$language]['purchasePlace']; ?></th>
+            <th scope="row"><?php echo $lang['purchasePlace']; ?></th>
             <td><?php echo $item['purchasePlace']; ?></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $strings[$language]['receiptImageId']; ?></th>
+            <th scope="row"><?php echo $lang['receiptImageId']; ?></th>
             <td><?php echo $item['receiptImageId']; ?></td>
         </tr>
         </tbody>

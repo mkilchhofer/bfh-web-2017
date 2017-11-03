@@ -1,11 +1,6 @@
 <?php
 
-const HOST="db";
-const USER="mygear";
-const PW="mygear";
-const DB_NAME="mygear";
-
-$db=new mysqli(HOST, USER, PW, DB_NAME);
+$db=new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
 
 if($db->connect_errno > 0)
     die("Unable to connect to database: ".$db->connect_error);

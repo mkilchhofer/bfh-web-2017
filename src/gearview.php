@@ -18,7 +18,7 @@ $item = Gear::getGearById($gearId);
             <td></td>
         </tr>
         <tr>
-            <th scope="row"><?php echo $lang['category']; ?></th>
+            <th scope="row"><?php echo $lang['tags']; ?></th>
             <td></td>
         </tr>
         <tr>

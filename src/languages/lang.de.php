@@ -8,7 +8,7 @@ Language: German
 $lang = array();
 
 $lang['name']           = 'Name';
-$lang['category']       = 'Kategorie';
+$lang['tags']           = 'Tags';
 $lang['price']          = 'Preis';
 $lang['picture']        = 'Bild';
 $lang['currency']       = 'Währung';

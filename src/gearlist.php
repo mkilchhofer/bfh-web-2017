@@ -13,7 +13,7 @@ $items = Gear::getGearByOwner($userId);
         <thead>
         <tr>
             <th><?php echo $lang['name']; ?></th>
-            <th><?php echo $lang['category']; ?></th>
+            <th><?php echo $lang['tags']; ?></th>
             <th><?php echo $lang['purchaseDate']; ?></th>
             <th><?php echo $lang['purchasePrice']; ?></th>
         </tr>
@@ -23,7 +23,7 @@ $items = Gear::getGearByOwner($userId);
             foreach ($items as $item) {
                 echo "<tr>";
                 echo " <td><a href=\"?s=gearview&id=".$item['GearId']."\">".$item['GearName']."</a></td>";
-                echo " <td>".$item['category']."</td>";
+                echo " <td>".$item['tags']."</td>";
                 echo " <td>".$item['PurchaseDate']."</td>";
                 echo " <td>".$item['PurchasePrice']."</td>";
                 echo "</tr>";

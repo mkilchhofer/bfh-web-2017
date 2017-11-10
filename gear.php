@@ -8,7 +8,7 @@ class Gear
     static public function getGearByOwner($ownerId)
     {
         $id = (int)$ownerId;
-        $sql_query = "SELECT * FROM GearItem WHERE currentOwnerId = $id;";
+        $sql_query = "SELECT * FROM GearItem WHERE CurrentOwnerId = $id;";
         $result = DB::doQuery($sql_query);
 
         $gearItems = array();
@@ -23,10 +23,10 @@ class Gear
         return $gearItems;
     }
 
-    static public function getGear($itemId)
+    static public function getGearById($itemId)
     {
         $id = (int)$itemId;
-        $sql_query = "SELECT * FROM GearItem WHERE gearItemId = $id;";
+        $sql_query = "SELECT * FROM GearItem WHERE GearId = $id;";
         $result = DB::doQuery($sql_query);
 
         $gearItem = $result->fetch_assoc();
@@ -34,15 +34,15 @@ class Gear
         return $gearItem;
     }
 
-    static public function addGear($name, $currentOwnerId, $purchasePrice, $purchaseDate, $purchasePlace, $receiptImageId, $picture)
+    static public function addGear($name, $currentOwnerId, $purchasePrice, $purchaseDate, $purchasePlace)
     {
-        $sql_query = "INSERT INTO `GearItem` (`gearItemId`, `name`, `currentOwnerId`,
-                                              `purchasePrice`, `purchaseDate`, `purchasePlace`,
-                                              `receiptImageId`, `picture`)
+        $sql_query = "INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`,
+                                              `PurchasePrice`, `PurchaseDate`, `PurchasePlace`)
                                               VALUES
-                                              (NULL, '$name', '$currentOwnerId', '$purchasePrice'
-                                              '$purchaseDate', '$purchasePlace', '$receiptImageId', '$picture');";
+                                              (NULL, '$name', '$currentOwnerId', '$purchasePrice',
+                                              '$purchaseDate', '$purchasePlace');";
         $result = DB::doQuery($sql_query);
-        var_dump($result);
+
+        return $result;
     }
 }

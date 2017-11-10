@@ -22,10 +22,10 @@ $items = Gear::getGearByOwner($userId);
         <?php
             foreach ($items as $item) {
                 echo "<tr>";
-                echo " <td><a href=\"?s=gearview&id=".$item['gearItemId']."\">".$item['name']."</a></td>";
+                echo " <td><a href=\"?s=gearview&id=".$item['GearId']."\">".$item['GearName']."</a></td>";
                 echo " <td>".$item['category']."</td>";
-                echo " <td>".$item['purchaseDate']."</td>";
-                echo " <td>".$item['currency']." ".$item['purchasePrice']."</td>";
+                echo " <td>".$item['PurchaseDate']."</td>";
+                echo " <td>".$item['PurchasePrice']."</td>";
                 echo "</tr>";
             }
         ?>

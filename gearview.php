@@ -4,10 +4,10 @@ require_once 'gear.php';
 $gearId = $_GET['id'];
 $userId = $_COOKIE['userId'];
 
-$item = Gear::getGear($gearId);
+$item = Gear::getGearById($gearId);
 
 ?>
-<h3><?php echo $item['name']; ?>
+<h3><?php echo $item['GearName']; ?>
 <a href="#" class="btn" role="button" style="float: right">Verkaufen</a>
 <a href="#" class="btn" role="button" style="float: right">Bearbeiten</a></h3>
 
@@ -15,27 +15,27 @@ $item = Gear::getGear($gearId);
         <tbody id="myTable">
         <tr>
             <th scope="row"><?php echo $lang['picture']; ?></th>
-            <td><?php echo $item['picture']; ?></td>
+            <td></td>
         </tr>
         <tr>
             <th scope="row"><?php echo $lang['category']; ?></th>
-            <td><?php echo $item['category'];    ?></td>
+            <td></td>
         </tr>
         <tr>
             <th scope="row"><?php echo $lang['purchasePrice']; ?></th>
-            <td><?php echo $item['purchasePrice']; ?></td>
+            <td><?php echo $item['PurchasePrice']; ?></td>
         </tr>
         <tr>
             <th scope="row"><?php echo $lang['purchaseDate']; ?></th>
-            <td><?php echo $item['purchaseDate']; ?></td>
+            <td><?php echo $item['PurchaseDate']; ?></td>
         </tr>
         <tr>
             <th scope="row"><?php echo $lang['purchasePlace']; ?></th>
-            <td><?php echo $item['purchasePlace']; ?></td>
+            <td><?php echo $item['PurchasePlace']; ?></td>
         </tr>
         <tr>
             <th scope="row"><?php echo $lang['receiptImageId']; ?></th>
-            <td><?php echo $item['receiptImageId']; ?></td>
+            <td></td>
         </tr>
         </tbody>
     </table>

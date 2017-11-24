@@ -1,8 +1,8 @@
 <?php
-require_once('gear.php');
+require_once('GearDbHandler.php');
 $userId = $_COOKIE['userId'];
 
-$items = Gear::getGearByOwner($userId);
+$items = GearDbHandler::getGearByOwner($userId);
 ?>
     <h3>My Gear
     <a href="?s=add" class="btn" role="button" style="float: right">Neues Gerät erfassen</a></h3>
@@ -22,10 +22,10 @@ $items = Gear::getGearByOwner($userId);
         <?php
             foreach ($items as $item) {
                 echo "<tr>";
-                echo " <td><a href=\"?s=gearview&id=".$item['GearId']."\">".$item['GearName']."</a></td>";
-                echo " <td>".$item['tags']."</td>";
-                echo " <td>".$item['PurchaseDate']."</td>";
-                echo " <td>".$item['PurchasePrice']."</td>";
+                echo " <td><a href=\"?s=gearview&id=".$item->id."\">".$item->name."</a></td>";
+                echo " <td>".$item->tags."</td>";
+                echo " <td>".$item->purchaseDate."</td>";
+                echo " <td>".$item->purchasePrice."</td>";
                 echo "</tr>";
             }
         ?>

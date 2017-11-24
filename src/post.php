@@ -1,9 +1,20 @@
 <?php
-require_once 'gear.php';
-header( "refresh:2;url=/?s=my" );
+require_once 'GearDbHandler.php';
+require_once 'Gear.php';
 
 $userId = $_COOKIE['userId'];
 
-Gear::addGear($_POST['name'],$userId,$_POST['purchasePrice'],$_POST['purchaseDate'],$_POST['purchasedPlace'],'','');
+$gear = new Gear(null, $_POST['name'], $userId, $_POST['purchasePrice'], $_POST['purchaseDate'], $_POST['purchasedPlace']);
 
-echo "added, redirecting in 2 seconds...";
+$result = GearDbHandler::addGear($gear);
+
+if ($result) {
+    echo "added, <a href=\"/?s=my\">Go to My Gear</a>";
+} else {
+    echo "not added, <a href=\"javascript:history.back()\">Go Back</a>";
+}
+/*
+if ($result) {
+    include_once 'upload.php';
+}
+*/

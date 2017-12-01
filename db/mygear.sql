@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Erstellungszeit: 24. Nov 2017 um 14:55
--- Server-Version: 10.2.10-MariaDB-10.2.10+maria~jessie
--- PHP-Version: 7.1.9
+-- Generation Time: Dec 01, 2017 at 02:28 PM
+-- Server version: 10.2.10-MariaDB-10.2.10+maria~jessie
+-- PHP Version: 7.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `mygear`
+-- Database: `mygear`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `GearItem`
+-- Table structure for table `GearItem`
 --
 
 CREATE TABLE `GearItem` (
@@ -37,18 +37,21 @@ CREATE TABLE `GearItem` (
   `PurchasePlace` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Daten für Tabelle `GearItem`
+-- Table structure for table `GearItemTag`
 --
 
-INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`, `PurchasePrice`, `PurchaseDate`, `PurchasePlace`) VALUES
-(1, 'iPod', 2, '2.00', '2017-11-01', 'Saturn'),
-(2, 'lenovo x1', 2, '500.00', '2009-01-01', 'schmudi');
+CREATE TABLE `GearItemTag` (
+  `GearId` int(11) NOT NULL,
+  `TagId` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `Picture`
+-- Table structure for table `Picture`
 --
 
 CREATE TABLE `Picture` (
@@ -58,17 +61,10 @@ CREATE TABLE `Picture` (
   `PictureDescription` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Daten für Tabelle `Picture`
---
-
-INSERT INTO `Picture` (`PictureId`, `GearId`, `PictureTypeId`, `PictureDescription`) VALUES
-(2, 1, 2, 'Descr');
-
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `PictureType`
+-- Table structure for table `PictureType`
 --
 
 CREATE TABLE `PictureType` (
@@ -77,7 +73,7 @@ CREATE TABLE `PictureType` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Daten für Tabelle `PictureType`
+-- Dumping data for table `PictureType`
 --
 
 INSERT INTO `PictureType` (`PictureTypeId`, `PictureTypeName`) VALUES
@@ -87,7 +83,18 @@ INSERT INTO `PictureType` (`PictureTypeId`, `PictureTypeName`) VALUES
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `User`
+-- Table structure for table `Tag`
+--
+
+CREATE TABLE `Tag` (
+  `TagId` int(11) NOT NULL,
+  `TagName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `User`
 --
 
 CREATE TABLE `User` (
@@ -103,7 +110,7 @@ CREATE TABLE `User` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Daten für Tabelle `User`
+-- Dumping data for table `User`
 --
 
 INSERT INTO `User` (`UserId`, `UserName`, `FirstName`, `LastName`, `EmailAddress`, `AddressStreet`, `AddressZIP`, `AddressCity`, `IsAdmin`) VALUES
@@ -111,74 +118,100 @@ INSERT INTO `User` (`UserId`, `UserName`, `FirstName`, `LastName`, `EmailAddress
 (2, 'mschmutz', 'Manuel', 'Schmutz', '', '', 0, '', 1);
 
 --
--- Indizes der exportierten Tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indizes für die Tabelle `GearItem`
+-- Indexes for table `GearItem`
 --
 ALTER TABLE `GearItem`
   ADD PRIMARY KEY (`GearId`),
-  ADD KEY `FK_CurrentOwnerId` (`CurrentOwnerId`);
+  ADD KEY `FK_GearItem_CurrentOwnerId` (`CurrentOwnerId`);
 
 --
--- Indizes für die Tabelle `Picture`
+-- Indexes for table `GearItemTag`
+--
+ALTER TABLE `GearItemTag`
+  ADD KEY `FK_GearItemTag_GearId` (`GearId`),
+  ADD KEY `FK_GearItemTag_TagId` (`TagId`);
+
+--
+-- Indexes for table `Picture`
 --
 ALTER TABLE `Picture`
   ADD PRIMARY KEY (`PictureId`),
-  ADD KEY `FK_GearId` (`GearId`) USING BTREE,
-  ADD KEY `FK_PictureType` (`PictureTypeId`);
+  ADD KEY `FK_Picture_GearId` (`GearId`),
+  ADD KEY `FK_Picture_PictureType` (`PictureTypeId`);
 
 --
--- Indizes für die Tabelle `PictureType`
+-- Indexes for table `PictureType`
 --
 ALTER TABLE `PictureType`
   ADD PRIMARY KEY (`PictureTypeId`);
 
 --
--- Indizes für die Tabelle `User`
+-- Indexes for table `Tag`
+--
+ALTER TABLE `Tag`
+  ADD PRIMARY KEY (`TagId`);
+
+--
+-- Indexes for table `User`
 --
 ALTER TABLE `User`
   ADD PRIMARY KEY (`UserId`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT für Tabelle `GearItem`
+-- AUTO_INCREMENT for table `GearItem`
 --
 ALTER TABLE `GearItem`
   MODIFY `GearId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
--- AUTO_INCREMENT für Tabelle `Picture`
+-- AUTO_INCREMENT for table `Picture`
 --
 ALTER TABLE `Picture`
   MODIFY `PictureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT für Tabelle `PictureType`
+-- AUTO_INCREMENT for table `PictureType`
 --
 ALTER TABLE `PictureType`
   MODIFY `PictureTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- Constraints der exportierten Tabellen
+-- AUTO_INCREMENT for table `Tag`
+--
+ALTER TABLE `Tag`
+  MODIFY `TagId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
 --
 
 --
--- Constraints der Tabelle `GearItem`
+-- Constraints for table `GearItem`
 --
 ALTER TABLE `GearItem`
-  ADD CONSTRAINT `FK_CurrentOwnerId` FOREIGN KEY (`CurrentOwnerId`) REFERENCES `User` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_GearItem_CurrentOwnerId` FOREIGN KEY (`CurrentOwnerId`) REFERENCES `User` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Constraints der Tabelle `Picture`
+-- Constraints for table `GearItemTag`
+--
+ALTER TABLE `GearItemTag`
+  ADD CONSTRAINT `FK_GearItemTag_GearId` FOREIGN KEY (`GearId`) REFERENCES `GearItem` (`GearId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_GearItemTag_TagId` FOREIGN KEY (`TagId`) REFERENCES `Tag` (`TagId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `Picture`
 --
 ALTER TABLE `Picture`
-  ADD CONSTRAINT `FK_GearId` FOREIGN KEY (`GearId`) REFERENCES `GearItem` (`GearId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_PictureType` FOREIGN KEY (`PictureTypeId`) REFERENCES `PictureType` (`PictureTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_Picture_GearId` FOREIGN KEY (`GearId`) REFERENCES `GearItem` (`GearId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Picture_PictureType` FOREIGN KEY (`PictureTypeId`) REFERENCES `PictureType` (`PictureTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

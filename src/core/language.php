@@ -21,7 +21,6 @@ switch ($lang) {
     case 'en':
         $lang_file = 'lang.en.php';
         break;
-
     case 'de':
         $lang_file = 'lang.de.php';
         break;
@@ -30,4 +29,4 @@ switch ($lang) {
 
 }
 
-include_once 'languages/'.$lang_file;
+require_once ('languages/'.$lang_file);

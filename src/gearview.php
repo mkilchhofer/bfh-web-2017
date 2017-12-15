@@ -1,8 +1,8 @@
 <?php
+include "authentication.inc.php";
 require_once 'constants.php';
 require_once 'GearDbHandler.php';
 $gearId = $_GET['id'];
-$userId = $_COOKIE['userId'];
 
 $item = GearDbHandler::getGearById($gearId);
 

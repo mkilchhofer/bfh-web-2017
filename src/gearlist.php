@@ -1,6 +1,7 @@
 <?php
+include "authentication.inc.php";
 require_once('GearDbHandler.php');
-$userId = $_COOKIE['userId'];
+$userId = $_SESSION['userId'];
 
 $items = GearDbHandler::getGearByOwner($userId);
 ?>

@@ -1,8 +1,9 @@
 <?php
+include "authentication.inc.php";
 require_once 'GearDbHandler.php';
 require_once 'Gear.php';
 
-$userId = $_COOKIE['userId'];
+$userId = $_SESSION['userId'];
 
 $gear = new Gear(null, $_POST['name'], $userId, $_POST['purchasePrice'], $_POST['purchaseDate'], $_POST['purchasedPlace']);
 

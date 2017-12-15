@@ -1,10 +1,11 @@
 <?php
 require_once ('constants.php');
+include "authentication.inc.php";
 ?>
 
 <h3>Add new device</h3>
 
-<form action="post.php" method="post">
+<form action="gearaddpost.php" method="post">
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" class="form-control" name="name">

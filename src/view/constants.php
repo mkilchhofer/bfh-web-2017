@@ -23,7 +23,7 @@ $sites = [
         'loginRequired' => false,
     ],
     'logout' => [
-        'title' => 'Logout',
+        'title' => 'Logout ('.$_SESSION['userId'].')',
         'targetUrl' => '/logout.php',
         'loginRequired' => true,
     ],

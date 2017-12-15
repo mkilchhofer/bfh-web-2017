@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Dec 01, 2017 at 02:28 PM
--- Server version: 10.2.10-MariaDB-10.2.10+maria~jessie
+-- Generation Time: Dec 15, 2017 at 06:58 PM
+-- Server version: 10.2.8-MariaDB
 -- PHP Version: 7.0.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -36,6 +36,15 @@ CREATE TABLE `GearItem` (
   `PurchaseDate` date NOT NULL,
   `PurchasePlace` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `GearItem`
+--
+
+INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`, `PurchasePrice`, `PurchaseDate`, `PurchasePlace`) VALUES
+(11, 'Lenovo X1 Carbon', 2, '2213.00', '2001-01-01', 'Neptun'),
+(12, 'Macbook', 1, '1199.00', '2017-11-01', 'Mediamarkt'),
+(13, 'Sony Kamera', 1, '650.00', '2008-02-02', 'Digitec');
 
 -- --------------------------------------------------------
 
@@ -106,16 +115,17 @@ CREATE TABLE `User` (
   `AddressStreet` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `AddressZIP` int(11) NOT NULL,
   `AddressCity` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `IsAdmin` tinyint(1) NOT NULL DEFAULT 0
+  `IsAdmin` tinyint(1) NOT NULL DEFAULT 0,
+  `Password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `User`
 --
 
-INSERT INTO `User` (`UserId`, `UserName`, `FirstName`, `LastName`, `EmailAddress`, `AddressStreet`, `AddressZIP`, `AddressCity`, `IsAdmin`) VALUES
-(1, 'mkilchhofer', 'Marco', 'Kilchhofer', 'marco@kilchhofer.info', 'Seilerweg 11', 2557, 'Studen', 1),
-(2, 'mschmutz', 'Manuel', 'Schmutz', '', '', 0, '', 1);
+INSERT INTO `User` (`UserId`, `UserName`, `FirstName`, `LastName`, `EmailAddress`, `AddressStreet`, `AddressZIP`, `AddressCity`, `IsAdmin`, `Password`) VALUES
+(1, 'mkilchhofer', 'Marco', 'Kilchhofer', 'marco@kilchhofer.info', 'Seilerweg 11', 2557, 'Studen', 1, '$2y$12$VKce9H3G3Q9JgpCBL3M6suWZDp9Dj7ONd8v9MBojCN9uy0uFrsvL6'),
+(2, 'mschmutz', 'Manuel', 'Schmutz', '', '', 0, '', 1, '$2y$12$Xj.3V91pDNjlojcVQpd7dewEJq79LkOh.w4rnese9jr7mGZFtSxXG');
 
 --
 -- Indexes for dumped tables
@@ -169,7 +179,7 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `GearItem`
 --
 ALTER TABLE `GearItem`
-  MODIFY `GearId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `GearId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `Picture`

@@ -21,10 +21,11 @@ require_once 'core/language.php';
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto"><ul class="navbar-nav mr-auto">
+        <ul class="navbar-nav mr-auto">
             <?php require_once('view/nav.php'); ?>
-        </ul></ul>
+        </ul>
     </div>
+
 </nav>
 <div class="container">
     <?php require_once('front-controller.php'); ?>

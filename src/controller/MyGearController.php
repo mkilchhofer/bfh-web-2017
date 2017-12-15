@@ -23,15 +23,14 @@ class MyGearController
     }
 
     public function add() {
-
+        $this->view->renderGearAdd();
     }
 
     public function store(){
-
+        $this->view->renderGearStore();
     }
 
     public function delete() {
 
     }
-
 }

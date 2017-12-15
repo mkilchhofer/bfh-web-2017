@@ -1,6 +1,5 @@
 <?php
 
-
 class MyGearView
 {
 
@@ -11,16 +10,13 @@ class MyGearView
     }
 
     public function renderGearList() {
+        require_once('core/authentication.inc.php');
         global $lang;
-
-        //$items = $this->model->getGearByOwner($_SESSION['userId']);
-        $items = $this->model->getGearByOwner(1);
-        var_dump($items);
-
+        $items = $this->model->getGearByOwner($_SESSION['userId']);
 
         echo <<<GEARLIST1
          <h3>My Gear
-            <a href="?s=add" class="btn" role="button" style="float: right">Neues Gerät erfassen</a></h3>
+            <a href="add" class="btn" role="button" style="float: right">Neues Gerät erfassen</a></h3>
         
             <input class="form-control" id="myInput" type="text" placeholder="Search..">
             <br>
@@ -38,7 +34,7 @@ GEARLIST1;
 
             foreach ($items as $item) {
                 echo "<tr>";
-                echo " <td><a href=\"?s=gearview&id=".$item->id."\">".$item->name."</a></td>";
+                echo " <td><a href=\"showDetail/".$item->id."\">".$item->name."</a></td>";
                 echo " <td>".$item->tags."</td>";
                 echo " <td>".$item->purchaseDate."</td>";
                 echo " <td>".$item->purchasePrice."</td>";

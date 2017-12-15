@@ -1,15 +1,11 @@
 <?php
 
-
-require_once('controller/HelloWorldController.php');
 require_once('controller/MyGearController.php');
-
+require_once('controller/UserController.php');
 
 //Parse URL
-
 $path = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
 $urlComponents = explode('/', $path);
-
 
 //Check for controller
 if (isset($urlComponents[1])) {
@@ -56,5 +52,3 @@ if (isset($action) and !isset($actionParam)) {
         die();
     }
 }
-
-

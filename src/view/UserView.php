@@ -14,20 +14,20 @@ class UserView
         global $lang;
 
         if (!isset($_SESSION['userId'])){
-            echo "<h3>Login</h3>
-<form action=\"/MyGear/showList\" method=\"post\">
-    <p>
-        <label>Login</label>
-        <input name=\"login\">
-    </p>
-    <p>
-        <label>Password</label>
-        <input type=\"password\" name=\"pw\">
-    </p>
-    <p>
-        <input type=\"submit\" value=\"Login\">
-    </p>
-</form>";
+            echo <<< LOGINFORM
+<h3>Login</h3>
+<form action="/MyGear/showList" method="post">
+    <div class="form-group">
+        <label for="login">Login</label>
+        <input type="text" class="form-control" name="login">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="pw">
+    </div>
+    <button type="submit" class="btn btn-default">Login</button>
+</form>
+LOGINFORM;
         }
         else {
             echo "already logged in";

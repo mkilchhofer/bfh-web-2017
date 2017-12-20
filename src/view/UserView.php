@@ -26,7 +26,7 @@ class UserView
         <label for="password">{$lang['password']}</label>
         <input type="password" class="form-control" name="pw">
     </div>
-    <button type="submit" class="btn btn-default">Login</button>
+    <button type="submit" class="btn btn-default">{$lang['login']}</button>
 </form>
 LOGINFORM;
         }

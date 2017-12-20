@@ -14,10 +14,10 @@ class MyGearView
         $items = $this->model->getGearByOwner($_SESSION['userId']);
 
         echo <<<GEARLIST1
-         <h3>My Gear
-            <a href="add" class="btn" role="button" style="float: right">Neues Gerät erfassen</a></h3>
+         <h3>{$lang['nav_mygear']}
+            <a href="add" class="btn" role="button" style="float: right">{$lang['addNewDevice']}</a></h3>
         
-            <input class="form-control" id="myInput" type="text" placeholder="Search..">
+            <input class="form-control" id="myInput" type="text" placeholder="{$lang['search']}">
             <br>
             <table class="table table-striped">
                 <thead>
@@ -64,9 +64,9 @@ GEARLIST2;
 
         echo <<< GEARDETAIL
 <h3>{$item->name}
-<a href="../delete/{$id}" class="btn" role="button" style="float: right">Löschen</a>
-<a href="../sell/{$id}" class="btn" role="button" style="float: right">Verkaufen</a>
-<a href="../edit/{$id}" class="btn" role="button" style="float: right">Bearbeiten</a></h3>
+<a href="../delete/{$id}" class="btn" role="button" style="float: right">{$lang['delete']}</a>
+<a href="../sell/{$id}" class="btn" role="button" style="float: right">{$lang['sell']}</a>
+<a href="../edit/{$id}" class="btn" role="button" style="float: right">{$lang['edit']}</a></h3>
 
     <table class="table table-striped">
         <tbody id="myTable">
@@ -104,15 +104,15 @@ GEARDETAIL;
         global $lang;
 
         echo <<< GEARADD
-<h3>Add new device</h3>
+<h3>{$lang['addNewDevice']}</h3>
 
 <form action="store" method="post">
     <div class="form-group">
-        <label for="name">Name</label>
+        <label for="name">{$lang['name']}</label>
         <input type="text" class="form-control" name="name">
     </div>
     <div class="form-group">
-        <label for="uploadPicture">Upload Picture</label>
+        <label for="uploadPicture">{$lang['picture']}</label>
         <input type="file" class="form-control" name="uploadPicture">
     </div>
     <div class="form-group">
@@ -126,22 +126,22 @@ GEARDETAIL;
         </select>
     </div>
     <div class="form-group">
-        <label for="purchasePrice">Purchase Price</label>
+        <label for="purchasePrice">{$lang['purchasePrice']}</label>
         <input type="number" class="form-control" name="purchasePrice" min="0.00" step="0.01">
     </div>
     <div class="form-group">
-        <label for="purchaseDate">Purchase Date</label>
+        <label for="purchaseDate">{$lang['purchaseDate']}</label>
         <input type="date" class="form-control" name="purchaseDate">
     </div>
     <div class="form-group">
-        <label for="purchasedFrom">Purchased From</label>
+        <label for="purchasedFrom">{$lang['purchasePlace']}</label>
         <input type="text" class="form-control" name="purchasedPlace">
     </div>
     <div class="form-group">
-        <label for="uploadReceipt">Upload Receipt</label>
+        <label for="uploadReceipt">{$lang['receiptImageId']}</label>
         <input type="file" class="form-control" name="uploadReceipt">
     </div>
-    <button type="submit" class="btn btn-default">Add Device</button>
+    <button type="submit" class="btn btn-default">{$lang['btn_add']}</button>
 </form>
 GEARADD;
     }

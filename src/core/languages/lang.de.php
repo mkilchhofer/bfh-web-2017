@@ -20,6 +20,13 @@ $lang['receiptImageId'] = 'Quittung';
 $lang['userName']       = 'Benutzername';
 $lang['password']       = 'Passwort';
 $lang['login']          = 'Einloggen';
+$lang['addNewDevice']   = 'Neues Gerät erfassen';
+$lang['search']         = 'Suchen..';
+$lang['delete']         = 'Löschen';
+$lang['edit']           = 'Bearbeiten';
+$lang['sell']           = 'Verkaufen';
+
+$lang['btn_add']        = 'Gerät erfassen';
 
 $lang['nav_dashboard']  = 'Übersicht';
 $lang['nav_mygear']     = 'Mein Inventar';
@@ -27,3 +34,4 @@ $lang['nav_marketplace']= 'Marktplatz';
 $lang['nav_login']      = 'Anmelden';
 $lang['nav_logout']     = 'Abmelden';
 $lang['nav_register']   = 'Registrieren';
+$lang['nav_language']   = 'Sprache';

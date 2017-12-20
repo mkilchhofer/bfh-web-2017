@@ -14,19 +14,8 @@ require_once 'core/language.php';
     <link href="/css/custom.css" rel="stylesheet">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">MyGear.</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<?php require_once('view/nav.php'); ?>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <?php require_once('view/nav.php'); ?>
-        </ul>
-    </div>
-
-</nav>
 <div class="container">
     <?php require_once('front-controller.php'); ?>
 </div>

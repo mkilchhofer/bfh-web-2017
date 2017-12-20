@@ -2,31 +2,31 @@
 session_start();
 header('Cache-control: private'); // IE 6 FIX
 
-if(isSet($_GET['lang'])) {
-    $lang = $_GET['lang'];
+if(isSet($_GET['language'])) {
+    $language = $_GET['language'];
 
 // register the session and set the cookie
-    $_SESSION['lang'] = $lang;
+    $_SESSION['language'] = $language;
 
-    setcookie('lang', $lang, time() + (3600 * 24 * 30));
-} else if(isSet($_SESSION['lang'])) {
-    $lang = $_SESSION['lang'];
-} else if(isSet($_COOKIE['lang'])) {
-    $lang = $_COOKIE['lang'];
+    setcookie('language', $language, time() + (3600 * 24 * 30));
+} else if(isSet($_SESSION['language'])) {
+    $language = $_SESSION['language'];
+} else if(isSet($_COOKIE['language'])) {
+    $language = $_COOKIE['language'];
 } else {
-    $lang = 'en';
+    $language = 'en';
 }
 
-switch ($lang) {
+switch ($language) {
     case 'en':
-        $lang_file = 'lang.en.php';
+        $language_file = 'lang.en.php';
         break;
     case 'de':
-        $lang_file = 'lang.de.php';
+        $language_file = 'lang.de.php';
         break;
     default:
-        $lang_file = 'lang.en.php';
+        $language_file = 'lang.en.php';
 
 }
 
-require_once ('languages/'.$lang_file);
+require_once ('languages/'.$language_file);

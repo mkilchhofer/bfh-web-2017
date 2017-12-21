@@ -25,6 +25,11 @@ $lang['search']         = 'Search..';
 $lang['delete']         = 'Delete';
 $lang['edit']           = 'Edit';
 $lang['sell']           = 'Sell';
+$lang['seller']         = 'Seller Id';
+$lang['salesPrice']     = 'Sales Price';
+$lang['salesId']        = 'Sales Id';
+$lang['salesStart']     = 'Published';
+$lang['salesEnd']       = 'Ends on';
 
 $lang['btn_add']        = 'Add Device';
 

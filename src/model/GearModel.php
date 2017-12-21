@@ -82,5 +82,36 @@ class GearModel
         return $result;
     }
 
+    static public function getSales()
+    {
+        $current_date = date("Y-m-d H:i:s");
+        $sql_query = "SELECT * FROM Sale WHERE SalesStart <= '$current_date' and SalesEnd >= '$current_date'";
+        $result = DB::doQuery($sql_query);
 
+        if (!$result) {
+            return null;
+        }
+        $salesItems = array();
+
+        while ($salesItem = $result->fetch_assoc()) {
+            $salesItems[] = $salesItem;
+        }
+
+        return $salesItems;
+    }
+
+    static public function getSaleById($saleId)
+    {
+        $id = (int)$saleId;
+        $sql_query = "SELECT * FROM Sale WHERE SaleId = $id";
+        $result = DB::doQuery($sql_query);
+
+        if (!$result) {
+            return null;
+        }
+
+        $salesItem = $result->fetch_assoc();
+
+        return $salesItem;
+    }
 }

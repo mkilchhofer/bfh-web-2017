@@ -2,6 +2,7 @@
 
 require_once('controller/MyGearController.php');
 require_once('controller/UserController.php');
+require_once('controller/MarketplaceController.php');
 
 //Parse URL
 $path = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);

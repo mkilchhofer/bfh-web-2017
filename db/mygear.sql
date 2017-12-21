@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Dec 15, 2017 at 06:58 PM
+-- Generation Time: Dec 21, 2017 at 10:08 PM
 -- Server version: 10.2.8-MariaDB
 -- PHP Version: 7.0.10
 
@@ -44,7 +44,8 @@ CREATE TABLE `GearItem` (
 INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`, `PurchasePrice`, `PurchaseDate`, `PurchasePlace`) VALUES
 (11, 'Lenovo X1 Carbon', 2, '2213.00', '2001-01-01', 'Neptun'),
 (12, 'Macbook', 1, '1199.00', '2017-11-01', 'Mediamarkt'),
-(13, 'Sony Kamera', 1, '650.00', '2008-02-02', 'Digitec');
+(13, 'Sony Kamera', 1, '650.00', '2008-02-02', 'Digitec'),
+(16, 'test gerät', 1, '2.00', '2017-10-12', 'Fust');
 
 -- --------------------------------------------------------
 
@@ -88,6 +89,27 @@ CREATE TABLE `PictureType` (
 INSERT INTO `PictureType` (`PictureTypeId`, `PictureTypeName`) VALUES
 (1, 'UserPicture'),
 (2, 'ItemPicture');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Sale`
+--
+
+CREATE TABLE `Sale` (
+  `SaleId` int(11) NOT NULL,
+  `GearId` int(11) NOT NULL,
+  `SalesPrice` decimal(8,2) NOT NULL,
+  `SalesStart` datetime NOT NULL,
+  `SalesEnd` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `Sale`
+--
+
+INSERT INTO `Sale` (`SaleId`, `GearId`, `SalesPrice`, `SalesStart`, `SalesEnd`) VALUES
+(1, 11, '200.00', '2017-12-19 00:00:00', '2017-12-30 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -160,6 +182,13 @@ ALTER TABLE `PictureType`
   ADD PRIMARY KEY (`PictureTypeId`);
 
 --
+-- Indexes for table `Sale`
+--
+ALTER TABLE `Sale`
+  ADD PRIMARY KEY (`SaleId`),
+  ADD KEY `FK_Sale_GearId` (`GearId`);
+
+--
 -- Indexes for table `Tag`
 --
 ALTER TABLE `Tag`
@@ -179,7 +208,7 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `GearItem`
 --
 ALTER TABLE `GearItem`
-  MODIFY `GearId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `GearId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `Picture`
@@ -192,6 +221,12 @@ ALTER TABLE `Picture`
 --
 ALTER TABLE `PictureType`
   MODIFY `PictureTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `Sale`
+--
+ALTER TABLE `Sale`
+  MODIFY `SaleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `Tag`
@@ -222,6 +257,12 @@ ALTER TABLE `GearItemTag`
 ALTER TABLE `Picture`
   ADD CONSTRAINT `FK_Picture_GearId` FOREIGN KEY (`GearId`) REFERENCES `GearItem` (`GearId`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Picture_PictureType` FOREIGN KEY (`PictureTypeId`) REFERENCES `PictureType` (`PictureTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `Sale`
+--
+ALTER TABLE `Sale`
+  ADD CONSTRAINT `FK_Sale_GearId` FOREIGN KEY (`GearId`) REFERENCES `GearItem` (`GearId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

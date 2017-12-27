@@ -29,11 +29,10 @@ class MarketplaceView
 LIST1;
 
         foreach ($saleItems as $saleItem) {
-            $gearItem = $this->model->getGearById($saleItem['GearId']);
             echo "<tr>";
-            echo " <td><a href=\"showDetail/" . $saleItem['SaleId'] . "\">" . $gearItem->name . "</a></td>";
+            echo " <td><a href=\"showDetail/" . $saleItem['SaleId'] . "\">" . $saleItem['GearName'] . "</a></td>";
             echo " <td>" . $saleItem['SalesPrice'] . "</td>";
-            echo " <td>" . $gearItem->currentOwnerId . "</td>";
+            echo " <td>" . $saleItem['UserName'] . "</td>";
             echo "</tr>";
         }
 
@@ -58,10 +57,9 @@ LIST2;
     public function renderDetailView($saleId) {
         global $lang;
         $saleById = $this->model->getSaleById($saleId);
-        $gearById = $this->model->getGearById($saleById['GearId']);
 
         echo <<< GEARDETAIL
-<h3>{$gearById->name}</h3>
+<h3>{$saleById['GearName']}</h3>
     <table class="table table-striped">
         <tbody id="myTable">
         <tr>
@@ -71,6 +69,10 @@ LIST2;
         <tr>
             <th scope="row">{$lang['salesPrice']}</th>
             <td>{$saleById['SalesPrice']}</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang['seller']}</th>
+            <td>{$saleById['UserName']}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['salesStart']}</th>

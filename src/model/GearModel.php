@@ -67,7 +67,7 @@ class GearModel
         return $gearItems;
     }
 
-    static public function getGearById($itemId)
+    static public function getGearById($ownerId, $itemId)
     {
         //$sql_query = "SELECT * FROM GearItem WHERE GearId = ?";
         global $language;
@@ -104,6 +104,10 @@ class GearModel
             $gearItem['PurchaseDate'],
             $gearItem['PurchasePlace']
         );
+
+        if ($gear->currentOwnerId != $ownerId){
+            return null;
+        }
 
         return $gear;
     }

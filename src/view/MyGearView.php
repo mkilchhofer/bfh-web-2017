@@ -60,7 +60,7 @@ GEARLIST2;
     public function renderDetailView($id) {
         require_once('core/authentication.inc.php');
         global $lang;
-        $item = $this->model->getGearById($id);
+        $item = $this->model->getGearById($_SESSION['userId'], $id);
 
         echo <<< GEARDETAIL
 <h3>{$item->name}

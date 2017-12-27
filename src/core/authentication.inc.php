@@ -12,10 +12,11 @@ if(isset($_POST["login"]) && isset($_POST["pw"])) {
         $_SESSION["userId"] = $check["userId"];
     }
 }
+global $language;
 
 if(!isset($_SESSION["userId"])) {
     echo"<!DOCTYPE html>\n";
-    echo'<a href="/User/Login">Please log in</a>.';
+    echo'<a href="/' . $language . '/User/Login">Please log in</a>.';
     exit;
 }
 

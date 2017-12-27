@@ -113,10 +113,6 @@ GEARDETAIL;
         <input type="text" class="form-control" name="name">
     </div>
     <div class="form-group">
-        <label for="uploadPicture">{$lang['picture']}</label>
-        <input type="file" class="form-control" name="uploadPicture">
-    </div>
-    <div class="form-group">
         <label for="category">Select category</label>
         <select class="form-control" name="category">
 GEARADD1;
@@ -138,10 +134,6 @@ GEARADD1;
     <div class="form-group">
         <label for="purchasedFrom">{$lang['purchasePlace']}</label>
         <input type="text" class="form-control" name="purchasedPlace">
-    </div>
-    <div class="form-group">
-        <label for="uploadReceipt">{$lang['receiptImageId']}</label>
-        <input type="file" class="form-control" name="uploadReceipt">
     </div>
     <button type="submit" class="btn btn-default">{$lang['btn_add']}</button>
 </form>

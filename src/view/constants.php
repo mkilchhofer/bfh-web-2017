@@ -3,7 +3,7 @@
 $sites = [
     'dashboard' => [
         'title' => $lang['nav_dashboard'],
-        'targetUrl' => '/'.$language.'/Dashboard',
+        'targetUrl' => '/'.$language.'/Dashboard/show',
         'loginRequired' => true,
     ],
     'my' => [
@@ -13,7 +13,7 @@ $sites = [
     ],
     'marketplace' => [
         'title' => $lang['nav_marketplace'],
-        'targetUrl' => '/'.$language.'/Marketplace',
+        'targetUrl' => '/'.$language.'/Marketplace/showList',
         'loginRequired' => true,
     ],
 

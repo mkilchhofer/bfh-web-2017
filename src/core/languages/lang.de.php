@@ -8,7 +8,7 @@ Language: German
 $lang = array();
 
 $lang['name']           = 'Name';
-$lang['tags']           = 'Tags';
+$lang['category']       = 'Kategorie';
 $lang['price']          = 'Preis';
 $lang['picture']        = 'Bild';
 $lang['currency']       = 'Währung';
@@ -25,6 +25,12 @@ $lang['search']         = 'Suchen..';
 $lang['delete']         = 'Löschen';
 $lang['edit']           = 'Bearbeiten';
 $lang['sell']           = 'Verkaufen';
+$lang['seller']         = 'Verkäufer Id';
+$lang['salesPrice']     = 'Verkaufspreis';
+$lang['salesId']        = 'Verkaufs Id';
+$lang['salesStart']     = 'Veröffentlicht';
+$lang['salesEnd']       = 'Endet am';
+
 
 $lang['btn_add']        = 'Gerät erfassen';
 

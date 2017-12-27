@@ -23,7 +23,7 @@ class MyGearView
                 <thead>
                 <tr>
                     <th>{$lang['name']}</th>
-                    <th>{$lang['tags']}</th>
+                    <th>{$lang['category']}</th>
                     <th>{$lang['purchaseDate']}</th>
                     <th>{$lang['purchasePrice']}</th>
                 </tr>
@@ -34,7 +34,7 @@ GEARLIST1;
             foreach ($items as $item) {
                 echo "<tr>";
                 echo " <td><a href=\"showDetail/".$item->id."\">".$item->name."</a></td>";
-                echo " <td>".$item->tags."</td>";
+                echo " <td>".$item->categoryId."</td>";
                 echo " <td>".$item->purchaseDate."</td>";
                 echo " <td>".$item->purchasePrice."</td>";
                 echo "</tr>";
@@ -60,7 +60,7 @@ GEARLIST2;
     public function renderDetailView($id) {
         require_once('core/authentication.inc.php');
         global $lang;
-        $item = $this->model->getGearById($id);
+        $item = $this->model->getGearById($_SESSION['userId'], $id);
 
         echo <<< GEARDETAIL
 <h3>{$item->name}
@@ -75,8 +75,8 @@ GEARLIST2;
             <td></td>
         </tr>
         <tr>
-            <th scope="row">{$lang['tags']}</th>
-            <td></td>
+            <th scope="row">{$lang['category']}</th>
+            <td>{$item->categoryId}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['purchasePrice']}</th>
@@ -102,8 +102,9 @@ GEARDETAIL;
     public function renderGearAdd() {
         require_once('core/authentication.inc.php');
         global $lang;
+        $categories = $this->model->getCategories();
 
-        echo <<< GEARADD
+        echo <<< GEARADD1
 <h3>{$lang['addNewDevice']}</h3>
 
 <form action="store" method="post">
@@ -112,17 +113,14 @@ GEARDETAIL;
         <input type="text" class="form-control" name="name">
     </div>
     <div class="form-group">
-        <label for="uploadPicture">{$lang['picture']}</label>
-        <input type="file" class="form-control" name="uploadPicture">
-    </div>
-    <div class="form-group">
         <label for="category">Select category</label>
-        <select class="form-control" id="category">
-            <option>Notebook</option>
-            <option>Camera Body</option>
-            <option>Camera Lens</option>
-            <option>Smartphone</option>
-            <option>Tablet computer</option>
+        <select class="form-control" name="category">
+GEARADD1;
+        foreach ($categories as $category) {
+            echo "<option value=".$category['CategoryId'].">".$category['CategoryDescription']."</option>";
+
+        }
+        echo <<< GEARADD2
         </select>
     </div>
     <div class="form-group">
@@ -137,20 +135,16 @@ GEARDETAIL;
         <label for="purchasedFrom">{$lang['purchasePlace']}</label>
         <input type="text" class="form-control" name="purchasedPlace">
     </div>
-    <div class="form-group">
-        <label for="uploadReceipt">{$lang['receiptImageId']}</label>
-        <input type="file" class="form-control" name="uploadReceipt">
-    </div>
     <button type="submit" class="btn btn-default">{$lang['btn_add']}</button>
 </form>
-GEARADD;
+GEARADD2;
     }
 
     public function renderGearStore() {
         require_once('core/authentication.inc.php');
         global $lang;
 
-        $gear = new Gear(null, $_POST['name'], $_SESSION['userId'], $_POST['purchasePrice'], $_POST['purchaseDate'], $_POST['purchasedPlace']);
+        $gear = new Gear(null, $_POST['name'], $_SESSION['userId'],$_POST['category'], $_POST['purchasePrice'], $_POST['purchaseDate'], $_POST['purchasedPlace']);
         $result = $this->model->addGear($gear);
 
         if ($result) {

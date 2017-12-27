@@ -6,7 +6,7 @@ class DB extends mysqli
 
     function __construct()
     {
-        parent::__construct($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_NAME']);
+        parent::__construct(getenv('DB_HOST'), getenv('DB_USERNAME'), getenv('DB_PASSWORD'), getenv('DB_NAME'));
     }
 
     static public function getInstance()

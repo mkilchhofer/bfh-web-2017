@@ -19,9 +19,12 @@ class GearModel
 
     static public function getGearByOwner($ownerId)
     {
-        $id = (int)$ownerId;
-        $sql_query = "SELECT * FROM GearItem WHERE CurrentOwnerId = $id;";
-        $result = DB::doQuery($sql_query);
+        $sql_query = "SELECT * FROM GearItem WHERE CurrentOwnerId = ?";
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('i', $ownerId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if (!$result) {
             return null;
@@ -49,9 +52,12 @@ class GearModel
 
     static public function getGearById($itemId)
     {
-        $id = (int)$itemId;
-        $sql_query = "SELECT * FROM GearItem WHERE GearId = $id;";
-        $result = DB::doQuery($sql_query);
+        $sql_query = "SELECT * FROM GearItem WHERE GearId = ?";
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('i', $itemId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if (!$result) {
             return null;
@@ -110,7 +116,6 @@ class GearModel
 
     static public function getSaleById($saleId)
     {
-        $id = (int)$saleId;
         $sql_query = "SELECT
             Sale.SaleId,
             Sale.SalesPrice,
@@ -121,8 +126,13 @@ class GearModel
         FROM Sale
         INNER JOIN GearItem ON Sale.GearId = GearItem.GearId
         INNER JOIN User ON GearItem.CurrentOwnerId = User.UserId
-        WHERE Sale.SaleId = $id";
-        $result = DB::doQuery($sql_query);
+        WHERE Sale.SaleId = ?";
+
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('i', $saleId);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if (!$result) {
             return null;

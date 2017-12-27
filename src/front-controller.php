@@ -1,6 +1,7 @@
 <?php
 
 require_once('controller/MyGearController.php');
+require_once('controller/DashboardController.php');
 require_once('controller/UserController.php');
 require_once('controller/MarketplaceController.php');
 

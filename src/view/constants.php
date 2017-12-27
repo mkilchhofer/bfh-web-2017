@@ -3,7 +3,7 @@
 $sites = [
     'dashboard' => [
         'title' => $lang['nav_dashboard'],
-        'targetUrl' => '/'.$language.'/Dashboard',
+        'targetUrl' => '/'.$language.'/Dashboard/show',
         'loginRequired' => true,
     ],
     'my' => [

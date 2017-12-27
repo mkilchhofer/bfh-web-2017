@@ -124,18 +124,33 @@ class GearModel
         return $result;
     }
 
-    static public function getSales()
+    static public function getSales($ownerId = null)
     {
         $current_date = date("Y-m-d H:i:s");
-        $sql_query = "SELECT
-            Sale.SaleId,
-            Sale.SalesPrice,
-            GearItem.GearName,
-            User.UserName
-        FROM Sale
-        INNER JOIN GearItem ON Sale.GearId = GearItem.GearId
-        INNER JOIN User ON GearItem.CurrentOwnerId = User.UserId
-        WHERE Sale.SalesStart <= '$current_date' and Sale.SalesEnd >= '$current_date'";
+        if ($ownerId != null){
+            $sql_query = "SELECT
+                Sale.SaleId,
+                Sale.SalesPrice,
+                GearItem.GearName,
+                GearItem.GearId,
+                User.UserName
+            FROM Sale
+            INNER JOIN GearItem ON Sale.GearId = GearItem.GearId
+            INNER JOIN User ON GearItem.CurrentOwnerId = User.UserId
+            WHERE Sale.SalesStart <= '$current_date' and Sale.SalesEnd >= '$current_date'
+            AND User.UserId = '$ownerId'";
+        }
+        else{
+            $sql_query = "SELECT
+                Sale.SaleId,
+                Sale.SalesPrice,
+                GearItem.GearName,
+                User.UserName
+            FROM Sale
+            INNER JOIN GearItem ON Sale.GearId = GearItem.GearId
+            INNER JOIN User ON GearItem.CurrentOwnerId = User.UserId
+            WHERE Sale.SalesStart <= '$current_date' and Sale.SalesEnd >= '$current_date'";
+        }
         $result = DB::doQuery($sql_query);
 
         if (!$result) {

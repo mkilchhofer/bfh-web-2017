@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Dec 27, 2017 at 01:37 PM
+-- Generation Time: Dec 27, 2017 at 04:40 PM
 -- Server version: 10.2.8-MariaDB
 -- PHP Version: 7.0.10
 
@@ -25,6 +25,29 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Category`
+--
+
+CREATE TABLE `Category` (
+  `CategoryId` int(11) NOT NULL,
+  `CategoryTextDE` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `CategoryTextEN` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `Category`
+--
+
+INSERT INTO `Category` (`CategoryId`, `CategoryTextDE`, `CategoryTextEN`) VALUES
+(1, 'Smartphone', 'smartphone'),
+(2, 'Notebook', 'notebook'),
+(3, 'Tablet', 'tablet computer'),
+(4, 'Kamera Body', 'Camera Body'),
+(5, 'Kamera Objektiv', 'Camera Lens');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `GearItem`
 --
 
@@ -32,6 +55,7 @@ CREATE TABLE `GearItem` (
   `GearId` int(11) NOT NULL,
   `GearName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `CurrentOwnerId` int(11) NOT NULL,
+  `CategoryId` int(11) NOT NULL,
   `PurchasePrice` decimal(8,2) NOT NULL,
   `PurchaseDate` date NOT NULL,
   `PurchasePlace` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -42,21 +66,10 @@ CREATE TABLE `GearItem` (
 -- Dumping data for table `GearItem`
 --
 
-INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`, `PurchasePrice`, `PurchaseDate`, `PurchasePlace`, `Receipt`) VALUES
-(1, 'Lenovo X1 Carbon', 2, '2213.00', '2001-01-01', 'Neptun', NULL),
-(2, 'Macbook', 1, '1199.00', '2017-11-01', 'Mediamarkt', NULL),
-(3, 'Sony Kamera', 1, '650.00', '2008-02-02', 'Digitec', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `GearItemTag`
---
-
-CREATE TABLE `GearItemTag` (
-  `GearId` int(11) NOT NULL,
-  `TagId` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`, `CategoryId`, `PurchasePrice`, `PurchaseDate`, `PurchasePlace`, `Receipt`) VALUES
+(1, 'Lenovo X1 Carbon', 2, 1, '2213.00', '2001-01-01', 'Neptun', NULL),
+(2, 'Macbook', 1, 1, '1199.00', '2017-11-01', 'Mediamarkt', NULL),
+(3, 'Sony Kamera', 1, 4, '650.00', '2008-02-02', 'Digitec', NULL);
 
 -- --------------------------------------------------------
 
@@ -83,7 +96,7 @@ CREATE TABLE `Sale` (
   `SalesPrice` decimal(8,2) NOT NULL,
   `SalesStart` datetime NOT NULL,
   `SalesEnd` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `Sale`
@@ -92,17 +105,6 @@ CREATE TABLE `Sale` (
 INSERT INTO `Sale` (`SaleId`, `GearId`, `SalesPrice`, `SalesStart`, `SalesEnd`) VALUES
 (1, 1, '200.00', '2017-12-19 00:00:00', '2017-12-30 00:00:00'),
 (2, 3, '149.95', '2017-12-21 22:17:50', '2017-12-31 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `Tag`
---
-
-CREATE TABLE `Tag` (
-  `TagId` int(11) NOT NULL,
-  `TagName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -138,18 +140,18 @@ INSERT INTO `User` (`UserId`, `UserName`, `FirstName`, `LastName`, `EmailAddress
 --
 
 --
+-- Indexes for table `Category`
+--
+ALTER TABLE `Category`
+  ADD PRIMARY KEY (`CategoryId`);
+
+--
 -- Indexes for table `GearItem`
 --
 ALTER TABLE `GearItem`
   ADD PRIMARY KEY (`GearId`),
-  ADD KEY `FK_GearItem_CurrentOwnerId` (`CurrentOwnerId`);
-
---
--- Indexes for table `GearItemTag`
---
-ALTER TABLE `GearItemTag`
-  ADD KEY `FK_GearItemTag_GearId` (`GearId`),
-  ADD KEY `FK_GearItemTag_TagId` (`TagId`);
+  ADD KEY `FK_GearItem_CurrentOwnerId` (`CurrentOwnerId`),
+  ADD KEY `FK_GearItem_CategoryId` (`CategoryId`);
 
 --
 -- Indexes for table `Picture`
@@ -166,12 +168,6 @@ ALTER TABLE `Sale`
   ADD KEY `FK_Sale_GearId` (`GearId`);
 
 --
--- Indexes for table `Tag`
---
-ALTER TABLE `Tag`
-  ADD PRIMARY KEY (`TagId`);
-
---
 -- Indexes for table `User`
 --
 ALTER TABLE `User`
@@ -180,6 +176,12 @@ ALTER TABLE `User`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `Category`
+--
+ALTER TABLE `Category`
+  MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `GearItem`
@@ -200,12 +202,6 @@ ALTER TABLE `Sale`
   MODIFY `SaleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `Tag`
---
-ALTER TABLE `Tag`
-  MODIFY `TagId` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
@@ -219,14 +215,8 @@ ALTER TABLE `User`
 -- Constraints for table `GearItem`
 --
 ALTER TABLE `GearItem`
+  ADD CONSTRAINT `FK_GearItem_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `Category` (`CategoryId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_GearItem_CurrentOwnerId` FOREIGN KEY (`CurrentOwnerId`) REFERENCES `User` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Constraints for table `GearItemTag`
---
-ALTER TABLE `GearItemTag`
-  ADD CONSTRAINT `FK_GearItemTag_GearId` FOREIGN KEY (`GearId`) REFERENCES `GearItem` (`GearId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_GearItemTag_TagId` FOREIGN KEY (`TagId`) REFERENCES `Tag` (`TagId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `Picture`

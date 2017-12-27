@@ -8,7 +8,7 @@ Language: English
 $lang = array();
 
 $lang['name']           = 'Name';
-$lang['tags']           = 'Tags';
+$lang['category']       = 'Category';
 $lang['price']          = 'Price';
 $lang['picture']        = 'Picture';
 $lang['currency']       = 'Currency';

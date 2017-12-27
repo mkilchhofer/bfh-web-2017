@@ -2,12 +2,13 @@
 require_once 'core/db.inc.php';
 
 class Gear {
-    public $id, $name, $currentOwnerId, $purchasePrice, $purchaseDate, $purchasePlace;
+    public $id, $name, $currentOwnerId, $categoryId, $purchasePrice, $purchaseDate, $purchasePlace;
 
-    function __construct($id, $name, $currentOwnerId, $purchasePrice, $purchaseDate, $purchasePlace) {
+    function __construct($id, $name, $currentOwnerId, $categoryId, $purchasePrice, $purchaseDate, $purchasePlace) {
         $this->id = $id;
         $this->name = $name;
         $this->currentOwnerId = $currentOwnerId;
+        $this->categoryId = $categoryId;
         $this->purchasePrice = $purchasePrice;
         $this->purchaseDate = $purchaseDate;
         $this->purchasePlace = $purchasePlace;
@@ -37,6 +38,7 @@ class GearModel
                 $gearItem['GearId'],
                 $gearItem['GearName'],
                 $gearItem['CurrentOwnerId'],
+                $gearItem['CategoryId'],
                 $gearItem['PurchasePrice'],
                 $gearItem['PurchaseDate'],
                 $gearItem['PurchasePlace']
@@ -68,6 +70,7 @@ class GearModel
             $gearItem['GearId'],
             $gearItem['GearName'],
             $gearItem['CurrentOwnerId'],
+            $gearItem['CategoryId'],
             $gearItem['PurchasePrice'],
             $gearItem['PurchaseDate'],
             $gearItem['PurchasePlace']
@@ -78,10 +81,10 @@ class GearModel
 
     static public function addGear(Gear $gear)
     {
-        $sql_query = "INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`,
+        $sql_query = "INSERT INTO `GearItem` (`GearName`, `CurrentOwnerId`, `CategoryId`,
                                               `PurchasePrice`, `PurchaseDate`, `PurchasePlace`)
                                               VALUES
-                                              (NULL, '$gear->name', '$gear->currentOwnerId', '$gear->purchasePrice',
+                                              ('$gear->name', '$gear->currentOwnerId','$gear->categoryId', '$gear->purchasePrice',
                                               '$gear->purchaseDate', '$gear->purchasePlace');";
         $result = DB::doQuery($sql_query);
 
@@ -112,6 +115,22 @@ class GearModel
         }
 
         return $salesItems;
+    }
+    static public function getCategories()
+    {
+        $sql_query = "SELECT * FROM Category";
+        $result = DB::doQuery($sql_query);
+
+        if (!$result) {
+            return null;
+        }
+        $categories = array();
+
+        while ($salesItem = $result->fetch_assoc()) {
+            $categories[] = $salesItem;
+        }
+
+        return $categories;
     }
 
     static public function getSaleById($saleId)

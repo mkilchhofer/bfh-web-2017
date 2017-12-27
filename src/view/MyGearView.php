@@ -75,8 +75,8 @@ GEARLIST2;
             <td></td>
         </tr>
         <tr>
-            <th scope="row">{$lang['tags']}</th>
-            <td></td>
+            <th scope="row">{$lang['category']}</th>
+            <td>{$item->categoryId}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['purchasePrice']}</th>
@@ -121,7 +121,7 @@ GEARDETAIL;
         <select class="form-control" name="category">
 GEARADD1;
         foreach ($categories as $category) {
-            echo "<option value=".$category['CategoryId'].">".$category['CategoryTextDE']."</option>";
+            echo "<option value=".$category['CategoryId'].">".$category['CategoryDescription']."</option>";
 
         }
         echo <<< GEARADD2

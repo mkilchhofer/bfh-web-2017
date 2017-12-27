@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Dec 27, 2017 at 04:40 PM
+-- Generation Time: Dec 27, 2017 at 06:10 PM
 -- Server version: 10.2.8-MariaDB
 -- PHP Version: 7.0.10
 
@@ -29,21 +29,48 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `Category` (
-  `CategoryId` int(11) NOT NULL,
-  `CategoryTextDE` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `CategoryTextEN` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+  `CategoryId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `Category`
 --
 
-INSERT INTO `Category` (`CategoryId`, `CategoryTextDE`, `CategoryTextEN`) VALUES
-(1, 'Smartphone', 'smartphone'),
-(2, 'Notebook', 'notebook'),
-(3, 'Tablet', 'tablet computer'),
-(4, 'Kamera Body', 'Camera Body'),
-(5, 'Kamera Objektiv', 'Camera Lens');
+INSERT INTO `Category` (`CategoryId`) VALUES
+(1),
+(2),
+(3),
+(4),
+(5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `CategoryTranslations`
+--
+
+CREATE TABLE `CategoryTranslations` (
+  `Id` int(11) NOT NULL,
+  `CategoryId` int(11) NOT NULL,
+  `Language` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `CategoryDescription` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `CategoryTranslations`
+--
+
+INSERT INTO `CategoryTranslations` (`Id`, `CategoryId`, `Language`, `CategoryDescription`) VALUES
+(1, 1, 'de', 'Smartphone'),
+(2, 1, 'en', 'smart phone'),
+(3, 2, 'de', 'Laptop'),
+(4, 2, 'en', 'laptop'),
+(5, 3, 'en', 'tablet computer'),
+(6, 3, 'de', 'Tablet'),
+(7, 4, 'de', 'Kamera Body'),
+(8, 4, 'en', 'Camera Body'),
+(9, 5, 'de', 'Kamera Objektiv'),
+(10, 5, 'en', 'Camera Lens');
 
 -- --------------------------------------------------------
 
@@ -67,9 +94,10 @@ CREATE TABLE `GearItem` (
 --
 
 INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`, `CategoryId`, `PurchasePrice`, `PurchaseDate`, `PurchasePlace`, `Receipt`) VALUES
-(1, 'Lenovo X1 Carbon', 2, 1, '2213.00', '2001-01-01', 'Neptun', NULL),
-(2, 'Macbook', 1, 1, '1199.00', '2017-11-01', 'Mediamarkt', NULL),
-(3, 'Sony Kamera', 1, 4, '650.00', '2008-02-02', 'Digitec', NULL);
+(1, 'Lenovo X1 Carbon', 2, 2, '2213.00', '2001-01-01', 'Neptun', NULL),
+(2, 'Macbook', 1, 2, '1199.00', '2017-11-01', 'Mediamarkt', NULL),
+(3, 'Sony Kamera', 1, 4, '650.00', '2008-02-02', 'Digitec', NULL),
+(4, 'iPhone 6s', 2, 1, '650.00', '2008-02-02', 'Digitec', NULL);
 
 -- --------------------------------------------------------
 
@@ -146,6 +174,13 @@ ALTER TABLE `Category`
   ADD PRIMARY KEY (`CategoryId`);
 
 --
+-- Indexes for table `CategoryTranslations`
+--
+ALTER TABLE `CategoryTranslations`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `FK_CategoryTranslations_CategoryId` (`CategoryId`);
+
+--
 -- Indexes for table `GearItem`
 --
 ALTER TABLE `GearItem`
@@ -181,13 +216,19 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `Category`
 --
 ALTER TABLE `Category`
-  MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `CategoryTranslations`
+--
+ALTER TABLE `CategoryTranslations`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `GearItem`
 --
 ALTER TABLE `GearItem`
-  MODIFY `GearId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `GearId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `Picture`
@@ -210,6 +251,12 @@ ALTER TABLE `User`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `CategoryTranslations`
+--
+ALTER TABLE `CategoryTranslations`
+  ADD CONSTRAINT `FK_CategoryTranslations_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `Category` (`CategoryId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `GearItem`

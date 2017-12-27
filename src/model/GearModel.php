@@ -20,10 +20,25 @@ class GearModel
 
     static public function getGearByOwner($ownerId)
     {
-        $sql_query = "SELECT * FROM GearItem WHERE CurrentOwnerId = ?";
+        //$sql_query = "SELECT * FROM GearItem WHERE CurrentOwnerId = ?";
+        global $language;
+        $sql_query = "SELECT
+            GearItem.GearId,
+            GearItem.GearName,
+            GearItem.CurrentOwnerId,
+            GearItem.PurchasePrice,
+            GearItem.PurchaseDate,
+            GearItem.PurchasePlace,
+            CategoryTranslations.CategoryDescription
+        FROM GearItem
+        INNER JOIN CategoryTranslations ON GearItem.CategoryId = CategoryTranslations.CategoryId
+        WHERE CurrentOwnerId = ?
+        AND CategoryTranslations.Language = ?";
+
+
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('i', $ownerId);
+        $stmt->bind_param('is', $ownerId, $language);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -38,7 +53,7 @@ class GearModel
                 $gearItem['GearId'],
                 $gearItem['GearName'],
                 $gearItem['CurrentOwnerId'],
-                $gearItem['CategoryId'],
+                $gearItem['CategoryDescription'],
                 $gearItem['PurchasePrice'],
                 $gearItem['PurchaseDate'],
                 $gearItem['PurchasePlace']
@@ -54,10 +69,24 @@ class GearModel
 
     static public function getGearById($itemId)
     {
-        $sql_query = "SELECT * FROM GearItem WHERE GearId = ?";
+        //$sql_query = "SELECT * FROM GearItem WHERE GearId = ?";
+        global $language;
+        $sql_query = "SELECT
+            GearItem.GearId,
+            GearItem.GearName,
+            GearItem.CurrentOwnerId,
+            GearItem.PurchasePrice,
+            GearItem.PurchaseDate,
+            GearItem.PurchasePlace,
+            CategoryTranslations.CategoryDescription
+        FROM GearItem
+        INNER JOIN CategoryTranslations ON GearItem.CategoryId = CategoryTranslations.CategoryId
+        WHERE GearId = ?
+        AND CategoryTranslations.Language = ?";
+
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('i', $itemId);
+        $stmt->bind_param('is', $itemId, $language);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -70,7 +99,7 @@ class GearModel
             $gearItem['GearId'],
             $gearItem['GearName'],
             $gearItem['CurrentOwnerId'],
-            $gearItem['CategoryId'],
+            $gearItem['CategoryDescription'],
             $gearItem['PurchasePrice'],
             $gearItem['PurchaseDate'],
             $gearItem['PurchasePlace']
@@ -118,7 +147,14 @@ class GearModel
     }
     static public function getCategories()
     {
-        $sql_query = "SELECT * FROM Category";
+        global $language;
+
+        $sql_query = "SELECT
+            Category.CategoryId,
+            CategoryTranslations.CategoryDescription
+        FROM Category
+        INNER JOIN CategoryTranslations ON Category.CategoryId = CategoryTranslations.CategoryId
+        WHERE CategoryTranslations.Language = '$language'";
         $result = DB::doQuery($sql_query);
 
         if (!$result) {

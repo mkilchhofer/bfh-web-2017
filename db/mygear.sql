@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Dec 21, 2017 at 10:08 PM
+-- Generation Time: Dec 27, 2017 at 01:37 PM
 -- Server version: 10.2.8-MariaDB
 -- PHP Version: 7.0.10
 
@@ -34,18 +34,18 @@ CREATE TABLE `GearItem` (
   `CurrentOwnerId` int(11) NOT NULL,
   `PurchasePrice` decimal(8,2) NOT NULL,
   `PurchaseDate` date NOT NULL,
-  `PurchasePlace` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+  `PurchasePlace` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Receipt` mediumblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `GearItem`
 --
 
-INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`, `PurchasePrice`, `PurchaseDate`, `PurchasePlace`) VALUES
-(11, 'Lenovo X1 Carbon', 2, '2213.00', '2001-01-01', 'Neptun'),
-(12, 'Macbook', 1, '1199.00', '2017-11-01', 'Mediamarkt'),
-(13, 'Sony Kamera', 1, '650.00', '2008-02-02', 'Digitec'),
-(16, 'test gerät', 1, '2.00', '2017-10-12', 'Fust');
+INSERT INTO `GearItem` (`GearId`, `GearName`, `CurrentOwnerId`, `PurchasePrice`, `PurchaseDate`, `PurchasePlace`, `Receipt`) VALUES
+(1, 'Lenovo X1 Carbon', 2, '2213.00', '2001-01-01', 'Neptun', NULL),
+(2, 'Macbook', 1, '1199.00', '2017-11-01', 'Mediamarkt', NULL),
+(3, 'Sony Kamera', 1, '650.00', '2008-02-02', 'Digitec', NULL);
 
 -- --------------------------------------------------------
 
@@ -67,28 +67,9 @@ CREATE TABLE `GearItemTag` (
 CREATE TABLE `Picture` (
   `PictureId` int(11) NOT NULL,
   `GearId` int(11) NOT NULL,
-  `PictureTypeId` int(11) NOT NULL,
-  `PictureDescription` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+  `PictureDescription` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Image` mediumblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `PictureType`
---
-
-CREATE TABLE `PictureType` (
-  `PictureTypeId` int(11) NOT NULL,
-  `PictureTypeName` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `PictureType`
---
-
-INSERT INTO `PictureType` (`PictureTypeId`, `PictureTypeName`) VALUES
-(1, 'UserPicture'),
-(2, 'ItemPicture');
 
 -- --------------------------------------------------------
 
@@ -109,7 +90,8 @@ CREATE TABLE `Sale` (
 --
 
 INSERT INTO `Sale` (`SaleId`, `GearId`, `SalesPrice`, `SalesStart`, `SalesEnd`) VALUES
-(1, 11, '200.00', '2017-12-19 00:00:00', '2017-12-30 00:00:00');
+(1, 1, '200.00', '2017-12-19 00:00:00', '2017-12-30 00:00:00'),
+(2, 3, '149.95', '2017-12-21 22:17:50', '2017-12-31 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -138,16 +120,18 @@ CREATE TABLE `User` (
   `AddressZIP` int(11) NOT NULL,
   `AddressCity` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `IsAdmin` tinyint(1) NOT NULL DEFAULT 0,
-  `Password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `Password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `RegistrationDate` datetime NOT NULL,
+  `IsActive` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `User`
 --
 
-INSERT INTO `User` (`UserId`, `UserName`, `FirstName`, `LastName`, `EmailAddress`, `AddressStreet`, `AddressZIP`, `AddressCity`, `IsAdmin`, `Password`) VALUES
-(1, 'mkilchhofer', 'Marco', 'Kilchhofer', 'marco@kilchhofer.info', 'Seilerweg 11', 2557, 'Studen', 1, '$2y$12$VKce9H3G3Q9JgpCBL3M6suWZDp9Dj7ONd8v9MBojCN9uy0uFrsvL6'),
-(2, 'mschmutz', 'Manuel', 'Schmutz', '', '', 0, '', 1, '$2y$12$Xj.3V91pDNjlojcVQpd7dewEJq79LkOh.w4rnese9jr7mGZFtSxXG');
+INSERT INTO `User` (`UserId`, `UserName`, `FirstName`, `LastName`, `EmailAddress`, `AddressStreet`, `AddressZIP`, `AddressCity`, `IsAdmin`, `Password`, `RegistrationDate`, `IsActive`) VALUES
+(1, 'mkilchhofer', 'Marco', 'Kilchhofer', 'marco@kilchhofer.info', 'Seilerweg 11', 2557, 'Studen', 1, '$2y$12$VKce9H3G3Q9JgpCBL3M6suWZDp9Dj7ONd8v9MBojCN9uy0uFrsvL6', '2017-09-17 00:00:00', 1),
+(2, 'mschmutz', 'Manuel', 'Schmutz', '', '', 0, '', 1, '$2y$12$Xj.3V91pDNjlojcVQpd7dewEJq79LkOh.w4rnese9jr7mGZFtSxXG', '2017-09-17 00:00:00', 1);
 
 --
 -- Indexes for dumped tables
@@ -172,14 +156,7 @@ ALTER TABLE `GearItemTag`
 --
 ALTER TABLE `Picture`
   ADD PRIMARY KEY (`PictureId`),
-  ADD KEY `FK_Picture_GearId` (`GearId`),
-  ADD KEY `FK_Picture_PictureType` (`PictureTypeId`);
-
---
--- Indexes for table `PictureType`
---
-ALTER TABLE `PictureType`
-  ADD PRIMARY KEY (`PictureTypeId`);
+  ADD KEY `FK_Picture_GearId` (`GearId`);
 
 --
 -- Indexes for table `Sale`
@@ -208,31 +185,31 @@ ALTER TABLE `User`
 -- AUTO_INCREMENT for table `GearItem`
 --
 ALTER TABLE `GearItem`
-  MODIFY `GearId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `GearId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `Picture`
 --
 ALTER TABLE `Picture`
-  MODIFY `PictureId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `PictureType`
---
-ALTER TABLE `PictureType`
-  MODIFY `PictureTypeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `PictureId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Sale`
 --
 ALTER TABLE `Sale`
-  MODIFY `SaleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `SaleId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `Tag`
 --
 ALTER TABLE `Tag`
   MODIFY `TagId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `User`
+--
+ALTER TABLE `User`
+  MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -255,8 +232,7 @@ ALTER TABLE `GearItemTag`
 -- Constraints for table `Picture`
 --
 ALTER TABLE `Picture`
-  ADD CONSTRAINT `FK_Picture_GearId` FOREIGN KEY (`GearId`) REFERENCES `GearItem` (`GearId`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_Picture_PictureType` FOREIGN KEY (`PictureTypeId`) REFERENCES `PictureType` (`PictureTypeId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_Picture_GearId` FOREIGN KEY (`GearId`) REFERENCES `GearItem` (`GearId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `Sale`

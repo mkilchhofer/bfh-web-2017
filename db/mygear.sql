@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Dec 29, 2017 at 10:59 AM
+-- Generation Time: Dec 29, 2017 at 02:16 PM
 -- Server version: 10.2.8-MariaDB
 -- PHP Version: 7.0.10
 
@@ -52,51 +52,22 @@ INSERT INTO `Appearance` (`AppearanceId`, `Title_en`, `Title_de`) VALUES
 --
 
 CREATE TABLE `Category` (
-  `CategoryId` int(11) NOT NULL
+  `CategoryId` int(11) NOT NULL,
+  `Title_en` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Title_de` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `Category`
 --
 
-INSERT INTO `Category` (`CategoryId`) VALUES
-(1),
-(2),
-(3),
-(4),
-(5),
-(6);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `CategoryTranslations`
---
-
-CREATE TABLE `CategoryTranslations` (
-  `Id` int(11) NOT NULL,
-  `CategoryId` int(11) NOT NULL,
-  `Language` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `CategoryDescription` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `CategoryTranslations`
---
-
-INSERT INTO `CategoryTranslations` (`Id`, `CategoryId`, `Language`, `CategoryDescription`) VALUES
-(1, 1, 'de', 'Smartphone'),
-(2, 1, 'en', 'smart phone'),
-(3, 2, 'de', 'Laptop'),
-(4, 2, 'en', 'laptop'),
-(5, 3, 'en', 'tablet computer'),
-(6, 3, 'de', 'Tablet'),
-(7, 4, 'de', 'Kamera Body'),
-(8, 4, 'en', 'Camera Body'),
-(9, 5, 'de', 'Kamera Objektiv'),
-(10, 5, 'en', 'Camera Lens'),
-(11, 6, 'de', 'Küchengerät'),
-(12, 6, 'en', 'kitchen device');
+INSERT INTO `Category` (`CategoryId`, `Title_en`, `Title_de`) VALUES
+(1, 'smart phone', 'Smartphone'),
+(2, 'laptop', 'Laptop'),
+(3, 'tablet computer', 'Tablet'),
+(4, 'Camera Body', 'Kamera Body'),
+(5, 'Camera Lens', 'Kamera Objektiv'),
+(6, 'kitchen device', 'Küchengerät');
 
 -- --------------------------------------------------------
 
@@ -257,13 +228,6 @@ ALTER TABLE `Category`
   ADD PRIMARY KEY (`CategoryId`);
 
 --
--- Indexes for table `CategoryTranslations`
---
-ALTER TABLE `CategoryTranslations`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `FK_CategoryTranslations_CategoryId` (`CategoryId`);
-
---
 -- Indexes for table `Functioning`
 --
 ALTER TABLE `Functioning`
@@ -323,12 +287,6 @@ ALTER TABLE `Category`
   MODIFY `CategoryId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT for table `CategoryTranslations`
---
-ALTER TABLE `CategoryTranslations`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
 -- AUTO_INCREMENT for table `Functioning`
 --
 ALTER TABLE `Functioning`
@@ -367,12 +325,6 @@ ALTER TABLE `User`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `CategoryTranslations`
---
-ALTER TABLE `CategoryTranslations`
-  ADD CONSTRAINT `FK_CategoryTranslations_CategoryId` FOREIGN KEY (`CategoryId`) REFERENCES `Category` (`CategoryId`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `GearItem`

@@ -34,7 +34,7 @@ GEARLIST1;
             foreach ($items as $item) {
                 echo "<tr>";
                 echo " <td><a href=\"showDetail/".$item->id."\">".$item->name."</a></td>";
-                echo " <td>".$item->categoryId."</td>";
+                echo " <td>".$item->category."</td>";
                 echo " <td>".$item->purchaseDate."</td>";
                 echo " <td>".$item->purchasePrice."</td>";
                 echo "</tr>";
@@ -76,7 +76,7 @@ GEARLIST2;
         </tr>
         <tr>
             <th scope="row">{$lang['category']}</th>
-            <td>{$item->categoryId}</td>
+            <td>{$item->category}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['purchasePrice']}</th>
@@ -117,7 +117,7 @@ GEARDETAIL;
         <select class="form-control" name="category">
 GEARADD1;
         foreach ($categories as $category) {
-            echo "<option value=".$category['CategoryId'].">".$category['CategoryDescription']."</option>";
+            echo "<option value=".$category->id.">".$category->title."</option>";
 
         }
         echo <<< GEARADD2
@@ -144,7 +144,15 @@ GEARADD2;
         require_once('core/authentication.inc.php');
         global $lang;
 
-        $gear = new Gear(null, $_POST['name'], $_SESSION['userId'],$_POST['category'], $_POST['purchasePrice'], $_POST['purchaseDate'], $_POST['purchasedPlace']);
+
+        $gear = new Gear();
+        $gear->name = $_POST['name'];
+        $gear->currentOwnerId = $_SESSION['userId'];
+        $gear->category = $_POST['category'];
+        $gear->purchasePrice = $_POST['purchasePrice'];
+        $gear->purchaseDate = $_POST['purchaseDate'];
+        $gear->purchasePlace = $_POST['purchasedPlace'];
+
         $result = $this->model->addGear($gear);
 
         if ($result) {

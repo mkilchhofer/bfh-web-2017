@@ -1,18 +1,18 @@
 <?php
 require_once 'core/db.inc.php';
+require_once 'model.php';
 
-class Gear {
-    public $id, $name, $currentOwnerId, $categoryId, $purchasePrice, $purchaseDate, $purchasePlace;
+class Gear extends EntityBase {
+    public $name,
+        $currentOwnerId,
+        $category,
+        $purchasePrice,
+        $purchaseDate,
+        $purchasePlace;
+}
 
-    function __construct($id, $name, $currentOwnerId, $categoryId, $purchasePrice, $purchaseDate, $purchasePlace) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->currentOwnerId = $currentOwnerId;
-        $this->categoryId = $categoryId;
-        $this->purchasePrice = $purchasePrice;
-        $this->purchaseDate = $purchaseDate;
-        $this->purchasePlace = $purchasePlace;
-    }
+class Category extends EntityBase {
+    public $title;
 }
 
 class GearModel
@@ -20,7 +20,6 @@ class GearModel
 
     static public function getGearByOwner($ownerId)
     {
-        //$sql_query = "SELECT * FROM GearItem WHERE CurrentOwnerId = ?";
         global $language;
         $sql_query = "SELECT
             GearItem.GearId,
@@ -29,42 +28,32 @@ class GearModel
             GearItem.PurchasePrice,
             GearItem.PurchaseDate,
             GearItem.PurchasePlace,
-            CategoryTranslations.CategoryDescription
+            Category.Title_$language AS CategoryDescription
         FROM GearItem
-        INNER JOIN CategoryTranslations ON GearItem.CategoryId = CategoryTranslations.CategoryId
-        WHERE CurrentOwnerId = ?
-        AND CategoryTranslations.Language = ?";
-
+        INNER JOIN Category ON GearItem.CategoryId = Category.CategoryId
+        WHERE CurrentOwnerId = ?";
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('is', $ownerId, $language);
+        $stmt->bind_param('i', $ownerId);
         $stmt->execute();
-        $result = $stmt->get_result();
 
-        if (!$result) {
-            return null;
-        }
-        $gearItems = array();
+        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_category);
+        $result = array();
+        while ($stmt->fetch()) {
+            $gear = new Gear();
+            $gear->id = $row_id;
+            $gear->name = $row_gearName;
+            $gear->currentOwnerId = $row_currentOwnerId;
+            $gear->category = $row_category;
+            $gear->purchasePrice = $row_purchasePrice;
+            $gear->purchaseDate = $row_purchaseDate;
+            $gear->purchasePlace = $row_purchasePlace;
 
-        while ($gearItem = $result->fetch_assoc()) {
-
-            $gear = new Gear(
-                $gearItem['GearId'],
-                $gearItem['GearName'],
-                $gearItem['CurrentOwnerId'],
-                $gearItem['CategoryDescription'],
-                $gearItem['PurchasePrice'],
-                $gearItem['PurchaseDate'],
-                $gearItem['PurchasePlace']
-            );
-
-
-            $gearItems[] = $gear;
+            $result[] = $gear;
         }
 
-
-        return $gearItems;
+        return $result;
     }
 
     static public function getGearById($ownerId, $itemId)
@@ -78,15 +67,14 @@ class GearModel
             GearItem.PurchasePrice,
             GearItem.PurchaseDate,
             GearItem.PurchasePlace,
-            CategoryTranslations.CategoryDescription
+            Category.Title_$language AS CategoryDescription
         FROM GearItem
-        INNER JOIN CategoryTranslations ON GearItem.CategoryId = CategoryTranslations.CategoryId
-        WHERE GearId = ?
-        AND CategoryTranslations.Language = ?";
+        INNER JOIN Category ON GearItem.CategoryId = Category.CategoryId
+        WHERE GearId = ?";
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('is', $itemId, $language);
+        $stmt->bind_param('i', $itemId);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -95,15 +83,14 @@ class GearModel
         }
         $gearItem = $result->fetch_assoc();
 
-        $gear = new Gear(
-            $gearItem['GearId'],
-            $gearItem['GearName'],
-            $gearItem['CurrentOwnerId'],
-            $gearItem['CategoryDescription'],
-            $gearItem['PurchasePrice'],
-            $gearItem['PurchaseDate'],
-            $gearItem['PurchasePlace']
-        );
+        $gear = new Gear();
+        $gear->id = $gearItem['GearId'];
+        $gear->name = $gearItem['GearName'];
+        $gear->currentOwnerId = $gearItem['CurrentOwnerId'];
+        $gear->category = $gearItem['CategoryDescription'];
+        $gear->purchasePrice = $gearItem['PurchasePrice'];
+        $gear->purchaseDate = $gearItem['PurchaseDate'];
+        $gear->purchasePlace = $gearItem['PurchasePlace'];
 
         if ($gear->currentOwnerId != $ownerId){
             return null;
@@ -124,11 +111,12 @@ class GearModel
         VALUES (
             '$gear->name',
             '$gear->currentOwnerId',
-            '$gear->categoryId',
+            '$gear->category',
             '$gear->purchasePrice',
             '$gear->purchaseDate',
             '$gear->purchasePlace')";
         $result = DB::doQuery($sql_query);
+
 
         return $result;
     }
@@ -139,21 +127,23 @@ class GearModel
 
         $sql_query = "SELECT
             Category.CategoryId,
-            CategoryTranslations.CategoryDescription
-        FROM Category
-        INNER JOIN CategoryTranslations ON Category.CategoryId = CategoryTranslations.CategoryId
-        WHERE CategoryTranslations.Language = '$language'";
-        $result = DB::doQuery($sql_query);
+            Category.Title_$language
+        FROM Category";
 
-        if (!$result) {
-            return null;
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->execute();
+
+        $stmt->bind_result($row_id, $row_title);
+        $result = array();
+        while ($stmt->fetch()) {
+            $category = new Category();
+            $category->id = $row_id;
+            $category->title = $row_title;
+
+            $result[] = $category;
         }
-        $categories = array();
 
-        while ($salesItem = $result->fetch_assoc()) {
-            $categories[] = $salesItem;
-        }
-
-        return $categories;
+        return $result;
     }
 }

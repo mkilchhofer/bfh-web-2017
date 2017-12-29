@@ -30,6 +30,10 @@ $lang['salesPrice']     = 'Sales Price';
 $lang['salesId']        = 'Sales Id';
 $lang['salesStart']     = 'Published';
 $lang['salesEnd']       = 'Ends on';
+$lang['description']    = 'Description';
+$lang['appearance']     = 'Appearance';
+$lang['functioning']    = 'Functioning';
+$lang['packaging']      = 'Packaging';
 
 $lang['btn_add']        = 'Add Device';
 

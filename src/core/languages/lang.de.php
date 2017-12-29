@@ -30,7 +30,10 @@ $lang['salesPrice']     = 'Verkaufspreis';
 $lang['salesId']        = 'Verkaufs Id';
 $lang['salesStart']     = 'Veröffentlicht';
 $lang['salesEnd']       = 'Endet am';
-
+$lang['description']    = 'Beschreibung';
+$lang['appearance']     = 'Optischer Zustand';
+$lang['functioning']    = 'Funktioneller Zustand';
+$lang['packaging']      = 'Verpackungszustand';
 
 $lang['btn_add']        = 'Gerät erfassen';
 

@@ -67,8 +67,24 @@ LIST2;
             <td></td>
         </tr>
         <tr>
+            <th scope="row">{$lang['description']}</th>
+            <td>{$saleById['Description']}</td>
+        </tr>
+        <tr>
             <th scope="row">{$lang['salesPrice']}</th>
             <td>{$saleById['SalesPrice']}</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang['appearance']}</th>
+            <td>{$saleById['Appearance']}</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang['functioning']}</th>
+            <td>{$saleById['Functioning']}</td>
+        </tr>
+        <tr>
+            <th scope="row">{$lang['packaging']}</th>
+            <td>{$saleById['Packaging']}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['seller']}</th>

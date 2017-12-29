@@ -1,6 +1,6 @@
 <?php
 
-require_once('model/GearModel.php');
+require_once('model/SaleModel.php');
 require_once('view/DashboardView.php');
 
 class DashboardController
@@ -9,7 +9,7 @@ class DashboardController
     private $view;
 
     public function __construct() {
-        $this->model = new GearModel();
+        $this->model = new SaleModel();
         $this->view = new DashboardView($this->model);
     }
 

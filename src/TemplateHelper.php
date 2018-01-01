@@ -2,7 +2,7 @@
 
 class TemplateHelper {
 
-    public function renderHeader() {
+    public static function renderHeader() {
         echo <<< HEAD
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +25,7 @@ HEAD;
 <div class="container">
 EOF;
     }
-    public function renderFooter() {
+    public static function renderFooter() {
         echo <<< EOF
 </div>
 </body>

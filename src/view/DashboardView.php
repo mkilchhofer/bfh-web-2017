@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../TemplateHelper.php');
 
 class DashboardView
 {
@@ -10,12 +11,16 @@ class DashboardView
 
     public function renderList()
     {
+        require_once('core/authentication.inc.php');
         global $lang;
         $saleItems = $this->model->getSales($_SESSION['userId']);
 
+        TemplateHelper::renderHeader();
         echo <<< LIST1
-         <h3>My Items on sale</h3>
-
+  <div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+            <h3>My Items on sale</h3>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -36,6 +41,13 @@ LIST1;
         echo <<< LIST2
                 </tbody>
             </table>
+    </div>
+    <div class="col-sm-6">
+    <h3>Other Things</h3>
+    Welcome back, User {$_SESSION['userId']}
+    </div>
+  </div>
 LIST2;
+        TemplateHelper::renderFooter();
     }
 }

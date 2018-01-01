@@ -1,4 +1,4 @@
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 
-RewriteRule ^(en|de)/(.*)$  index.php?language=$1 [QSA]
+RewriteRule ^(.*)$ index.php [QSA]

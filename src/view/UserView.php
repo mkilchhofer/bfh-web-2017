@@ -1,5 +1,5 @@
 <?php
-
+require_once(__DIR__ . '/../TemplateHelper.php');
 
 class UserView
 {
@@ -13,6 +13,7 @@ class UserView
     public function renderLogin() {
         global $lang;
         global $language;
+        TemplateHelper::renderHeader();
 
         if (!isset($_SESSION['userId'])){
             echo <<< LOGINFORM
@@ -33,18 +34,25 @@ LOGINFORM;
         else {
             echo "already logged in";
         }
+        TemplateHelper::renderFooter();
 
     }
 
     public function renderLogout() {
         global $lang;
+        global $language;
 
-        echo "<h3>Logout</h3>";
+        session_start();
+        $_SESSION=[];
+        setcookie(session_name(),'',1);
+        setcookie("loggedIn", "false", time() + (86400 / 24), "/");
+        header("location:/$language/User/Login");
     }
     public function renderRegister() {
         global $lang;
-
+        TemplateHelper::renderHeader();
         echo "<h3>Register</h3>";
+        TemplateHelper::renderFooter();
     }
 
 }

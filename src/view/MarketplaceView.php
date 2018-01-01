@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../TemplateHelper.php');
 
 class MarketplaceView
 {
@@ -12,6 +13,7 @@ class MarketplaceView
     {
         global $lang;
         $saleItems = $this->model->getSales();
+        TemplateHelper::renderHeader();
 
         echo <<< LIST1
          <h3>{$lang['nav_marketplace']}</h3>
@@ -51,6 +53,7 @@ LIST1;
                 });
             </script>
 LIST2;
+        TemplateHelper::renderFooter();
     }
 
 
@@ -58,6 +61,7 @@ LIST2;
         global $lang;
         $saleById = $this->model->getSaleById($saleId);
 
+        TemplateHelper::renderHeader();
         echo <<< GEARDETAIL
 <h3>{$saleById['GearName']}</h3>
     <table class="table table-striped">
@@ -101,5 +105,6 @@ LIST2;
         </tbody>
     </table>
 GEARDETAIL;
+        TemplateHelper::renderFooter();
     }
 }

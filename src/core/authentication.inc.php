@@ -10,13 +10,13 @@ if(isset($_POST["login"]) && isset($_POST["pw"])) {
 
     if($check["verified"]) {
         $_SESSION["userId"] = $check["userId"];
+        setcookie("loggedIn", "true", time() + (86400 / 24), "/");
     }
 }
 global $language;
 
 if(!isset($_SESSION["userId"])) {
-    echo"<!DOCTYPE html>\n";
-    echo'<a href="/' . $language . '/User/Login">Please log in</a>.';
+    header("location:/$language/User/Login");
     exit;
 }
 

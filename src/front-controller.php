@@ -9,6 +9,31 @@ require_once('controller/MarketplaceController.php');
 $path = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
 $urlComponents = explode('/', $path);
 
+
+
+// Language
+if(isset($urlComponents[1])) {
+    $language = $urlComponents[1];
+    //var_dump($urlComponents[1]);
+} else {
+    $language = 'en';
+}
+
+switch ($language) {
+    case 'en':
+        $language_file = 'lang.en.php';
+        break;
+    case 'de':
+        $language_file = 'lang.de.php';
+        break;
+    default:
+        $language_file = 'lang.en.php';
+}
+
+require_once ('languages/'.$language_file);
+
+
+
 //Check for controller
 if (isset($urlComponents[2])) {
     $controllerName = $urlComponents[2] . 'Controller';

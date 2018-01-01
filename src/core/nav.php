@@ -1,5 +1,8 @@
 <?php
-require_once ('constants.php');
+
+global $language;
+global $lang;
+require_once  'core/constants.php';
 
 echo <<< NAV1
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -12,11 +15,21 @@ echo <<< NAV1
         <ul class="navbar-nav mr-auto">
 NAV1;
 
-foreach ($sites as $key => $site) {
-    if($site['loginRequired'] == isset($_SESSION[userId])) {
-        echo "<li class=\"nav-item\"><a class=\"nav-link\" href=" . $site['targetUrl'] . ">"  . $site['title'] . "</a></li>";
+if (isset($_SESSION['userId'])) {
+    foreach ($sites as $key => $site) {
+        if( $site['showLoggedIn']) {
+            echo "<li class=\"nav-item\"><a class=\"nav-link\" href=" . $site['targetUrl'] . ">"  . $site['title'] . "</a></li>";
+        }
+    }
+} else {
+    foreach ($sites as $key => $site) {
+        if( $site['showLoggedOut']) {
+            echo "<li class=\"nav-item\"><a class=\"nav-link\" href=" . $site['targetUrl'] . ">"  . $site['title'] . "</a></li>";
+        }
     }
 }
+
+
 $url = substr($_SERVER['REQUEST_URI'], 3);
 
 echo <<< NAV2

@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../TemplateHelper.php');
 
 class MyGearView
 {
@@ -12,6 +13,7 @@ class MyGearView
         require_once('core/authentication.inc.php');
         global $lang;
         $items = $this->model->getGearByOwner($_SESSION['userId']);
+        TemplateHelper::renderHeader();
 
         echo <<<GEARLIST1
          <h3>{$lang['nav_mygear']}
@@ -55,12 +57,14 @@ GEARLIST1;
                 });
             </script>
 GEARLIST2;
+        TemplateHelper::renderFooter();
     }
 
     public function renderDetailView($id) {
         require_once('core/authentication.inc.php');
         global $lang;
         $item = $this->model->getGearById($_SESSION['userId'], $id);
+        TemplateHelper::renderHeader();
 
         echo <<< GEARDETAIL
 <h3>{$item->name}
@@ -97,12 +101,14 @@ GEARLIST2;
         </tbody>
     </table>
 GEARDETAIL;
+        TemplateHelper::renderFooter();
     }
 
     public function renderGearAdd() {
         require_once('core/authentication.inc.php');
         global $lang;
         $categories = $this->model->getCategories();
+        TemplateHelper::renderHeader();
 
         echo <<< GEARADD1
 <h3>{$lang['addNewDevice']}</h3>
@@ -138,11 +144,13 @@ GEARADD1;
     <button type="submit" class="btn btn-default">{$lang['btn_add']}</button>
 </form>
 GEARADD2;
+        TemplateHelper::renderFooter();
     }
 
     public function renderGearStore() {
         require_once('core/authentication.inc.php');
         global $lang;
+        TemplateHelper::renderHeader();
 
 
         $gear = new Gear();
@@ -160,5 +168,6 @@ GEARADD2;
         } else {
             echo "not added, <a href=\"javascript:history.back()\">Go Back</a>";
         }
+        TemplateHelper::renderFooter();
     }
 }

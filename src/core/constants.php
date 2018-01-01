@@ -4,32 +4,38 @@ $sites = [
     'dashboard' => [
         'title' => $lang['nav_dashboard'],
         'targetUrl' => '/'.$language.'/Dashboard/show',
-        'loginRequired' => true,
+        'showLoggedIn' => true,
+        'showLoggedOut' => false,
     ],
     'my' => [
         'title' => $lang['nav_mygear'],
         'targetUrl' => '/'.$language.'/MyGear/showList',
-        'loginRequired' => true,
+        'showLoggedIn' => true,
+        'showLoggedOut' => false,
     ],
     'marketplace' => [
         'title' => $lang['nav_marketplace'],
         'targetUrl' => '/'.$language.'/Marketplace/showList',
-        'loginRequired' => true,
+        'showLoggedIn' => true,
+        'showLoggedOut' => true,
     ],
 
     'login' => [
         'title' => $lang['nav_login'],
         'targetUrl' => '/'.$language.'/User/Login',
-        'loginRequired' => false,
+        'showLoggedIn' => false,
+        'showLoggedOut' => true,
     ],
     'logout' => [
         'title' => $lang['nav_logout'].' ('.$_SESSION['userId'].')',
-        'targetUrl' => '/logout.php',
-        'loginRequired' => true,
+        'targetUrl' => '/'.$language.'/User/Logout',
+        'showLoggedIn' => true,
+        'showLoggedOut' => false,
     ],
     'register' => [
         'title' => $lang['nav_register'],
         'targetUrl' => '/'.$language.'/User/Register',
-        'loginRequired' => false,
+        'showLoggedIn' => false,
+        'showLoggedOut' => true,
     ],
 ];

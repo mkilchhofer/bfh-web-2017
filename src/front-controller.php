@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 require_once('controller/MyGearController.php');
 require_once('controller/DashboardController.php');
 require_once('controller/UserController.php');

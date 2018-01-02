@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once 'core/db.inc.php';
 
 if(isset($_POST["login"]) && isset($_POST["pw"])) {

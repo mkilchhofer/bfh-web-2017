@@ -5,42 +5,47 @@ require_once('controller/MyGearController.php');
 require_once('controller/DashboardController.php');
 require_once('controller/UserController.php');
 require_once('controller/MarketplaceController.php');
+require_once('controller/ErrorController.php');
+$errorMessage="";
 
 //Parse URL
 $path = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
 $urlComponents = explode('/', $path);
 
-
-
 // Language
-if(isset($urlComponents[1])) {
-    $language = $urlComponents[1];
-    //var_dump($urlComponents[1]);
+if(!empty($urlComponents[1])) {
+    $urlLanguage = $urlComponents[1];
 } else {
-    $language = 'en';
+    // Take Browser Language
+    $urlLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+
+    if(isset($_SESSION['userId'])) {
+        header("Location: http://".$_SERVER['HTTP_HOST']."/$urlLanguage/Dashboard/show");
+        exit;
+    } else {
+        header("Location: http://".$_SERVER['HTTP_HOST']."/$urlLanguage/Marketplace/showList");
+        exit;
+    }
 }
 
-switch ($language) {
+switch ($urlLanguage) {
     case 'en':
-        $language_file = 'lang.en.php';
+        $language='en';
         break;
     case 'de':
-        $language_file = 'lang.de.php';
+        $language='de';
         break;
     default:
-        $language_file = 'lang.en.php';
+        $language='en';
 }
 
-require_once ('languages/'.$language_file);
-
-
+require_once ('languages/lang.'.$language.'.php');
 
 //Check for controller
-if (isset($urlComponents[2])) {
+if (!empty($urlComponents[2])) {
     $controllerName = $urlComponents[2] . 'Controller';
 } else {
-    http_response_code(404);
-    die();
+    $errorMessage .= "- Controller unset<br />";
 }
 
 //Check for action
@@ -57,8 +62,7 @@ if (isset($urlComponents[4])) {
 if (class_exists($controllerName)) {
     $controller = new $controllerName();
 } else {
-    http_response_code(404);
-    die();
+    $errorMessage .= "- Controller class does not exist<br />";
 }
 
 //Invoke Controller with action and action parameter
@@ -66,8 +70,7 @@ if (isset($action) and isset($actionParam)) {
     if (method_exists($controller, $action)) {
         $controller->{$action}($actionParam);
     } else {
-        http_response_code(404);
-        die();
+        $errorMessage .= "- Invoke Controller with action and action parameter failed<br />";
     }
 }
 
@@ -76,7 +79,12 @@ if (isset($action) and !isset($actionParam)) {
     if (method_exists($controller, $action)) {
         $controller->{$action}();
     } else {
-        http_response_code(404);
-        die();
+        $errorMessage .= "- Invoke Controller with action only failed<br />";
     }
+}
+
+//Display error(s)
+if (!empty($errorMessage)){
+    $errorController = new ErrorController();
+    $errorController->show($errorMessage);
 }

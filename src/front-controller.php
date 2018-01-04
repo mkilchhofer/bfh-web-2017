@@ -8,6 +8,9 @@ require_once('controller/MarketplaceController.php');
 require_once('controller/ErrorController.php');
 $errorMessage="";
 
+//Version
+$mygearVersion = substr(getenv('OPENSHIFT_BUILD_COMMIT'),0,7);
+
 //Parse URL
 $path = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
 $urlComponents = explode('/', $path);

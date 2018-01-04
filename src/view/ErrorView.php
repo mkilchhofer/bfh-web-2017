@@ -11,9 +11,6 @@ class ErrorView
         TemplateHelper::renderHeader();
         echo "<h3>Error</h3>";
         echo "Es sind Fehler augetreten:<br />$errorMsg";
-        if(!empty(getenv('OPENSHIFT_BUILD_COMMIT'))){
-            echo "Version auf GitHub: ".substr(getenv('OPENSHIFT_BUILD_COMMIT'),0,7);
-        }
         TemplateHelper::renderFooter();
     }
 }

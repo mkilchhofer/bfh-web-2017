@@ -22,12 +22,24 @@ HEAD;
         require_once('core/nav.php');
 
         echo <<< EOF
+<main role="main" class="container">
 <div class="container">
 EOF;
     }
+
     public static function renderFooter() {
+        global $mygearVersion;
+        $githubVersion = "<a target=\"_blank\" href=\"https://github.com/mkilchhofer/bfh-web-2017/commit/$mygearVersion\">GitHub $mygearVersion</a>";
+        $contributors = "<a target=\"_blank\" href=\"https://github.com/mkilchhofer/\">mkilchhofer</a> and
+                         <a target=\"_blank\" href=\"https://github.com/mschmutz/\">mschmutz</a>";
         echo <<< EOF
 </div>
+    </main>
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">MyGear. {$githubVersion} - Created with ♡ by {$contributors}</span>
+      </div>
+    </footer>
 </body>
 </html>
 EOF;

@@ -26,37 +26,35 @@ class MyGearView
         }
 
         echo <<<GEARLIST
-         <h3>
+        <h3>
             {$lang['nav_mygear']}
             <a href="add" class="btn btn-outline-primary" role="button" style="float: right">{$lang['addNewDevice']}</a>
-         </h3>
-        
-            <input class="form-control" id="myInput" type="text" placeholder="{$lang['search']}">
-            <br>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>{$lang['name']}</th>
-                    <th>{$lang['category']}</th>
-                    <th>{$lang['purchaseDate']}</th>
-                    <th>{$lang['purchasePrice']}</th>
-                </tr>
-                </thead>
-                <tbody id="myTable">
-                {$tableData}
-                </tbody>
-            </table>
-        
-            <script>
-                $(document).ready(function(){
-                    $("#myInput").on("keyup", function() {
-                        var value = $(this).val().toLowerCase();
-                        $("#myTable tr").filter(function() {
-                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                        });
+        </h3>
+        <input class="form-control" id="myInput" type="text" placeholder="{$lang['search']}">
+        <br />
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{$lang['name']}</th>
+                <th>{$lang['category']}</th>
+                <th>{$lang['purchaseDate']}</th>
+                <th>{$lang['purchasePrice']}</th>
+            </tr>
+            </thead>
+            <tbody id="myTable">
+            {$tableData}
+            </tbody>
+        </table>
+        <script>
+            $(document).ready(function(){
+                $("#myInput").on("keyup", function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function() {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                     });
                 });
-            </script>
+            });
+        </script>
 GEARLIST;
         TemplateHelper::renderFooter();
     }
@@ -86,39 +84,40 @@ GEARLIST;
         }
 
         echo <<< GEARDETAIL
-<h3>{$item->name}
-<a href="../delete/{$id}" class="btn" role="button" style="float: right">{$lang['delete']}</a>
-<a href="../sell/{$id}" class="btn" role="button" style="float: right">{$lang['sell']}</a>
-<a href="../edit/{$id}" class="btn" role="button" style="float: right">{$lang['edit']}</a></h3>
-
-    <table class="table table-striped">
-        <tbody id="myTable">
-        <tr>
-            <th scope="row">{$lang['picture']}</th>
-            <td>{$imgPictures}</td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang['category']}</th>
-            <td>{$item->category}</td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang['purchasePrice']}</th>
-            <td>{$item->purchasePrice}</td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang['purchaseDate']}</th>
-            <td>{$item->purchaseDate}</td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang['purchasePlace']}</th>
-            <td>{$item->purchasePlace}</td>
-        </tr>
-        <tr>
-            <th scope="row">{$lang['receiptImageId']}</th>
-            <td>{$imgReceipt}</td>
-        </tr>
-        </tbody>
-    </table>
+        <h3>
+            {$item->name}
+            <a href="../delete/{$id}" class="btn" role="button" style="float: right">{$lang['delete']}</a>
+            <a href="../sell/{$id}" class="btn" role="button" style="float: right">{$lang['sell']}</a>
+            <a href="../edit/{$id}" class="btn" role="button" style="float: right">{$lang['edit']}</a>
+        </h3>
+        <table class="table table-striped">
+            <tbody id="myTable">
+            <tr>
+                <th scope="row">{$lang['picture']}</th>
+                <td>{$imgPictures}</td>
+            </tr>
+            <tr>
+                <th scope="row">{$lang['category']}</th>
+                <td>{$item->category}</td>
+            </tr>
+            <tr>
+                <th scope="row">{$lang['purchasePrice']}</th>
+                <td>{$item->purchasePrice}</td>
+            </tr>
+            <tr>
+                <th scope="row">{$lang['purchaseDate']}</th>
+                <td>{$item->purchaseDate}</td>
+            </tr>
+            <tr>
+                <th scope="row">{$lang['purchasePlace']}</th>
+                <td>{$item->purchasePlace}</td>
+            </tr>
+            <tr>
+                <th scope="row">{$lang['receiptImageId']}</th>
+                <td>{$imgReceipt}</td>
+            </tr>
+            </tbody>
+        </table>
 GEARDETAIL;
         TemplateHelper::renderFooter();
     }
@@ -135,33 +134,34 @@ GEARDETAIL;
         }
 
         echo <<< GEARADD
-<h3>{$lang['addNewDevice']}</h3>
-
-<form action="store" method="post">
-    <div class="form-group">
-        <label for="name">{$lang['name']}</label>
-        <input type="text" class="form-control" name="name">
-    </div>
-    <div class="form-group">
-        <label for="category">Select category</label>
-        <select class="form-control" name="category">
-        {$select_category}
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="purchasePrice">{$lang['purchasePrice']}</label>
-        <input type="number" class="form-control" name="purchasePrice" min="0.00" step="0.01">
-    </div>
-    <div class="form-group">
-        <label for="purchaseDate">{$lang['purchaseDate']}</label>
-        <input type="date" class="form-control" name="purchaseDate">
-    </div>
-    <div class="form-group">
-        <label for="purchasedFrom">{$lang['purchasePlace']}</label>
-        <input type="text" class="form-control" name="purchasedPlace">
-    </div>
-    <button type="submit" class="btn btn-default">{$lang['btn_add']}</button>
-</form>
+        <h3>
+            {$lang['addNewDevice']}
+        </h3>
+        <form action="store" method="post">
+            <div class="form-group">
+                <label for="name">{$lang['name']}</label>
+                <input type="text" class="form-control" name="name">
+            </div>
+            <div class="form-group">
+                <label for="category">Select category</label>
+                <select class="form-control" name="category">
+                {$select_category}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="purchasePrice">{$lang['purchasePrice']}</label>
+                <input type="number" class="form-control" name="purchasePrice" min="0.00" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="purchaseDate">{$lang['purchaseDate']}</label>
+                <input type="date" class="form-control" name="purchaseDate">
+            </div>
+            <div class="form-group">
+                <label for="purchasedFrom">{$lang['purchasePlace']}</label>
+                <input type="text" class="form-control" name="purchasedPlace">
+            </div>
+            <button type="submit" class="btn btn-default">{$lang['btn_add']}</button>
+        </form>
 GEARADD;
         TemplateHelper::renderFooter();
     }

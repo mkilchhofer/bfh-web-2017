@@ -22,6 +22,7 @@ $lang['password']       = 'Password';
 $lang['password_confirm']       = 'Confirm password';
 $lang['login']          = 'Login';
 $lang['addNewDevice']   = 'Add new Device';
+$lang['editDevice']     = 'Edit Device';
 $lang['search']         = 'Search..';
 $lang['delete']         = 'Delete';
 $lang['edit']           = 'Edit';

@@ -9,17 +9,15 @@ class MyGearView
         $this->model = $model;
     }
 
-    public function renderGearList() {
-        require_once('core/authentication.inc.php');
+    public function renderGearList($items) {
         global $lang;
-        $items = $this->model->getGearByOwner($_SESSION['userId']);
         TemplateHelper::renderHeader();
 
         $tableData = '';
         foreach ($items as $item) {
             $tableData .= "<tr>";
             $tableData .= " <td><a href=\"showDetail/".$item->id."\">".$item->name."</a></td>";
-            $tableData .= " <td>".$item->category."</td>";
+            $tableData .= " <td>".$item->categoryDescription."</td>";
             $tableData .= " <td>".$item->purchaseDate."</td>";
             $tableData .= " <td>".$item->purchasePrice."</td>";
             $tableData .= "</tr>";
@@ -59,36 +57,35 @@ GEARLIST;
         TemplateHelper::renderFooter();
     }
 
-    public function renderDetailView($id) {
-        require_once('core/authentication.inc.php');
+    public function renderDetailView($item) {
         global $lang;
-        $item = $this->model->getGearById($_SESSION['userId'], $id);
-
         TemplateHelper::renderHeader();
 
         $imgReceipt = '';
-        foreach ($item->receiptIds as $attachment) {
-            $type = explode('/', $attachment->type);
-            $imgReceipt .= "- <a href=\"../showReceipt/$attachment->id\">$attachment->description ($type[1])</a><br />";
-        }
-        if(empty($imgReceipt)){
+        if (isset($item->receiptIds)) {
+            foreach ($item->receiptIds as $attachment) {
+                $type = explode('/', $attachment->type);
+                $imgReceipt .= "- <a href=\"../showReceipt/$attachment->id\">$attachment->description ($type[1])</a><br />";
+            }
+        } else {
             $imgReceipt = $lang['noReceipts'];
         }
 
         $imgPictures = '';
-        foreach ($item->pictureIds as $attachment) {
-            $imgPictures .= "<img src=\"../showPicture/$attachment->id\" class=\"img-responsive\" />";
-        }
-        if(empty($imgPictures)){
+        if (isset($item->pictureIds)){
+            foreach ($item->pictureIds as $attachment) {
+                $imgPictures .= "<img src=\"../showPicture/$attachment->id\" class=\"img-responsive\" />";
+            }
+        } else {
             $imgPictures = $lang['noPictures'];
         }
 
         echo <<< GEARDETAIL
         <h3>
             {$item->name}
-            <a href="../delete/{$id}" class="btn" role="button" style="float: right">{$lang['delete']}</a>
-            <a href="../sell/{$id}" class="btn" role="button" style="float: right">{$lang['sell']}</a>
-            <a href="../edit/{$id}" class="btn" role="button" style="float: right">{$lang['edit']}</a>
+            <a href="../delete/{$item->id}" class="btn" role="button" style="float: right">{$lang['delete']}</a>
+            <a href="../sell/{$item->id}" class="btn" role="button" style="float: right">{$lang['sell']}</a>
+            <a href="../edit/{$item->id}" class="btn" role="button" style="float: right">{$lang['edit']}</a>
         </h3>
         <table class="table table-striped">
             <tbody id="myTable">
@@ -98,7 +95,7 @@ GEARLIST;
             </tr>
             <tr>
                 <th scope="row">{$lang['category']}</th>
-                <td>{$item->category}</td>
+                <td>{$item->categoryDescription}</td>
             </tr>
             <tr>
                 <th scope="row">{$lang['purchasePrice']}</th>
@@ -122,65 +119,56 @@ GEARDETAIL;
         TemplateHelper::renderFooter();
     }
 
-    public function renderGearAdd() {
-        require_once('core/authentication.inc.php');
+    public function renderGearForm($title, $userId, $categories, $gearItem, $formAction) {
         global $lang;
-        $categories = $this->model->getCategories();
         TemplateHelper::renderHeader();
 
         $select_category = '';
         foreach ($categories as $category) {
-            $select_category .= "<option value=".$category->id.">".$category->title."</option>";
+            $selectedCategory = '';
+            if($gearItem->categoryId == $category->id){
+                $selectedCategory = 'selected="selected"';
+            }
+            $select_category .= "<option value=\"$category->id\" $selectedCategory>$category->title</option>";
         }
 
         echo <<< GEARADD
         <h3>
-            {$lang['addNewDevice']}
+            {$title}
         </h3>
-        <form action="store" method="post">
+        <form action="{$formAction}" method="post">
             <div class="form-group">
                 <label for="name">{$lang['name']}</label>
-                <input type="text" class="form-control" name="name">
+                <input type="text" class="form-control" name="name" value="{$gearItem->name}">
+                <input type="hidden" class="form-control" name="userId" value="{$userId}">
             </div>
             <div class="form-group">
                 <label for="category">Select category</label>
-                <select class="form-control" name="category">
+                <select class="form-control" name="categoryId">
                 {$select_category}
                 </select>
             </div>
             <div class="form-group">
                 <label for="purchasePrice">{$lang['purchasePrice']}</label>
-                <input type="number" class="form-control" name="purchasePrice" min="0.00" step="0.01">
+                <input type="number" class="form-control" name="purchasePrice" min="0.00" step="0.01" value="{$gearItem->purchasePrice}">
             </div>
             <div class="form-group">
                 <label for="purchaseDate">{$lang['purchaseDate']}</label>
-                <input type="date" class="form-control" name="purchaseDate">
+                <input type="date" class="form-control" name="purchaseDate" value="{$gearItem->purchaseDate}">
             </div>
             <div class="form-group">
                 <label for="purchasedFrom">{$lang['purchasePlace']}</label>
-                <input type="text" class="form-control" name="purchasedPlace">
+                <input type="text" class="form-control" name="purchasedPlace" value="{$gearItem->purchasePlace}">
             </div>
-            <button type="submit" class="btn btn-default">{$lang['btn_add']}</button>
+            <button type="submit" class="btn btn-default">{$title}</button>
         </form>
 GEARADD;
         TemplateHelper::renderFooter();
     }
 
-    public function renderGearStore() {
-        require_once('core/authentication.inc.php');
+    public function renderGearFormResult($result) {
         global $lang;
         TemplateHelper::renderHeader();
-
-
-        $gear = new Gear();
-        $gear->name = $_POST['name'];
-        $gear->currentOwnerId = $_SESSION['userId'];
-        $gear->category = $_POST['category'];
-        $gear->purchasePrice = $_POST['purchasePrice'];
-        $gear->purchaseDate = $_POST['purchaseDate'];
-        $gear->purchasePlace = $_POST['purchasedPlace'];
-
-        $result = $this->model->addGear($gear);
 
         if ($result) {
             echo "added, <a href=\"showList\">Go to My Gear</a>";
@@ -190,9 +178,7 @@ GEARADD;
         TemplateHelper::renderFooter();
     }
 
-    public function renderAttachment($type, $id){
-        $attachment = $this->model->getAttachment($type, $id);
-
+    public function renderAttachment($attachment){
         header("Content-type: $attachment->type");
         echo $attachment->data;
     }

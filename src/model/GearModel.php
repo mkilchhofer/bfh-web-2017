@@ -5,7 +5,8 @@ require_once 'model.php';
 class Gear extends EntityBase {
     public $name,
         $currentOwnerId,
-        $category,
+        $categoryId,
+        $categoryDescription,
         $purchasePrice,
         $purchaseDate,
         $purchasePlace,
@@ -26,7 +27,7 @@ class Attachment extends EntityBase {
 class GearModel
 {
 
-    public static function getGearByOwner($ownerId)
+    public static function getGearByOwner($userId)
     {
         global $language;
         $sql_query = "SELECT
@@ -43,17 +44,17 @@ class GearModel
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('i', $ownerId);
+        $stmt->bind_param('i', $userId);
         $stmt->execute();
 
-        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_category);
+        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_categoryDescription);
         $result = array();
         while ($stmt->fetch()) {
             $gear = new Gear();
             $gear->id = $row_id;
             $gear->name = $row_gearName;
             $gear->currentOwnerId = $row_currentOwnerId;
-            $gear->category = $row_category;
+            $gear->categoryDescription = $row_categoryDescription;
             $gear->purchasePrice = $row_purchasePrice;
             $gear->purchaseDate = $row_purchaseDate;
             $gear->purchasePlace = $row_purchasePlace;
@@ -64,9 +65,8 @@ class GearModel
         return $result;
     }
 
-    public static function getGearById($ownerId, $itemId)
+    public static function getGearById($userId, $itemId)
     {
-        //$sql_query = "SELECT * FROM GearItem WHERE GearId = ?";
         global $language;
         $sql_query = "SELECT
             GearItem.GearId,
@@ -75,42 +75,59 @@ class GearModel
             GearItem.PurchasePrice,
             GearItem.PurchaseDate,
             GearItem.PurchasePlace,
+            Category.CategoryId,
             Category.Title_$language AS CategoryDescription
         FROM GearItem
         INNER JOIN Category ON GearItem.CategoryId = Category.CategoryId
-        WHERE GearId = ?";
+        WHERE GearId = ? AND CurrentOwnerId = ?";
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('i', $itemId);
+        $stmt->bind_param('ii', $itemId, $userId);
         $stmt->execute();
-        $result = $stmt->get_result();
 
-        if (!$result) {
-            return null;
+        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_categoryId, $row_categoryDescription);
+
+        $gear = null;
+        while ($stmt->fetch()) {
+            $gear = new Gear();
+            $gear->id = $row_id;
+            $gear->name = $row_gearName;
+            $gear->currentOwnerId = $row_currentOwnerId;
+            $gear->categoryId = $row_categoryId;
+            $gear->categoryDescription = $row_categoryDescription;
+            $gear->purchasePrice = $row_purchasePrice;
+            $gear->purchaseDate = $row_purchaseDate;
+            $gear->purchasePlace = $row_purchasePlace;
         }
-        $gearItem = $result->fetch_assoc();
 
-        $gear = new Gear();
-        $gear->id = $gearItem['GearId'];
-        $gear->name = $gearItem['GearName'];
-        $gear->currentOwnerId = $gearItem['CurrentOwnerId'];
-        $gear->category = $gearItem['CategoryDescription'];
-        $gear->purchasePrice = $gearItem['PurchasePrice'];
-        $gear->purchaseDate = $gearItem['PurchaseDate'];
-        $gear->purchasePlace = $gearItem['PurchasePlace'];
-        $gear->receiptIds = self::getAttachmentDetailsByGearId('Receipt', $itemId);
-        $gear->pictureIds = self::getAttachmentDetailsByGearId('Picture', $itemId);
-
-        if ($gear->currentOwnerId != $ownerId){
-            return null;
+        if ($gear != null) {
+            $gear->receiptIds = self::getAttachmentDetailsByGearId('Receipt', $itemId);
+            $gear->pictureIds = self::getAttachmentDetailsByGearId('Picture', $itemId);
         }
 
         return $gear;
     }
 
-    public static function addGear(Gear $gear)
+    public static function deleteGearById($userId, $itemId)
     {
+        global $language;
+        $sql_query = "DELETE
+        FROM GearItem
+        WHERE GearId = ? AND CurrentOwnerId = ?";
+
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('ii', $itemId, $userId);
+        return $stmt->execute();
+    }
+
+    public static function addGear($userId, Gear $gear)
+    {
+        if($userId != $gear->currentOwnerId){
+            return false;
+        }
+
         $sql_query = "INSERT INTO `GearItem` (
             `GearName`,
             `CurrentOwnerId`,
@@ -121,7 +138,7 @@ class GearModel
         VALUES (
             '$gear->name',
             '$gear->currentOwnerId',
-            '$gear->category',
+            '$gear->categoryId',
             '$gear->purchasePrice',
             '$gear->purchaseDate',
             '$gear->purchasePlace')";

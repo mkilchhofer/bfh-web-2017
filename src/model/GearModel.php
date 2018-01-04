@@ -26,7 +26,7 @@ class Attachment extends EntityBase {
 class GearModel
 {
 
-    static public function getGearByOwner($ownerId)
+    public static function getGearByOwner($ownerId)
     {
         global $language;
         $sql_query = "SELECT
@@ -64,7 +64,7 @@ class GearModel
         return $result;
     }
 
-    static public function getGearById($ownerId, $itemId)
+    public static function getGearById($ownerId, $itemId)
     {
         //$sql_query = "SELECT * FROM GearItem WHERE GearId = ?";
         global $language;
@@ -109,7 +109,7 @@ class GearModel
         return $gear;
     }
 
-    static public function addGear(Gear $gear)
+    public static function addGear(Gear $gear)
     {
         $sql_query = "INSERT INTO `GearItem` (
             `GearName`,
@@ -131,7 +131,7 @@ class GearModel
         return $result;
     }
 
-    static public function getCategories()
+    public static function getCategories()
     {
         global $language;
 

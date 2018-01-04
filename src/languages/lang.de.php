@@ -19,6 +19,7 @@ $lang['purchasePlace']  = 'Gekauft bei';
 $lang['receiptImageId'] = 'Quittung';
 $lang['userName']       = 'Benutzername';
 $lang['password']       = 'Passwort';
+$lang['password_confirm']       = 'Passwort bestätigen';
 $lang['login']          = 'Einloggen';
 $lang['addNewDevice']   = 'Neues Gerät erfassen';
 $lang['search']         = 'Suchen..';
@@ -36,6 +37,13 @@ $lang['functioning']    = 'Funktioneller Zustand';
 $lang['packaging']      = 'Verpackungszustand';
 $lang['noPictures']     = 'keine Bilder erfasst';
 $lang['noReceipts']     = 'keine Quittungen erfasst';
+$lang['register']       = 'Registrieren';
+$lang['firstName']      = 'Vornamen';
+$lang['lastName']       = 'Nachnamen';
+$lang['email']          = 'E-Mail-Adresse';
+$lang['street']         = 'Strasse';
+$lang['zip']            = 'PLZ';
+$lang['city']           = 'Stadt';
 
 $lang['btn_add']        = 'Gerät erfassen';
 

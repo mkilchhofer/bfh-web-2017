@@ -22,6 +22,34 @@ class UserController
     }
 
     public function Register() {
-        $this->view->renderRegister();
+        $this->view->renderRegisterForm();
+    }
+
+    public function processRegistration() {
+        $regData = $_POST;
+        $valid = $this->model->validate($regData);
+        echo 'Validation result=';
+        var_dump($valid);
+        echo '<br />';
+
+        if ($valid) {
+            $user = new User(null,
+                $regData['userName'],
+                $regData['firstName'],
+                $regData['lastName'],
+                $regData['email'],
+                $regData['street'],
+                $regData['zip'],
+                $regData['city']);
+            echo 'Creating User...';
+            echo '<br />';
+            $this->model->add($user, $regData['password']);
+            #$this->view->renderRegisterConfirmation();
+        } else {
+            echo 'User Creation failed';
+            echo '<br />';
+        }
+        echo 'Processing finished';
+        echo '<br />';
     }
 }

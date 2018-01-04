@@ -19,6 +19,7 @@ $lang['purchasePlace']  = 'Purchased from';
 $lang['receiptImageId'] = 'Receipt';
 $lang['userName']       = 'Username';
 $lang['password']       = 'Password';
+$lang['password_confirm']       = 'Confirm password';
 $lang['login']          = 'Login';
 $lang['addNewDevice']   = 'Add new Device';
 $lang['search']         = 'Search..';
@@ -34,6 +35,13 @@ $lang['description']    = 'Description';
 $lang['appearance']     = 'Appearance';
 $lang['functioning']    = 'Functioning';
 $lang['packaging']      = 'Packaging';
+$lang['register']       = 'Register';
+$lang['firstName']      = 'First name';
+$lang['lastName']       = 'Last name';
+$lang['email']          = 'Email address';
+$lang['street']         = 'Street';
+$lang['zip']            = 'ZIP code';
+$lang['city']           = 'City';
 
 $lang['btn_add']        = 'Add Device';
 

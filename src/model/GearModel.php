@@ -8,11 +8,19 @@ class Gear extends EntityBase {
         $category,
         $purchasePrice,
         $purchaseDate,
-        $purchasePlace;
+        $purchasePlace,
+        $receiptIds,
+        $pictureIds;
 }
 
 class Category extends EntityBase {
     public $title;
+}
+
+class Attachment extends EntityBase {
+    public $description,
+        $data,
+        $type;
 }
 
 class GearModel
@@ -91,6 +99,8 @@ class GearModel
         $gear->purchasePrice = $gearItem['PurchasePrice'];
         $gear->purchaseDate = $gearItem['PurchaseDate'];
         $gear->purchasePlace = $gearItem['PurchasePlace'];
+        $gear->receiptIds = self::getAttachmentDetailsByGearId('Receipt', $itemId);
+        $gear->pictureIds = self::getAttachmentDetailsByGearId('Picture', $itemId);
 
         if ($gear->currentOwnerId != $ownerId){
             return null;
@@ -142,6 +152,60 @@ class GearModel
             $category->title = $row_title;
 
             $result[] = $category;
+        }
+
+        return $result;
+    }
+
+    public static function getAttachment($type, $receiptId) {
+
+        $sql_query = "SELECT
+            $type.data,
+            $type.type
+        FROM $type
+        INNER JOIN GearItem ON GearItem.GearId = $type.gearId
+        WHERE $type.id = ?";
+
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('i', $receiptId);
+        $stmt->execute();
+
+        $stmt->bind_result($row_data, $row_type);
+
+        $attachment = null;
+        while ($stmt->fetch()) {
+            $attachment = new Attachment();
+            $attachment->data = $row_data;
+            $attachment->type = $row_type;
+        }
+
+        return $attachment;
+    }
+
+    private static function getAttachmentDetailsByGearId($type, $gearId)
+    {
+        $sql_query = "SELECT
+            id,
+            description,
+            type
+        FROM $type
+        WHERE gearId = ?";
+
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('i', $gearId);
+        $stmt->execute();
+
+        $stmt->bind_result($row_id, $row_description, $row_type);
+        $result = array();
+        while ($stmt->fetch()) {
+            $attachment = new Attachment();
+            $attachment->id = $row_id;
+            $attachment->type = $row_type;
+            $attachment->description = $row_description;
+
+            $result[] = $attachment;
         }
 
         return $result;

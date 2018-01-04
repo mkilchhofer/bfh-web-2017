@@ -34,6 +34,8 @@ $lang['description']    = 'Beschreibung';
 $lang['appearance']     = 'Optischer Zustand';
 $lang['functioning']    = 'Funktioneller Zustand';
 $lang['packaging']      = 'Verpackungszustand';
+$lang['noPictures']     = 'keine Bilder erfasst';
+$lang['noReceipts']     = 'keine Quittungen erfasst';
 
 $lang['btn_add']        = 'Gerät erfassen';
 

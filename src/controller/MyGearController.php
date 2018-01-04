@@ -33,4 +33,12 @@ class MyGearController
     public function delete() {
 
     }
+
+    public function showReceipt($id) {
+        $this->view->renderAttachment('Receipt', $id);
+    }
+
+    public function showPicture($id) {
+        $this->view->renderAttachment('Picture', $id);
+    }
 }

@@ -15,9 +15,21 @@ class MyGearView
         $items = $this->model->getGearByOwner($_SESSION['userId']);
         TemplateHelper::renderHeader();
 
-        echo <<<GEARLIST1
-         <h3>{$lang['nav_mygear']}
-            <a href="add" class="btn" role="button" style="float: right">{$lang['addNewDevice']}</a></h3>
+        $tableData = '';
+        foreach ($items as $item) {
+            $tableData .= "<tr>";
+            $tableData .= " <td><a href=\"showDetail/".$item->id."\">".$item->name."</a></td>";
+            $tableData .= " <td>".$item->category."</td>";
+            $tableData .= " <td>".$item->purchaseDate."</td>";
+            $tableData .= " <td>".$item->purchasePrice."</td>";
+            $tableData .= "</tr>";
+        }
+
+        echo <<<GEARLIST
+         <h3>
+            {$lang['nav_mygear']}
+            <a href="add" class="btn btn-outline-primary" role="button" style="float: right">{$lang['addNewDevice']}</a>
+         </h3>
         
             <input class="form-control" id="myInput" type="text" placeholder="{$lang['search']}">
             <br>
@@ -31,18 +43,7 @@ class MyGearView
                 </tr>
                 </thead>
                 <tbody id="myTable">
-GEARLIST1;
-
-            foreach ($items as $item) {
-                echo "<tr>";
-                echo " <td><a href=\"showDetail/".$item->id."\">".$item->name."</a></td>";
-                echo " <td>".$item->category."</td>";
-                echo " <td>".$item->purchaseDate."</td>";
-                echo " <td>".$item->purchasePrice."</td>";
-                echo "</tr>";
-            }
-
-        echo <<<GEARLIST2
+                {$tableData}
                 </tbody>
             </table>
         
@@ -56,7 +57,7 @@ GEARLIST1;
                     });
                 });
             </script>
-GEARLIST2;
+GEARLIST;
         TemplateHelper::renderFooter();
     }
 
@@ -64,7 +65,25 @@ GEARLIST2;
         require_once('core/authentication.inc.php');
         global $lang;
         $item = $this->model->getGearById($_SESSION['userId'], $id);
+
         TemplateHelper::renderHeader();
+
+        $imgReceipt = '';
+        foreach ($item->receiptIds as $attachment) {
+            $type = explode('/', $attachment->type);
+            $imgReceipt .= "- <a href=\"../showReceipt/$attachment->id\">$attachment->description ($type[1])</a><br />";
+        }
+        if(empty($imgReceipt)){
+            $imgReceipt = $lang['noReceipts'];
+        }
+
+        $imgPictures = '';
+        foreach ($item->pictureIds as $attachment) {
+            $imgPictures .= "<img src=\"../showPicture/$attachment->id\" class=\"img-responsive\" />";
+        }
+        if(empty($imgPictures)){
+            $imgPictures = $lang['noPictures'];
+        }
 
         echo <<< GEARDETAIL
 <h3>{$item->name}
@@ -76,7 +95,7 @@ GEARLIST2;
         <tbody id="myTable">
         <tr>
             <th scope="row">{$lang['picture']}</th>
-            <td></td>
+            <td>{$imgPictures}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['category']}</th>
@@ -96,7 +115,7 @@ GEARLIST2;
         </tr>
         <tr>
             <th scope="row">{$lang['receiptImageId']}</th>
-            <td></td>
+            <td>{$imgReceipt}</td>
         </tr>
         </tbody>
     </table>
@@ -110,7 +129,12 @@ GEARDETAIL;
         $categories = $this->model->getCategories();
         TemplateHelper::renderHeader();
 
-        echo <<< GEARADD1
+        $select_category = '';
+        foreach ($categories as $category) {
+            $select_category .= "<option value=".$category->id.">".$category->title."</option>";
+        }
+
+        echo <<< GEARADD
 <h3>{$lang['addNewDevice']}</h3>
 
 <form action="store" method="post">
@@ -121,12 +145,7 @@ GEARDETAIL;
     <div class="form-group">
         <label for="category">Select category</label>
         <select class="form-control" name="category">
-GEARADD1;
-        foreach ($categories as $category) {
-            echo "<option value=".$category->id.">".$category->title."</option>";
-
-        }
-        echo <<< GEARADD2
+        {$select_category}
         </select>
     </div>
     <div class="form-group">
@@ -143,7 +162,7 @@ GEARADD1;
     </div>
     <button type="submit" class="btn btn-default">{$lang['btn_add']}</button>
 </form>
-GEARADD2;
+GEARADD;
         TemplateHelper::renderFooter();
     }
 
@@ -169,5 +188,12 @@ GEARADD2;
             echo "not added, <a href=\"javascript:history.back()\">Go Back</a>";
         }
         TemplateHelper::renderFooter();
+    }
+
+    public function renderAttachment($type, $id){
+        $attachment = $this->model->getAttachment($type, $id);
+
+        header("Content-type: $attachment->type");
+        echo $attachment->data;
     }
 }

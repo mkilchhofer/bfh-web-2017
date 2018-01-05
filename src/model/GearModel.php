@@ -31,16 +31,17 @@ class GearModel
     {
         global $language;
         $sql_query = "SELECT
-            GearItem.GearId,
-            GearItem.GearName,
-            GearItem.CurrentOwnerId,
-            GearItem.PurchasePrice,
-            GearItem.PurchaseDate,
-            GearItem.PurchasePlace,
-            Category.Title_$language AS CategoryDescription
+            GearItem.id,
+            GearItem.name,
+            GearItem.currentOwnerId,
+            GearItem.purchasePrice,
+            GearItem.purchaseDate,
+            GearItem.purchasePlace,
+            Category.title_$language AS CategoryDescription
         FROM GearItem
-        INNER JOIN Category ON GearItem.CategoryId = Category.CategoryId
-        WHERE CurrentOwnerId = ?";
+        INNER JOIN Category ON GearItem.categoryId = Category.id
+        WHERE GearItem.currentOwnerId = ?
+        ORDER BY purchaseDate DESC";
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
@@ -69,17 +70,17 @@ class GearModel
     {
         global $language;
         $sql_query = "SELECT
-            GearItem.GearId,
-            GearItem.GearName,
-            GearItem.CurrentOwnerId,
-            GearItem.PurchasePrice,
-            GearItem.PurchaseDate,
-            GearItem.PurchasePlace,
-            Category.CategoryId,
-            Category.Title_$language AS CategoryDescription
+            GearItem.id,
+            GearItem.name,
+            GearItem.currentOwnerId,
+            GearItem.purchasePrice,
+            GearItem.purchaseDate,
+            GearItem.purchasePlace,
+            Category.id,
+            Category.title_$language AS CategoryDescription
         FROM GearItem
-        INNER JOIN Category ON GearItem.CategoryId = Category.CategoryId
-        WHERE GearId = ? AND CurrentOwnerId = ?";
+        INNER JOIN Category ON GearItem.categoryId = Category.id
+        WHERE GearItem.id = ? AND GearItem.currentOwnerId = ?";
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
@@ -114,7 +115,7 @@ class GearModel
         global $language;
         $sql_query = "DELETE
         FROM GearItem
-        WHERE GearId = ? AND CurrentOwnerId = ?";
+        WHERE id = ? AND currentOwnerId = ?";
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
@@ -129,12 +130,12 @@ class GearModel
         }
 
         $sql_query = "INSERT INTO `GearItem` (
-            `GearName`,
-            `CurrentOwnerId`,
-            `CategoryId`,
-            `PurchasePrice`,
-            `PurchaseDate`,
-            `PurchasePlace`)
+            `name`,
+            `currentOwnerId`,
+            `categoryId`,
+            `purchasePrice`,
+            `purchaseDate`,
+            `purchasePlace`)
         VALUES (
             '$gear->name',
             '$gear->currentOwnerId',
@@ -153,8 +154,8 @@ class GearModel
         global $language;
 
         $sql_query = "SELECT
-            Category.CategoryId,
-            Category.Title_$language
+            Category.id,
+            Category.title_$language
         FROM Category";
 
         $db = DB::getInstance();
@@ -180,7 +181,7 @@ class GearModel
             $type.data,
             $type.type
         FROM $type
-        INNER JOIN GearItem ON GearItem.GearId = $type.gearId
+        INNER JOIN GearItem ON GearItem.id = $type.gearId
         WHERE $type.id = ?";
 
         $db = DB::getInstance();

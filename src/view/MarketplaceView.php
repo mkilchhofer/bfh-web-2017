@@ -15,7 +15,17 @@ class MarketplaceView
         $saleItems = $this->model->getSales();
         TemplateHelper::renderHeader();
 
-        echo <<< LIST1
+        $tableData = '';
+        foreach ($saleItems as $saleItem) {
+            $tableData .= "<tr>";
+            $tableData .= " <td><a href=\"showDetail/" . $saleItem->id . "\">" . $saleItem->name . "</a></td>";
+            $tableData .= " <td>" . $saleItem->salesPrice . "</td>";
+            $tableData .= " <td>" . $saleItem->salesEnd . "</td>";
+            $tableData .= " <td>" . $saleItem->seller . "</td>";
+            $tableData .= "</tr>";
+        }
+
+        echo <<< LIST
          <h3>{$lang['nav_marketplace']}</h3>
             <input class="form-control" id="myInput" type="text" placeholder="{$lang['search']}">
             <br>
@@ -24,21 +34,12 @@ class MarketplaceView
                 <tr>
                     <th>{$lang['name']}</th>
                     <th>{$lang['salesPrice']}</th>
+                    <th>{$lang['salesEnd']}</th>
                     <th>{$lang['seller']}</th>
                 </tr>
                 </thead>
                 <tbody id="myTable">
-LIST1;
-
-        foreach ($saleItems as $saleItem) {
-            echo "<tr>";
-            echo " <td><a href=\"showDetail/" . $saleItem['SaleId'] . "\">" . $saleItem['GearName'] . "</a></td>";
-            echo " <td>" . $saleItem['SalesPrice'] . "</td>";
-            echo " <td>" . $saleItem['UserName'] . "</td>";
-            echo "</tr>";
-        }
-
-        echo <<< LIST2
+                {$tableData}
                 </tbody>
             </table>
 
@@ -52,7 +53,7 @@ LIST1;
                     });
                 });
             </script>
-LIST2;
+LIST;
         TemplateHelper::renderFooter();
     }
 
@@ -63,7 +64,7 @@ LIST2;
 
         TemplateHelper::renderHeader();
         echo <<< GEARDETAIL
-<h3>{$saleById['GearName']}</h3>
+<h3>{$saleById->name}</h3>
     <table class="table table-striped">
         <tbody id="myTable">
         <tr>
@@ -72,35 +73,35 @@ LIST2;
         </tr>
         <tr>
             <th scope="row">{$lang['description']}</th>
-            <td>{$saleById['Description']}</td>
+            <td>{$saleById->description}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['salesPrice']}</th>
-            <td>{$saleById['SalesPrice']}</td>
+            <td>{$saleById->salesPrice}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['appearance']}</th>
-            <td>{$saleById['Appearance']}</td>
+            <td>{$saleById->appearance}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['functioning']}</th>
-            <td>{$saleById['Functioning']}</td>
+            <td>{$saleById->functioning}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['packaging']}</th>
-            <td>{$saleById['Packaging']}</td>
+            <td>{$saleById->packaging}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['seller']}</th>
-            <td>{$saleById['UserName']}</td>
+            <td>{$saleById->seller}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['salesStart']}</th>
-            <td>{$saleById['SalesStart']}</td>
+            <td>{$saleById->salesStart}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['salesEnd']}</th>
-            <td>{$saleById['SalesEnd']}</td>
+            <td>{$saleById->salesEnd}</td>
         </tr>
         </tbody>
     </table>

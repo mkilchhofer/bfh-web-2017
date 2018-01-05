@@ -19,13 +19,13 @@ if(!isset($_SESSION["userId"])) {
     exit;
 }
 
-function checklogin($login,$password) {
+function checklogin($userName,$password) {
     // db error checking omitted...
 
     $db = DB::getInstance();
 
-    $stmt = $db->prepare("SELECT * FROM User WHERE UserName=?");
-    $stmt->bind_param('s', $login);
+    $stmt = $db->prepare("SELECT * FROM User WHERE userName=?");
+    $stmt->bind_param('s', $userName);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -34,5 +34,5 @@ function checklogin($login,$password) {
     }
     $row = $result->fetch_assoc();
 
-    return array('verified' => password_verify($password, $row["Password"]), 'userId' => $row["UserId"]);
+    return array('verified' => password_verify($password, $row["password"]), 'userId' => $row["id"]);
 }

@@ -26,6 +26,7 @@ class DashboardView
                 <tr>
                     <th>{$lang['name']}</th>
                     <th>{$lang['salesPrice']}</th>
+                    <th>{$lang['salesEnd']}</th>
                 </tr>
                 </thead>
                 <tbody id="myTable">
@@ -33,8 +34,9 @@ LIST1;
 
         foreach ($saleItems as $saleItem) {
             echo "<tr>";
-            echo " <td><a href=\"../MyGear/showDetail/" . $saleItem['GearId'] . "\">" . $saleItem['GearName'] . "</a></td>";
-            echo " <td>" . $saleItem['SalesPrice'] . "</td>";
+            echo " <td><a href=\"../MyGear/showDetail/" . $saleItem->id . "\">" . $saleItem->name . "</a></td>";
+            echo " <td>" . $saleItem->salesPrice . "</td>";
+            echo " <td>" . $saleItem->salesEnd . "</td>";
             echo "</tr>";
         }
 

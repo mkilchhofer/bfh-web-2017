@@ -1,9 +1,15 @@
 <?php
-
 require_once 'core/db.inc.php';
+require_once 'model.php';
 
-class User {
-    public $id, $userName, $firstName, $lastName, $email, $street, $zip, $city;
+class User extends EntityBase {
+    public $userName,
+        $firstName,
+        $lastName,
+        $email,
+        $street,
+        $zip,
+        $city;
 
     function __construct($id, $userName, $firstName, $lastName, $email, $street, $zip, $city) {
         $this->id = $id;
@@ -64,7 +70,7 @@ class UserModel {
 
 
     public static function getUserByUserName($userName) {
-        $sql_query = "SELECT * FROM User WHERE UserName= ?";
+        $sql_query = "SELECT * FROM User WHERE userName= ?";
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
         $stmt->bind_param('s', $userName);
@@ -78,20 +84,20 @@ class UserModel {
         $userData = $result->fetch_assoc();
 
         $user = new User(
-            $userData['UserId'],
-            $userData['UserName'],
-            $userData['FirstName'],
-            $userData['LastName'],
-            $userData['EmailAddress'],
-            $userData['AddressStreet'],
-            $userData['AddressZIP'],
-            $userData['AddressCity']
+            $userData['id'],
+            $userData['userName'],
+            $userData['firstName'],
+            $userData['lastName'],
+            $userData['email'],
+            $userData['street'],
+            $userData['zip'],
+            $userData['city']
         );
         return $user;
     }
 
     public static function getUserByEmail($email) {
-        $sql_query = "SELECT * FROM User WHERE EmailAddress= ?";
+        $sql_query = "SELECT * FROM User WHERE email= ?";
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
         $stmt->bind_param('s', $email);
@@ -104,14 +110,14 @@ class UserModel {
 
         $userData = $result->fetch_assoc();
         $user = new User(
-            $userData['UserId'],
-            $userData['UserName'],
-            $userData['FirstName'],
-            $userData['LastName'],
-            $userData['EmailAddress'],
-            $userData['AddressStreet'],
-            $userData['AddressZIP'],
-            $userData['AddressCity']
+            $userData['id'],
+            $userData['userName'],
+            $userData['firstName'],
+            $userData['lastName'],
+            $userData['email'],
+            $userData['street'],
+            $userData['zip'],
+            $userData['city']
         );
         return $user;
     }
@@ -120,7 +126,7 @@ class UserModel {
         $passwordHash = password_hash($password, PASSWORD_BCRYPT);
         $registrationDate = date("Y-m-d H:i:s");
 
-        $sql_query = "INSERT INTO User (UserName, FirstName, LastName, EmailAddress, AddressStreet, AddressZIP, AddressCity, Password, RegistrationDate) 
+        $sql_query = "INSERT INTO User (userName, firstName, lastName, email, street, zip, city, password, registrationDate) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);

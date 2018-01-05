@@ -43,8 +43,10 @@ class UserController
                 $regData['city']);
             echo 'Creating User...';
             echo '<br />';
-            $this->model->add($user, $regData['password']);
+            $result = $this->model->add($user, $regData['password']);
             #$this->view->renderRegisterConfirmation();
+            echo 'Insert Result= ';
+            var_dump($result);
         } else {
             echo 'User Creation failed';
             echo '<br />';

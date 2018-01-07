@@ -74,7 +74,7 @@ GEARLIST;
         $imgPictures = '';
         if (isset($item->pictureIds)){
             foreach ($item->pictureIds as $attachment) {
-                $imgPictures .= "<img src=\"../showPicture/$attachment->id\" class=\"img-responsive\" />";
+                $imgPictures .= "<a href=\"../showPicture/$attachment->id\"><img src=\"../showPictureResized/$attachment->id\" /></a> ";
             }
         } else {
             $imgPictures = $lang['noPictures'];
@@ -181,5 +181,10 @@ GEARADD;
     public function renderAttachment($attachment){
         header("Content-type: $attachment->type");
         echo $attachment->data;
+    }
+
+    public function renderAttachmentResized($attachment, $size) {
+        require_once(__DIR__ . '/../core/smart_resize_image.function.php');
+        smart_resize_image(null, $attachment->data, $size, $size,true,'browser',false,false,100);
     }
 }

@@ -116,4 +116,8 @@ class MyGearController
         $attachment = $this->model->getAttachment('Picture', $id);
         $this->view->renderAttachment($attachment);
     }
+    public function showPictureResized($id) {
+        $attachment = $this->model->getAttachment('Picture', $id);
+        $this->view->renderAttachmentResized($attachment ,200);
+    }
 }

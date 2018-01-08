@@ -11,7 +11,7 @@ class MyGearView
 
     public function renderGearList($items) {
         global $lang;
-        TemplateHelper::renderHeader();
+        TemplateHelper::renderHeader($lang['nav_mygear']);
 
         $tableData = '';
         foreach ($items as $item) {
@@ -59,7 +59,7 @@ GEARLIST;
 
     public function renderDetailView($item) {
         global $lang;
-        TemplateHelper::renderHeader();
+        TemplateHelper::renderHeader($item->name);
 
         $imgReceipt = '';
         if (isset($item->receiptIds)) {
@@ -72,13 +72,15 @@ GEARLIST;
         }
 
         $imgPictures = '';
+        $imgPictures .= '<div id="links">';
         if (isset($item->pictureIds)){
             foreach ($item->pictureIds as $attachment) {
-                $imgPictures .= "<a href=\"../showPicture/$attachment->id\"><img src=\"../showPictureResized/$attachment->id\" /></a> ";
+                $imgPictures .= "<a href=\"../showPicture/$attachment->id\" title=\"{$attachment->description}\"><img src=\"../showPictureResized/$attachment->id\" /> </a> ";
             }
         } else {
-            $imgPictures = $lang['noPictures'];
+            $imgPictures .= $lang['noPictures'];
         }
+        $imgPictures .= '</div>';
 
         echo <<< GEARDETAIL
         <h3>
@@ -90,7 +92,10 @@ GEARLIST;
         <table class="table table-striped">
             <tbody id="myTable">
             <tr>
-                <th scope="row">{$lang['picture']}</th>
+                <th scope="row">
+                    {$lang['picture']}<br />
+                    <a href="../addPicture/{$item->id}" class="btn btn-outline-primary" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                </th>
                 <td>{$imgPictures}</td>
             </tr>
             <tr>
@@ -121,7 +126,7 @@ GEARDETAIL;
 
     public function renderGearForm($title, $userId, $categories, $gearItem, $formAction) {
         global $lang;
-        TemplateHelper::renderHeader();
+        TemplateHelper::renderHeader($title);
 
         $select_category = '';
         foreach ($categories as $category) {
@@ -141,6 +146,7 @@ GEARDETAIL;
                 <label for="name">{$lang['name']}</label>
                 <input type="text" class="form-control" name="name" value="{$gearItem->name}">
                 <input type="hidden" class="form-control" name="userId" value="{$userId}">
+                <input type="hidden" class="form-control" name="gearId" value="{$gearItem->id}">
             </div>
             <div class="form-group">
                 <label for="category">Select category</label>
@@ -166,18 +172,6 @@ GEARADD;
         TemplateHelper::renderFooter();
     }
 
-    public function renderGearFormResult($result) {
-        global $lang;
-        TemplateHelper::renderHeader();
-
-        if ($result) {
-            echo "added, <a href=\"showList\">Go to My Gear</a>";
-        } else {
-            echo "not added, <a href=\"javascript:history.back()\">Go Back</a>";
-        }
-        TemplateHelper::renderFooter();
-    }
-
     public function renderAttachment($attachment){
         header("Content-type: $attachment->type");
         echo $attachment->data;
@@ -186,5 +180,29 @@ GEARADD;
     public function renderAttachmentResized($attachment, $size) {
         require_once(__DIR__ . '/../core/smart_resize_image.function.php');
         smart_resize_image(null, $attachment->data, $size, $size,true,'browser',false,false,100);
+    }
+
+    public function renderGearUploadPicture($userId, $id) {
+        global $lang;
+        TemplateHelper::renderHeader('Upload');
+
+        echo <<< GEARADD
+        <h3>
+            Upload
+        </h3>
+        <form action="../uploadPicture" method="post" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="uploadPicture">{$lang['picture']} - Beschreibung</label>
+            <input type="hidden" class="form-control" name="userId" value="{$userId}">
+            <input type="hidden" class="form-control" name="gearId" value="{$id}">
+            <input type="text" class="form-control" name="imageDescription">
+            <label for="uploadPicture">{$lang['picture']}</label>
+            <input type="file" class="form-control" name="myImage">
+        </div>
+        <button type="submit" class="btn btn-default">Upload</button>
+        </form>
+GEARADD;
+        TemplateHelper::renderFooter();
     }
 }

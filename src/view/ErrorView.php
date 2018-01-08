@@ -10,7 +10,8 @@ class ErrorView
 
         TemplateHelper::renderHeader();
         echo "<h3>Error</h3>";
-        echo "Es sind Fehler augetreten:<br />$errorMsg";
+        echo "Es sind Fehler augetreten:<br />$errorMsg<br />";
+        echo '<a href="javascript:history.back()">Go Back</a>';
         TemplateHelper::renderFooter();
     }
 }

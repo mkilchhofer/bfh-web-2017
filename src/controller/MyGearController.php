@@ -2,15 +2,18 @@
 
 require_once('model/GearModel.php');
 require_once('view/MyGearView.php');
+require_once('view/ErrorView.php');
 
 class MyGearController
 {
     private $model;
     private $view;
+    private $errorView;
 
     public function __construct() {
         $this->model = new GearModel();
         $this->view = new MyGearView($this->model);
+        $this->errorView = new ErrorView();
     }
 
     public function showList() {
@@ -24,9 +27,14 @@ class MyGearController
     public function showDetail($id) {
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
+        global $language;
 
         $gear = $this->model->getGearById($userId, $id);
-        $this->view->renderDetailView($gear);
+        if(isset($gear)) {
+            $this->view->renderDetailView($gear);
+        } else {
+            $this->errorView->render("no permission or gear not found");
+        }
     }
 
     public function add() {
@@ -41,9 +49,10 @@ class MyGearController
     public function store(){
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
+        global $language;
 
         if($_POST['userId'] != $userId){
-            echo "something went wrong";
+            $this->errorView->render("something went wrong");
             exit;
         }
 
@@ -57,7 +66,9 @@ class MyGearController
 
         $result = $this->model->addGear($userId, $gear);
 
-        $this->view->renderGearFormResult($result);
+        if(isset($result)) {
+            header("location:/$language/MyGear/showDetail/$result");
+        }
     }
 
     public function edit($id) {
@@ -104,7 +115,22 @@ class MyGearController
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
 
-        var_dump($_POST);
+        if($_POST['userId'] != $userId){
+            $this->errorView->render("something went wrong");
+            exit;
+        }
+        $gearId = (int)$_POST['gearId'];
+
+        $gear = new Gear();
+        $gear->name = $_POST['name'];
+        $gear->categoryId = (int)$_POST['categoryId'];
+        $gear->purchasePrice = (double)$_POST['purchasePrice'];
+        $gear->purchaseDate = $_POST['purchaseDate'];
+        $gear->purchasePlace = $_POST['purchasedPlace'];
+
+        $result = $this->model->updateGear($gearId, $gear);
+
+        $this->view->renderGearFormResult($result);
     }
 
     public function showReceipt($id) {
@@ -119,5 +145,55 @@ class MyGearController
     public function showPictureResized($id) {
         $attachment = $this->model->getAttachment('Picture', $id);
         $this->view->renderAttachmentResized($attachment ,200);
+    }
+
+    public function addPicture($id) {
+        require_once('core/authentication.inc.php');
+        $userId = $_SESSION['userId'];
+
+        $gear = $this->model->getGearById($userId, $id);
+
+        if(isset($gear)){
+            $this->view->renderGearUploadPicture($userId, $id);
+        } else {
+            $this->errorView->render("no permission or gear not found");
+        }
+    }
+
+    public function uploadPicture() {
+        require_once('core/authentication.inc.php');
+        $userId = $_SESSION['userId'];
+        global $language;
+        $MAX_PICTURES = 5;
+
+        if($_POST['userId'] != $userId){
+            $this->errorView->render("something went wrong");
+            exit;
+        }
+        $gearId = (int)$_POST['gearId'];
+        $description = $_POST['imageDescription'];
+        $imagePath = $_FILES['myImage']['tmp_name'];
+        $mimeType = $_FILES['myImage']['type'];
+        $attachmentData = file_get_contents($imagePath);
+
+        $gear = $this->model->getGearById($userId, $gearId);
+
+        if(isset($gear)){
+            if(count($gear->pictureIds) < $MAX_PICTURES) {
+                $result = $this->model->uploadPicture($gearId, $description, $attachmentData, $mimeType);
+            } else {
+                $this->errorView->render("Max allowed pictures: $MAX_PICTURES");
+                exit;
+            }
+
+
+            if($result){
+                header("Location: /$language/MyGear/showDetail/$gearId");
+            } else {
+                $this->errorView->render("Insert to DB failed");
+                exit;
+            }
+        }
+
     }
 }

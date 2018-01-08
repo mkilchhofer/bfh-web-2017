@@ -136,17 +136,47 @@ class GearModel
             `purchasePrice`,
             `purchaseDate`,
             `purchasePlace`)
-        VALUES (
-            '$gear->name',
-            '$gear->currentOwnerId',
-            '$gear->categoryId',
-            '$gear->purchasePrice',
-            '$gear->purchaseDate',
-            '$gear->purchasePlace')";
-        $result = DB::doQuery($sql_query);
+        VALUES (?,?,?,?,?,?)";
 
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('siidss',
+            $gear->name,
+            $gear->currentOwnerId,
+            $gear->categoryId,
+            $gear->purchasePrice,
+            $gear->purchaseDate,
+            $gear->purchasePlace);
+        $stmt->execute();
 
-        return $result;
+        return $stmt->insert_id;
+    }
+
+    public static function updateGear($gearId, Gear $gear)
+    {
+        var_dump($gear);
+        echo "<br />";
+        var_dump($gearId);
+
+        $sql_query = 'UPDATE GearItem SET
+            name = ?,
+            categoryId = ?,
+            purchasePrice = ?,
+            purchaseDate = ?,
+            purchasePlace = ?
+          WHERE GearItem.id = ?';
+
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('sidssi',
+            $gear->name,
+            $gear->categoryId,
+            $gear->purchasePrice,
+            $gear->purchaseDate,
+            $gear->purchasePlace,
+            $gearId);
+
+        return $stmt->execute();
     }
 
     public static function getCategories()
@@ -227,5 +257,26 @@ class GearModel
         }
 
         return $result;
+    }
+
+    private static function uploadAttachment($type, $gearId, $description, $attachmentData, $mimeType){
+        $sql_query = "INSERT INTO $type (gearId, description, data, type)
+                      VALUES (?,?,?,?)";
+        $null = NULL;
+
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('isbs', $gearId, $description, $null, $mimeType);
+        $stmt->send_long_data(2,$attachmentData);
+
+        return $stmt->execute();
+    }
+
+    public static function uploadPicture($gearId, $description, $attachmentData, $mimeType) {
+        return self::uploadAttachment('Picture',$gearId, $description, $attachmentData, $mimeType);
+    }
+
+    public static function uploadReceipt($gearId, $description, $attachmentData, $mimeType) {
+        return self::uploadAttachment('Receipt',$gearId, $description, $attachmentData, $mimeType);
     }
 }

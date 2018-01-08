@@ -5,7 +5,6 @@ require_once('controller/MyGearController.php');
 require_once('controller/DashboardController.php');
 require_once('controller/UserController.php');
 require_once('controller/MarketplaceController.php');
-require_once('controller/ErrorController.php');
 $errorMessage="";
 
 //Version
@@ -88,6 +87,6 @@ if (isset($action) and !isset($actionParam)) {
 
 //Display error(s)
 if (!empty($errorMessage)){
-    $errorController = new ErrorController();
-    $errorController->show($errorMessage);
+    $errorView = new ErrorView();
+    $errorView->render($errorMessage);
 }

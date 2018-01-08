@@ -114,6 +114,7 @@ class MyGearController
     public function update() {
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
+        global $language;
 
         if($_POST['userId'] != $userId){
             $this->errorView->render("something went wrong");
@@ -130,7 +131,9 @@ class MyGearController
 
         $result = $this->model->updateGear($gearId, $gear);
 
-        $this->view->renderGearFormResult($result);
+        if(isset($result)) {
+            header("location:/$language/MyGear/showDetail/$gearId");
+        }
     }
 
     public function showReceipt($id) {

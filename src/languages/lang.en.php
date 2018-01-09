@@ -43,6 +43,7 @@ $lang['email']          = 'Email address';
 $lang['street']         = 'Street';
 $lang['zip']            = 'ZIP code';
 $lang['city']           = 'City';
+$lang['warranty']       = 'Warranty';
 
 $lang['btn_add']        = 'Add Device';
 

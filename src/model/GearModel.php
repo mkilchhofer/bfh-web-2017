@@ -11,7 +11,8 @@ class Gear extends EntityBase {
         $purchaseDate,
         $purchasePlace,
         $receiptIds,
-        $pictureIds;
+        $pictureIds,
+        $warranty;
 }
 
 class Category extends EntityBase {
@@ -37,6 +38,7 @@ class GearModel
             GearItem.purchasePrice,
             GearItem.purchaseDate,
             GearItem.purchasePlace,
+            GearItem.warranty,
             Category.title_$language AS CategoryDescription
         FROM GearItem
         INNER JOIN Category ON GearItem.categoryId = Category.id
@@ -48,7 +50,7 @@ class GearModel
         $stmt->bind_param('i', $userId);
         $stmt->execute();
 
-        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_categoryDescription);
+        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_warranty, $row_categoryDescription);
         $result = array();
         while ($stmt->fetch()) {
             $gear = new Gear();
@@ -59,6 +61,7 @@ class GearModel
             $gear->purchasePrice = $row_purchasePrice;
             $gear->purchaseDate = $row_purchaseDate;
             $gear->purchasePlace = $row_purchasePlace;
+            $gear->warranty = $row_warranty;
 
             $result[] = $gear;
         }
@@ -76,6 +79,7 @@ class GearModel
             GearItem.purchasePrice,
             GearItem.purchaseDate,
             GearItem.purchasePlace,
+            GearItem.warranty,
             Category.id,
             Category.title_$language AS CategoryDescription
         FROM GearItem
@@ -87,7 +91,7 @@ class GearModel
         $stmt->bind_param('ii', $itemId, $userId);
         $stmt->execute();
 
-        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_categoryId, $row_categoryDescription);
+        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_warranty, $row_categoryId, $row_categoryDescription);
 
         $gear = null;
         while ($stmt->fetch()) {
@@ -100,6 +104,7 @@ class GearModel
             $gear->purchasePrice = $row_purchasePrice;
             $gear->purchaseDate = $row_purchaseDate;
             $gear->purchasePlace = $row_purchasePlace;
+            $gear->warranty = $row_warranty;
         }
 
         if ($gear != null) {
@@ -135,18 +140,20 @@ class GearModel
             `categoryId`,
             `purchasePrice`,
             `purchaseDate`,
-            `purchasePlace`)
-        VALUES (?,?,?,?,?,?)";
+            `purchasePlace`,
+            warranty)
+        VALUES (?,?,?,?,?,?,?)";
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('siidss',
+        $stmt->bind_param('siidsss',
             $gear->name,
             $gear->currentOwnerId,
             $gear->categoryId,
             $gear->purchasePrice,
             $gear->purchaseDate,
-            $gear->purchasePlace);
+            $gear->purchasePlace,
+            $gear->warranty);
         $stmt->execute();
 
         return $stmt->insert_id;
@@ -163,17 +170,19 @@ class GearModel
             categoryId = ?,
             purchasePrice = ?,
             purchaseDate = ?,
-            purchasePlace = ?
+            purchasePlace = ?,
+            warranty = ?
           WHERE GearItem.id = ?';
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('sidssi',
+        $stmt->bind_param('sidsssi',
             $gear->name,
             $gear->categoryId,
             $gear->purchasePrice,
             $gear->purchaseDate,
             $gear->purchasePlace,
+            $gear->warranty,
             $gearId);
 
         return $stmt->execute();

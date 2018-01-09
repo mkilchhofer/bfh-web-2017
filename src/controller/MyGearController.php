@@ -63,6 +63,7 @@ class MyGearController
         $gear->purchasePrice = $_POST['purchasePrice'];
         $gear->purchaseDate = $_POST['purchaseDate'];
         $gear->purchasePlace = $_POST['purchasedPlace'];
+        $gear->warranty = $_POST['warranty'];
 
         $result = $this->model->addGear($userId, $gear);
 
@@ -128,6 +129,7 @@ class MyGearController
         $gear->purchasePrice = (double)$_POST['purchasePrice'];
         $gear->purchaseDate = $_POST['purchaseDate'];
         $gear->purchasePlace = $_POST['purchasedPlace'];
+        $gear->warranty = $_POST['warranty'];
 
         $result = $this->model->updateGear($gearId, $gear);
 

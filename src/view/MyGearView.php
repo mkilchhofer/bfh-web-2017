@@ -111,6 +111,10 @@ GEARLIST;
                 <td>{$item->purchaseDate}</td>
             </tr>
             <tr>
+                <th scope="row">{$lang['warranty']}</th>
+                <td>{$item->warranty}</td>
+            </tr>
+            <tr>
                 <th scope="row">{$lang['purchasePlace']}</th>
                 <td>{$item->purchasePlace}</td>
             </tr>
@@ -161,6 +165,10 @@ GEARDETAIL;
             <div class="form-group">
                 <label for="purchaseDate">{$lang['purchaseDate']}</label>
                 <input type="date" class="form-control" name="purchaseDate" value="{$gearItem->purchaseDate}">
+            </div>
+            <div class="form-group">
+                <label for="purchasedFrom">{$lang['warranty']}</label>
+                <input type="date" class="form-control" name="warranty" value="{$gearItem->warranty}">
             </div>
             <div class="form-group">
                 <label for="purchasedFrom">{$lang['purchasePlace']}</label>

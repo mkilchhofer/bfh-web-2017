@@ -165,6 +165,19 @@ class MyGearController
         }
     }
 
+    public function addReceipt($id) {
+        require_once('core/authentication.inc.php');
+        $userId = $_SESSION['userId'];
+
+        $gear = $this->model->getGearById($userId, $id);
+
+        if(isset($gear)){
+            $this->view->renderGearUploadReceipt($userId, $id);
+        } else {
+            $this->errorView->render("no permission or gear not found");
+        }
+    }
+
     public function uploadPicture() {
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
@@ -176,9 +189,9 @@ class MyGearController
             exit;
         }
         $gearId = (int)$_POST['gearId'];
-        $description = $_POST['imageDescription'];
-        $imagePath = $_FILES['myImage']['tmp_name'];
-        $mimeType = $_FILES['myImage']['type'];
+        $description = $_POST['attachmentDescription'];
+        $imagePath = $_FILES['attachmentData']['tmp_name'];
+        $mimeType = $_FILES['attachmentData']['type'];
         $attachmentData = file_get_contents($imagePath);
 
         $gear = $this->model->getGearById($userId, $gearId);
@@ -199,6 +212,41 @@ class MyGearController
                 exit;
             }
         }
+    }
 
+    public function uploadReceipt() {
+        require_once('core/authentication.inc.php');
+        $userId = $_SESSION['userId'];
+        global $language;
+        $MAX_PICTURES = 5;
+
+        if($_POST['userId'] != $userId){
+            $this->errorView->render("something went wrong");
+            exit;
+        }
+        $gearId = (int)$_POST['gearId'];
+        $description = $_POST['attachmentDescription'];
+        $imagePath = $_FILES['attachmentData']['tmp_name'];
+        $mimeType = $_FILES['attachmentData']['type'];
+        $attachmentData = file_get_contents($imagePath);
+
+        $gear = $this->model->getGearById($userId, $gearId);
+
+        if(isset($gear)){
+            if(count($gear->pictureIds) < $MAX_PICTURES) {
+                $result = $this->model->uploadReceipt($gearId, $description, $attachmentData, $mimeType);
+            } else {
+                $this->errorView->render("Max allowed pictures: $MAX_PICTURES");
+                exit;
+            }
+
+
+            if($result){
+                header("Location: /$language/MyGear/showDetail/$gearId");
+            } else {
+                $this->errorView->render("Insert to DB failed");
+                exit;
+            }
+        }
     }
 }

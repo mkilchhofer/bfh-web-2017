@@ -119,7 +119,10 @@ GEARLIST;
                 <td>{$item->purchasePlace}</td>
             </tr>
             <tr>
-                <th scope="row">{$lang['receiptImageId']}</th>
+                <th scope="row">
+                    {$lang['receiptImageId']}<br />
+                    <a href="../addReceipt/{$item->id}" class="btn btn-outline-primary" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                </th>
                 <td>{$imgReceipt}</td>
             </tr>
             </tbody>
@@ -191,6 +194,14 @@ GEARADD;
     }
 
     public function renderGearUploadPicture($userId, $id) {
+        self::renderGearUploadAttachment($userId, $id, '../uploadPicture');
+    }
+
+    public function renderGearUploadReceipt($userId, $id) {
+        self::renderGearUploadAttachment($userId, $id, '../uploadReceipt');
+    }
+
+    private function renderGearUploadAttachment($userId, $id, $formAction) {
         global $lang;
         TemplateHelper::renderHeader('Upload');
 
@@ -198,15 +209,15 @@ GEARADD;
         <h3>
             Upload
         </h3>
-        <form action="../uploadPicture" method="post" enctype="multipart/form-data">
+        <form action="{$formAction}" method="post" enctype="multipart/form-data">
 
         <div class="form-group">
             <label for="uploadPicture">{$lang['picture']} - Beschreibung</label>
             <input type="hidden" class="form-control" name="userId" value="{$userId}">
             <input type="hidden" class="form-control" name="gearId" value="{$id}">
-            <input type="text" class="form-control" name="imageDescription">
+            <input type="text" class="form-control" name="attachmentDescription">
             <label for="uploadPicture">{$lang['picture']}</label>
-            <input type="file" class="form-control" name="myImage">
+            <input type="file" class="form-control" name="attachmentData">
         </div>
         <button type="submit" class="btn btn-default">Upload</button>
         </form>

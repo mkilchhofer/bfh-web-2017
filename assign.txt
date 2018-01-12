@@ -1,0 +1,37 @@
+#Assignment 1
+Unsere Webseite MyGear. erlaubt es Benutzern, Ihr "Gear" (Technische Geräte wie Smartphones, Computer, Kameras usw.) zu inventarisieren später bei einem Verkauf an einen neuen Benutzer zu übertragen.
+
+#Assignment 2
+Erledigt - Keine weiteren Kommentare
+
+#Assignment 3
+Erledigt - Keine weiteren Kommentare
+
+#Assignment 4
+Erledigt - Keine weiteren Kommentare
+
+#Assignemt 5
+ToDo:
+- Gear-Verkauf implementieren
+- Bestätigungs-Email
+-
+#Assignment 6
+Erledigt - Keine weiteren Kommentare
+
+#Assignment 7
+Auf eine Implementierung einer Admin-Oberfläche wurde verzichtet. Die Webseite kann durch die Benutzer selbst mit neuen Inhalten erweitert werden. So ist eine ähnliche Funtkionalität wie die geforderte Admin-Oberfläche gegeben.
+
+#Assignemnt 8
+Erledigt - Keine weiteren Kommentare
+
+#Assignment 9
+Erledigt - Keine weiteren Kommentare
+
+#Assignment 10
+Bei der Benutzerregistrierung wird die Verfügbarkeit von Benutzername und E-Mail-Adresse mittels AJAX überprüft.
+
+#Assigment 11
+Erledigt - Keine weiteren Kommentare
+
+#Assignment 12
+Erledigt - Keine weiteren Kommentare

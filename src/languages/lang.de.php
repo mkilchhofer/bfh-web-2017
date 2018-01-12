@@ -46,6 +46,8 @@ $lang['street']         = 'Strasse';
 $lang['zip']            = 'PLZ';
 $lang['city']           = 'Stadt';
 $lang['warranty']       = 'Garantie';
+$lang['addAttachments'] = 'Anhang hinzufügen';
+
 
 $lang['btn_add']        = 'Gerät erfassen';
 

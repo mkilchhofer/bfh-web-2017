@@ -59,7 +59,7 @@ LOGINFORM;
             <div class="form-group">
                 <label for="login">{$lang['userName']}</label>
                 <input type="text" class="form-control" name="userName" required>
-                <div class="invalid-feedback">Username is not available</div>
+                <div class="invalid-feedback">{$lang['username_not_available']}</div>
             </div>
             
             <div class="form-group">
@@ -85,7 +85,7 @@ LOGINFORM;
             <div class="form-group">
                 <label for="text">{$lang['email']}</label>
                 <input type="text" class="form-control" name="email"required>
-                <div class="invalid-feedback">Email address is not available</div>
+                <div class="invalid-feedback">{$lang['email_not_available']}</div>
             </div>
             
             <div class="form-group">
@@ -161,14 +161,20 @@ REGISTERFORM;
     }
 
     public function renderRegisterConfirmation() {
+        global $lang;
+        global $language;
+
         TemplateHelper::renderHeader();
-        echo "<div class=\"alert alert-success\" role=\"alert\">Successfully registered user!</div>";
+        echo "<div class=\"alert alert-success\" role=\"alert\">{$lang['reg_successful']}</div>";
         TemplateHelper::renderFooter();
     }
 
     public function renderRegisterError() {
+        global $lang;
+        global $language;
+
         TemplateHelper::renderHeader();
-        echo "<div class=\"alert alert-danger\" role=\"alert\">User registration failed, please try again!</div>";
+        echo "<div class=\"alert alert-danger\" role=\"alert\">{$lang['reg_failed']}</div>";
         TemplateHelper::renderFooter();
     }
 

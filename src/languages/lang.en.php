@@ -52,3 +52,8 @@ $lang['nav_login']      = 'Login';
 $lang['nav_logout']     = 'Logout';
 $lang['nav_register']   = 'Register';
 $lang['nav_language']   = 'Language';
+
+$lang['username_not_available'] = 'User name is not available!';
+$lang['email_not_available']    = 'Email address is not available!';
+$lang['reg_successful']         = 'Your Registration was successful! You can now log in.';
+$lang['reg_failed']             = 'Your Registration failed! Please try again.';

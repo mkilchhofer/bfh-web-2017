@@ -44,6 +44,7 @@ $lang['street']         = 'Street';
 $lang['zip']            = 'ZIP code';
 $lang['city']           = 'City';
 $lang['warranty']       = 'Warranty';
+$lang['addAttachments'] = 'Add new attachment';
 
 $lang['btn_add']        = 'Add Device';
 

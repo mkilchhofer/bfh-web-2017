@@ -54,16 +54,6 @@ EOF;
         <span class="text-muted">MyGear. {$githubVersion} - Created with ♡ by {$contributors}</span>
       </div>
     </footer>
-    <script>
-    document.getElementById('links').onclick = function (event) {
-        event = event || window.event;
-        var target = event.target || event.srcElement,
-            link = target.src ? target.parentNode : target,
-            options = {index: link, event: event},
-            links = this.getElementsByTagName('a');
-        blueimp.Gallery(links, options);
-    };
-    </script>
 </body>
 </html>
 EOF;

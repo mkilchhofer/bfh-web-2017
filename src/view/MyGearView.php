@@ -11,7 +11,8 @@ class MyGearView
 
     public function renderGearList($items) {
         global $lang;
-        TemplateHelper::renderHeader($lang['nav_mygear']);
+        $title = $lang['nav_mygear'];
+        TemplateHelper::renderHeader($title);
 
         $tableData = '';
         foreach ($items as $item) {
@@ -25,7 +26,7 @@ class MyGearView
 
         echo <<<GEARLIST
         <h3>
-            {$lang['nav_mygear']}
+            {$title}
         </h3>
         <div class="row">
             <div class="col-md-3">
@@ -65,10 +66,11 @@ GEARLIST;
 
     public function renderDetailView($item, $attachments) {
         global $lang;
-        TemplateHelper::renderHeader($item->name);
+        $title = $item->name;
+        TemplateHelper::renderHeader($title);
 
         $imgReceipt = '';
-        $imgPictures = '<div id="links">';
+        $imgPictures = '<div id="image-gallery">';
 
         foreach ($attachments as $attachment) {
 
@@ -92,7 +94,7 @@ GEARLIST;
 
         echo <<< GEARDETAIL
         <h3>
-            {$item->name}
+            {$title}
         </h3>
         <div class="btn-group" role="group" aria-label="Basic example">
             <a href="../uploadAttachment/{$item->id}" class="btn btn-outline-primary"><i class="fa fa-upload" aria-hidden="true"></i></a>
@@ -134,6 +136,16 @@ GEARLIST;
             </tr>
             </tbody>
         </table>
+        <script>
+        document.getElementById('image-gallery').onclick = function (event) {
+            event = event || window.event;
+            var target = event.target || event.srcElement,
+                link = target.src ? target.parentNode : target,
+                options = {index: link, event: event},
+                links = this.getElementsByTagName('a');
+            blueimp.Gallery(links, options);
+        };
+        </script>
 GEARDETAIL;
         TemplateHelper::renderFooter();
     }
@@ -202,7 +214,8 @@ GEARADD;
 
     public function renderGearUploadAttachment($userId, $id, $attachmentTypes) {
         global $lang;
-        TemplateHelper::renderHeader('Upload');
+        $title = $lang['addAttachments'];
+        TemplateHelper::renderHeader($title);
 
         $select_attachmentType = '';
         foreach ($attachmentTypes as $attachmentType) {
@@ -211,18 +224,18 @@ GEARADD;
 
         echo <<< GEARADD
         <h3>
-            Upload
+            {$title}
         </h3>
         <form action="../processAttachment" method="post" enctype="multipart/form-data">
 
         <div class="form-group">
-            <label for="typeId">Select category</label>
+            <label for="typeId">{$lang['category']}</label>
             <select class="form-control" name="typeId">
             {$select_attachmentType}
             </select>
         </div>
         <div class="form-group">
-            <label for="uploadPicture">{$lang['picture']} - Beschreibung</label>
+            <label for="uploadPicture">{$lang['description']}</label>
             <input type="hidden" class="form-control" name="userId" value="{$userId}">
             <input type="hidden" class="form-control" name="gearId" value="{$id}">
             <input type="text" class="form-control" name="attachmentDescription">

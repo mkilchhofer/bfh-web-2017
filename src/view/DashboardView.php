@@ -17,7 +17,6 @@ class DashboardView
 
         TemplateHelper::renderHeader();
         echo <<< LIST1
-  <div class="container">
   <div class="row">
     <div class="col-sm-6">
             <h3>My Items on sale</h3>

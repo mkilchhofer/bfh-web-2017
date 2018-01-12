@@ -30,8 +30,9 @@ class MyGearController
         global $language;
 
         $gear = $this->model->getGearById($userId, $id);
+        $attachments = $this->model->getAttachmentsByGearId($id);
         if(isset($gear)) {
-            $this->view->renderDetailView($gear);
+            $this->view->renderDetailView($gear, $attachments);
         } else {
             $this->errorView->render("no permission or gear not found");
         }
@@ -50,20 +51,21 @@ class MyGearController
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
         global $language;
+        $cleanPOST = array_map('strip_tags', $_POST);
 
-        if($_POST['userId'] != $userId){
+        if($cleanPOST['userId'] != $userId){
             $this->errorView->render("something went wrong");
             exit;
         }
 
         $gear = new Gear();
-        $gear->name = $_POST['name'];
-        $gear->currentOwnerId = $_POST['userId'];
-        $gear->categoryId = $_POST['categoryId'];
-        $gear->purchasePrice = $_POST['purchasePrice'];
-        $gear->purchaseDate = $_POST['purchaseDate'];
-        $gear->purchasePlace = $_POST['purchasedPlace'];
-        $gear->warranty = $_POST['warranty'];
+        $gear->name = $cleanPOST['name'];
+        $gear->currentOwnerId = $cleanPOST['userId'];
+        $gear->categoryId = $cleanPOST['categoryId'];
+        $gear->purchasePrice = $cleanPOST['purchasePrice'];
+        $gear->purchaseDate = $cleanPOST['purchaseDate'];
+        $gear->purchasePlace = $cleanPOST['purchasedPlace'];
+        $gear->warranty = $cleanPOST['warranty'];
 
         $result = $this->model->addGear($userId, $gear);
 
@@ -116,97 +118,97 @@ class MyGearController
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
         global $language;
+        $cleanPOST = array_map('strip_tags', $_POST);
 
-        if($_POST['userId'] != $userId){
+        if($cleanPOST['userId'] != $userId){
             $this->errorView->render("something went wrong");
             exit;
         }
-        $gearId = (int)$_POST['gearId'];
 
         $gear = new Gear();
-        $gear->name = $_POST['name'];
-        $gear->categoryId = (int)$_POST['categoryId'];
-        $gear->purchasePrice = (double)$_POST['purchasePrice'];
-        $gear->purchaseDate = $_POST['purchaseDate'];
-        $gear->purchasePlace = $_POST['purchasedPlace'];
-        $gear->warranty = $_POST['warranty'];
+        $gear->name = $cleanPOST['name'];
+        $gear->id = (int)$cleanPOST['gearId'];
+        $gear->categoryId = (int)$cleanPOST['categoryId'];
+        $gear->purchasePrice = (double)$cleanPOST['purchasePrice'];
+        $gear->purchaseDate = $cleanPOST['purchaseDate'];
+        $gear->purchasePlace = $cleanPOST['purchasedPlace'];
+        $gear->warranty = $cleanPOST['warranty'];
 
-        $result = $this->model->updateGear($gearId, $gear);
+        $result = $this->model->updateGear($gear);
 
         if(isset($result)) {
-            header("location:/$language/MyGear/showDetail/$gearId");
+            header("location:/$language/MyGear/showDetail/$gear->id");
         }
     }
 
-    public function showReceipt($id) {
-        $attachment = $this->model->getAttachment('Receipt', $id);
-        $this->view->renderAttachment($attachment);
-    }
 
-    public function showPicture($id) {
-        $attachment = $this->model->getAttachment('Picture', $id);
+    /** =============================================================================
+     * Attachments
+     */
+
+
+    public function showAttachment($id) {
+        $attachment = $this->model->getAttachment($id);
         $this->view->renderAttachment($attachment);
     }
-    public function showPictureResized($id) {
-        $attachment = $this->model->getAttachment('Picture', $id);
+    public function showAttachmentPreview($id) {
+        $attachment = $this->model->getAttachment($id);
         $this->view->renderAttachmentResized($attachment ,200);
     }
 
-    public function addPicture($id) {
+    public function uploadAttachment($id) {
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
 
         $gear = $this->model->getGearById($userId, $id);
+        $attachmentTypes= $this->model->getAttachmentTypes();
 
         if(isset($gear)){
-            $this->view->renderGearUploadPicture($userId, $id);
+            $this->view->renderGearUploadAttachment($userId, $id, $attachmentTypes);
         } else {
             $this->errorView->render("no permission or gear not found");
         }
     }
 
-    public function addReceipt($id) {
-        require_once('core/authentication.inc.php');
-        $userId = $_SESSION['userId'];
-
-        $gear = $this->model->getGearById($userId, $id);
-
-        if(isset($gear)){
-            $this->view->renderGearUploadReceipt($userId, $id);
-        } else {
-            $this->errorView->render("no permission or gear not found");
-        }
-    }
-
-    public function uploadPicture() {
+    public function processAttachment() {
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
         global $language;
-        $MAX_PICTURES = 5;
+        $cleanPOST = array_map('strip_tags', $_POST);
 
-        if($_POST['userId'] != $userId){
+        if($cleanPOST['userId'] != $userId){
             $this->errorView->render("something went wrong");
             exit;
         }
-        $gearId = (int)$_POST['gearId'];
-        $description = $_POST['attachmentDescription'];
+
         $imagePath = $_FILES['attachmentData']['tmp_name'];
-        $mimeType = $_FILES['attachmentData']['type'];
-        $attachmentData = file_get_contents($imagePath);
+        $fileinfo = finfo_open(FILEINFO_MIME_TYPE);
 
-        $gear = $this->model->getGearById($userId, $gearId);
+        $attachment = new Attachment();
+        $attachment->typeId = (int)$cleanPOST['typeId'];
+        $attachment->gearId = (int)$cleanPOST['gearId'];
+        $attachment->description = $cleanPOST['attachmentDescription'];
+        $attachment->mimeType = finfo_file($fileinfo, $imagePath);
+        $attachment->data = file_get_contents($imagePath);
 
+        if ($attachment->typeId == 1){
+            //Picture
+            $allowed = array("image/jpeg", "image/gif", "image/png");
+        } else {
+            $allowed = array("image/jpeg", "image/gif", "image/png", "application/pdf");
+        }
+
+        if(!in_array($attachment->mimeType, $allowed)) {
+            $this->errorView->render('Only jpg, gif and png files are allowed.');
+            exit;
+        }
+        $gear = $this->model->getGearById($userId, $attachment->gearId);
         if(isset($gear)){
-            if(count($gear->pictureIds) < $MAX_PICTURES) {
-                $result = $this->model->uploadPicture($gearId, $description, $attachmentData, $mimeType);
-            } else {
-                $this->errorView->render("Max allowed pictures: $MAX_PICTURES");
-                exit;
-            }
-
+            echo "okay";
+            $result = $this->model->addAttachment($attachment);
 
             if($result){
-                header("Location: /$language/MyGear/showDetail/$gearId");
+                header("Location: /$language/MyGear/showDetail/$attachment->gearId");
             } else {
                 $this->errorView->render("Insert to DB failed");
                 exit;
@@ -214,39 +216,30 @@ class MyGearController
         }
     }
 
-    public function uploadReceipt() {
-        require_once('core/authentication.inc.php');
-        $userId = $_SESSION['userId'];
+    public function deleteAttachment($id) {
         global $language;
-        $MAX_PICTURES = 5;
-
-        if($_POST['userId'] != $userId){
-            $this->errorView->render("something went wrong");
+        if(empty($id)){
+            echo "id not set";
             exit;
         }
-        $gearId = (int)$_POST['gearId'];
-        $description = $_POST['attachmentDescription'];
-        $imagePath = $_FILES['attachmentData']['tmp_name'];
-        $mimeType = $_FILES['attachmentData']['type'];
-        $attachmentData = file_get_contents($imagePath);
+        require_once('core/authentication.inc.php');
+        $userId = $_SESSION['userId'];
 
-        $gear = $this->model->getGearById($userId, $gearId);
+        $attachment = $this->model->getAttachment($id);
+        $gear = $this->model->getGearById($userId, $attachment->gearId);
 
-        if(isset($gear)){
-            if(count($gear->pictureIds) < $MAX_PICTURES) {
-                $result = $this->model->uploadReceipt($gearId, $description, $attachmentData, $mimeType);
-            } else {
-                $this->errorView->render("Max allowed pictures: $MAX_PICTURES");
-                exit;
-            }
-
-
-            if($result){
-                header("Location: /$language/MyGear/showDetail/$gearId");
-            } else {
-                $this->errorView->render("Insert to DB failed");
-                exit;
-            }
+        if($gear->currentOwnerId != $userId){
+            echo "permission denied";
+            exit;
         }
+
+        $result = $this->model->deleteAttachment('Picture', $id, $attachment->gearId);
+
+        if($result){
+            header("Location: /$language/MyGear/showDetail/$attachment->gearId");
+        } else {
+            echo "error on delete";
+        }
+
     }
 }

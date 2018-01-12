@@ -22,10 +22,10 @@ if(!empty($urlComponents[1])) {
     $urlLanguage = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
 
     if(isset($_SESSION['userId'])) {
-        header("Location: http://".$_SERVER['HTTP_HOST']."/$urlLanguage/Dashboard/show");
+        header("Location: http://".$_SERVER['HTTP_HOST']."/$urlLanguage/Dashboard/show", true, 301);
         exit;
     } else {
-        header("Location: http://".$_SERVER['HTTP_HOST']."/$urlLanguage/Marketplace/showList");
+        header("Location: http://".$_SERVER['HTTP_HOST']."/$urlLanguage/Marketplace/showList",true, 301);
         exit;
     }
 }

@@ -10,8 +10,6 @@ class Gear extends EntityBase {
         $purchasePrice,
         $purchaseDate,
         $purchasePlace,
-        $receiptIds,
-        $pictureIds,
         $warranty;
 }
 
@@ -19,10 +17,16 @@ class Category extends EntityBase {
     public $title;
 }
 
+class AttachmentType extends EntityBase {
+    public $title;
+}
+
 class Attachment extends EntityBase {
-    public $description,
+    public $gearId,
+        $description,
         $data,
-        $type;
+        $mimeType,
+        $typeId;
 }
 
 class GearModel
@@ -54,14 +58,14 @@ class GearModel
         $result = array();
         while ($stmt->fetch()) {
             $gear = new Gear();
-            $gear->id = $row_id;
-            $gear->name = $row_gearName;
-            $gear->currentOwnerId = $row_currentOwnerId;
-            $gear->categoryDescription = $row_categoryDescription;
-            $gear->purchasePrice = $row_purchasePrice;
-            $gear->purchaseDate = $row_purchaseDate;
-            $gear->purchasePlace = $row_purchasePlace;
-            $gear->warranty = $row_warranty;
+            $gear->id = strip_tags($row_id);
+            $gear->name = strip_tags($row_gearName);
+            $gear->currentOwnerId = strip_tags($row_currentOwnerId);
+            $gear->categoryDescription = strip_tags($row_categoryDescription);
+            $gear->purchasePrice = strip_tags($row_purchasePrice);
+            $gear->purchaseDate = strip_tags($row_purchaseDate);
+            $gear->purchasePlace = strip_tags($row_purchasePlace);
+            $gear->warranty = strip_tags($row_warranty);
 
             $result[] = $gear;
         }
@@ -96,20 +100,15 @@ class GearModel
         $gear = null;
         while ($stmt->fetch()) {
             $gear = new Gear();
-            $gear->id = $row_id;
-            $gear->name = $row_gearName;
-            $gear->currentOwnerId = $row_currentOwnerId;
-            $gear->categoryId = $row_categoryId;
-            $gear->categoryDescription = $row_categoryDescription;
-            $gear->purchasePrice = $row_purchasePrice;
-            $gear->purchaseDate = $row_purchaseDate;
-            $gear->purchasePlace = $row_purchasePlace;
-            $gear->warranty = $row_warranty;
-        }
-
-        if ($gear != null) {
-            $gear->receiptIds = self::getAttachmentDetailsByGearId('Receipt', $itemId);
-            $gear->pictureIds = self::getAttachmentDetailsByGearId('Picture', $itemId);
+            $gear->id = strip_tags($row_id);
+            $gear->name = strip_tags($row_gearName);
+            $gear->currentOwnerId = strip_tags($row_currentOwnerId);
+            $gear->categoryId = strip_tags($row_categoryId);
+            $gear->categoryDescription = strip_tags($row_categoryDescription);
+            $gear->purchasePrice = strip_tags($row_purchasePrice);
+            $gear->purchaseDate = strip_tags($row_purchaseDate);
+            $gear->purchasePlace = strip_tags($row_purchasePlace);
+            $gear->warranty = strip_tags($row_warranty);
         }
 
         return $gear;
@@ -159,12 +158,8 @@ class GearModel
         return $stmt->insert_id;
     }
 
-    public static function updateGear($gearId, Gear $gear)
+    public static function updateGear(Gear $gear)
     {
-        var_dump($gear);
-        echo "<br />";
-        var_dump($gearId);
-
         $sql_query = 'UPDATE GearItem SET
             name = ?,
             categoryId = ?,
@@ -183,7 +178,7 @@ class GearModel
             $gear->purchaseDate,
             $gear->purchasePlace,
             $gear->warranty,
-            $gearId);
+            $gear->id);
 
         return $stmt->execute();
     }
@@ -214,18 +209,43 @@ class GearModel
         return $result;
     }
 
-    public static function getAttachment($type, $receiptId) {
+    public static function getAttachmentTypes()
+    {
+        global $language;
 
         $sql_query = "SELECT
-            $type.data,
-            $type.type
-        FROM $type
-        INNER JOIN GearItem ON GearItem.id = $type.gearId
-        WHERE $type.id = ?";
+            id,
+            title_$language
+        FROM AttachmentType";
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('i', $receiptId);
+        $stmt->execute();
+
+        $stmt->bind_result($row_id, $row_title);
+        $result = array();
+        while ($stmt->fetch()) {
+            $attachmentType = new AttachmentType();
+            $attachmentType->id = $row_id;
+            $attachmentType->title = $row_title;
+
+            $result[] = $attachmentType;
+        }
+
+        return $result;
+    }
+
+    public static function getAttachment($attachmentId) {
+
+        $sql_query = "SELECT
+            Attachment.data,
+            Attachment.type
+        FROM Attachment
+        WHERE Attachment.id = ?";
+
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('i', $attachmentId);
         $stmt->execute();
 
         $stmt->bind_result($row_data, $row_type);
@@ -234,19 +254,20 @@ class GearModel
         while ($stmt->fetch()) {
             $attachment = new Attachment();
             $attachment->data = $row_data;
-            $attachment->type = $row_type;
+            $attachment->mimeType = $row_type;
         }
 
         return $attachment;
     }
 
-    private static function getAttachmentDetailsByGearId($type, $gearId)
+    public static function getAttachmentsByGearId($gearId)
     {
         $sql_query = "SELECT
             id,
+            typeId,
             description,
             type
-        FROM $type
+        FROM Attachment
         WHERE gearId = ?";
 
         $db = DB::getInstance();
@@ -254,12 +275,13 @@ class GearModel
         $stmt->bind_param('i', $gearId);
         $stmt->execute();
 
-        $stmt->bind_result($row_id, $row_description, $row_type);
+        $stmt->bind_result($row_id, $row_typeId, $row_description, $row_type);
         $result = array();
         while ($stmt->fetch()) {
             $attachment = new Attachment();
             $attachment->id = $row_id;
-            $attachment->type = $row_type;
+            $attachment->typeId = $row_typeId;
+            $attachment->mimeType = $row_type;
             $attachment->description = $row_description;
 
             $result[] = $attachment;
@@ -268,24 +290,28 @@ class GearModel
         return $result;
     }
 
-    private static function uploadAttachment($type, $gearId, $description, $attachmentData, $mimeType){
-        $sql_query = "INSERT INTO $type (gearId, description, data, type)
-                      VALUES (?,?,?,?)";
+    public static function addAttachment(Attachment $attachment){
+        $sql_query = "INSERT INTO Attachment (gearId, typeId, description, data, type)
+                      VALUES (?,?,?,?,?)";
         $null = NULL;
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('isbs', $gearId, $description, $null, $mimeType);
-        $stmt->send_long_data(2,$attachmentData);
+        $stmt->bind_param('iisbs', $attachment->gearId, $attachment->typeId, $attachment->description, $null, $attachment->mimeType);
+        $stmt->send_long_data(3, $attachment->data);
 
         return $stmt->execute();
     }
 
-    public static function uploadPicture($gearId, $description, $attachmentData, $mimeType) {
-        return self::uploadAttachment('Picture',$gearId, $description, $attachmentData, $mimeType);
-    }
+    public static function deleteAttachment($attachmentId, $gearId)
+    {
+        $sql_query = "DELETE
+        FROM Attachment
+        WHERE id = ? AND gearId = ?";
 
-    public static function uploadReceipt($gearId, $description, $attachmentData, $mimeType) {
-        return self::uploadAttachment('Receipt',$gearId, $description, $attachmentData, $mimeType);
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('ii', $attachmentId, $gearId);
+        return $stmt->execute();
     }
 }

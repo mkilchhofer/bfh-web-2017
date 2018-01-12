@@ -12,7 +12,8 @@ class Sale extends EntityBase {
         $appearance,
         $functioning,
         $packaging,
-        $description;
+        $description,
+        $pictureIds;
 }
 
 class SaleModel
@@ -76,6 +77,8 @@ class SaleModel
 
     static public function getSaleById($itemId)
     {
+        $gearModel = new GearModel();
+
         global $language;
 
         $sql_query = "SELECT
@@ -117,6 +120,10 @@ class SaleModel
             $sale->description = $row_description;
             $sale->name = $row_gearName;
             $sale->seller = $row_seller;
+        }
+
+        if ($sale != null) {
+            $sale->receiptIds = $gearModel->getAttachmentDetailsByGearId('Receipt', $itemId);
         }
 
         return $sale;

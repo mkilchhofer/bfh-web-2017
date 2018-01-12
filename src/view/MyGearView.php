@@ -26,9 +26,15 @@ class MyGearView
         echo <<<GEARLIST
         <h3>
             {$lang['nav_mygear']}
-            <a href="add" class="btn btn-outline-primary" role="button" style="float: right">{$lang['addNewDevice']}</a>
         </h3>
-        <input class="form-control" id="myInput" type="text" placeholder="{$lang['search']}">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="add" class="btn btn-outline-primary" role="button">{$lang['addNewDevice']}</a>
+            </div>
+            <div class="col-md-9 text-right">
+                <input class="form-control" id="myInput" type="text" placeholder="{$lang['search']}">
+            </div>
+        </div>
         <br />
         <table class="table table-striped">
             <thead>
@@ -57,45 +63,49 @@ GEARLIST;
         TemplateHelper::renderFooter();
     }
 
-    public function renderDetailView($item) {
+    public function renderDetailView($item, $attachments) {
         global $lang;
         TemplateHelper::renderHeader($item->name);
 
         $imgReceipt = '';
-        if (isset($item->receiptIds)) {
-            foreach ($item->receiptIds as $attachment) {
-                $type = explode('/', $attachment->type);
-                $imgReceipt .= "- <a href=\"../showReceipt/$attachment->id\">$attachment->description ($type[1])</a><br />";
-            }
-        } else {
-            $imgReceipt = $lang['noReceipts'];
-        }
+        $imgPictures = '<div id="links">';
 
-        $imgPictures = '';
-        $imgPictures .= '<div id="links">';
-        if (isset($item->pictureIds)){
-            foreach ($item->pictureIds as $attachment) {
-                $imgPictures .= "<a href=\"../showPicture/$attachment->id\" title=\"{$attachment->description}\"><img src=\"../showPictureResized/$attachment->id\" /> </a> ";
+        foreach ($attachments as $attachment) {
+
+            // Receipts
+            if($attachment->typeId == 2){
+                $type = explode('/', $attachment->mimeType)[1];
+                $imgReceipt .= "- <a href=\"../showAttachment/$attachment->id\">
+                                    $attachment->description ($type)
+                                  </a><br />";
             }
-        } else {
-            $imgPictures .= $lang['noPictures'];
+
+            // Pictures
+            if($attachment->typeId == 1){
+                $imgPictures .= "<a href=\"../showAttachment/$attachment->id\" title=\"{$attachment->description}\">
+                                    <img src=\"../showAttachmentPreview/$attachment->id\" alt=\"{$attachment->description}\" />
+                                 </a> ";
+            }
+
         }
         $imgPictures .= '</div>';
 
         echo <<< GEARDETAIL
         <h3>
             {$item->name}
-            <a href="../delete/{$item->id}" class="btn" role="button" style="float: right">{$lang['delete']}</a>
-            <a href="../sell/{$item->id}" class="btn" role="button" style="float: right">{$lang['sell']}</a>
-            <a href="../edit/{$item->id}" class="btn" role="button" style="float: right">{$lang['edit']}</a>
         </h3>
+        <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="../uploadAttachment/{$item->id}" class="btn btn-outline-primary"><i class="fa fa-upload" aria-hidden="true"></i></a>
+            <a href="../edit/{$item->id}" class="btn btn-outline-primary" role="button">{$lang['edit']}</a>
+            <a href="../sell/{$item->id}" class="btn btn-outline-primary" role="button">{$lang['sell']}</a>
+            <a href="../delete/{$item->id}" class="btn btn-outline-danger" role="button">{$lang['delete']}</a>
+        </div>
+        <br /><br />
+
         <table class="table table-striped">
             <tbody id="myTable">
             <tr>
-                <th scope="row">
-                    {$lang['picture']}<br />
-                    <a href="../addPicture/{$item->id}" class="btn btn-outline-primary" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                </th>
+                <th scope="row">{$lang['picture']}</th>
                 <td>{$imgPictures}</td>
             </tr>
             <tr>
@@ -119,10 +129,7 @@ GEARLIST;
                 <td>{$item->purchasePlace}</td>
             </tr>
             <tr>
-                <th scope="row">
-                    {$lang['receiptImageId']}<br />
-                    <a href="../addReceipt/{$item->id}" class="btn btn-outline-primary" role="button"><i class="fa fa-plus" aria-hidden="true"></i></a>
-                </th>
+                <th scope="row">{$lang['receiptImageId']}</th>
                 <td>{$imgReceipt}</td>
             </tr>
             </tbody>
@@ -184,7 +191,7 @@ GEARADD;
     }
 
     public function renderAttachment($attachment){
-        header("Content-type: $attachment->type");
+        header("Content-type: $attachment->mimeType");
         echo $attachment->data;
     }
 
@@ -193,24 +200,27 @@ GEARADD;
         smart_resize_image(null, $attachment->data, $size, $size,true,'browser',false,false,100);
     }
 
-    public function renderGearUploadPicture($userId, $id) {
-        self::renderGearUploadAttachment($userId, $id, '../uploadPicture');
-    }
-
-    public function renderGearUploadReceipt($userId, $id) {
-        self::renderGearUploadAttachment($userId, $id, '../uploadReceipt');
-    }
-
-    private function renderGearUploadAttachment($userId, $id, $formAction) {
+    public function renderGearUploadAttachment($userId, $id, $attachmentTypes) {
         global $lang;
         TemplateHelper::renderHeader('Upload');
+
+        $select_attachmentType = '';
+        foreach ($attachmentTypes as $attachmentType) {
+            $select_attachmentType .= "<option value=\"$attachmentType->id\">$attachmentType->title</option>";
+        }
 
         echo <<< GEARADD
         <h3>
             Upload
         </h3>
-        <form action="{$formAction}" method="post" enctype="multipart/form-data">
+        <form action="../processAttachment" method="post" enctype="multipart/form-data">
 
+        <div class="form-group">
+            <label for="typeId">Select category</label>
+            <select class="form-control" name="typeId">
+            {$select_attachmentType}
+            </select>
+        </div>
         <div class="form-group">
             <label for="uploadPicture">{$lang['picture']} - Beschreibung</label>
             <input type="hidden" class="form-control" name="userId" value="{$userId}">

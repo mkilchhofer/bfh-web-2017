@@ -34,7 +34,7 @@ LIST1;
 
         foreach ($saleItems as $saleItem) {
             echo "<tr>";
-            echo " <td><a href=\"../MyGear/showDetail/" . $saleItem->id . "\">" . $saleItem->name . "</a></td>";
+            echo " <td><a href=\"../MyGear/showDetail/" . $saleItem->gearId . "\">" . $saleItem->name . "</a></td>";
             echo " <td>" . $saleItem->salesPrice . "</td>";
             echo " <td>" . $saleItem->salesEnd . "</td>";
             echo "</tr>";

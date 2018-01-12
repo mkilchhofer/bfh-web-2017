@@ -12,8 +12,7 @@ class Sale extends EntityBase {
         $appearance,
         $functioning,
         $packaging,
-        $description,
-        $pictureIds;
+        $description;
 }
 
 class SaleModel
@@ -77,8 +76,6 @@ class SaleModel
 
     static public function getSaleById($itemId)
     {
-        $gearModel = new GearModel();
-
         global $language;
 
         $sql_query = "SELECT
@@ -86,6 +83,7 @@ class SaleModel
             Sale.salesPrice,
             Sale.salesStart,
             Sale.salesEnd,
+            Sale.gearId,
             Appearance.title_$language AS Appearance,
             Functioning.title_$language AS Functioning,
             Packaging.title_$language AS Packaging,
@@ -105,7 +103,7 @@ class SaleModel
         $stmt->bind_param('i', $itemId);
         $stmt->execute();
 
-        $stmt->bind_result($row_id, $row_salesPrice, $row_salesStart, $row_salesEnd, $row_Appearance, $row_Functioning, $row_packaging, $row_description, $row_gearName, $row_seller);
+        $stmt->bind_result($row_id, $row_salesPrice, $row_salesStart, $row_salesEnd, $row_gearId, $row_Appearance, $row_Functioning, $row_packaging, $row_description, $row_gearName, $row_seller);
 
         $sale = null;
         while ($stmt->fetch()) {
@@ -114,16 +112,13 @@ class SaleModel
             $sale->salesPrice = $row_salesPrice;
             $sale->salesStart = $row_salesStart;
             $sale->salesEnd = $row_salesEnd;
+            $sale->gearId = $row_gearId;
             $sale->appearance = $row_Appearance;
             $sale->functioning = $row_Functioning;
             $sale->packaging = $row_packaging;
             $sale->description = $row_description;
             $sale->name = $row_gearName;
             $sale->seller = $row_seller;
-        }
-
-        if ($sale != null) {
-            $sale->receiptIds = $gearModel->getAttachmentDetailsByGearId('Receipt', $itemId);
         }
 
         return $sale;

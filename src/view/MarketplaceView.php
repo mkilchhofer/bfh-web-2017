@@ -60,7 +60,21 @@ LIST;
 
     public function renderDetailView($saleId) {
         global $lang;
+        $gearModel = new GearModel();
+        $attachmentModel = new AttachmentModel();
         $saleById = $this->model->getSaleById($saleId);
+        $attachments = $attachmentModel->getAttachmentsByGearId($saleById->gearId);
+
+        $imgPictures = '<div id="image-gallery">';
+        foreach ($attachments as $attachment) {
+            // Pictures
+            if($attachment->typeId == 1){
+                $imgPictures .= "<a href=\"../../Attachment/show/$attachment->id\" title=\"{$attachment->description}\">
+                                    <img src=\"../../Attachment/preview/$attachment->id\" alt=\"{$attachment->description}\" />
+                                 </a> ";
+            }
+        }
+        $imgPictures .= '</div>';
 
         TemplateHelper::renderHeader();
         echo <<< GEARDETAIL
@@ -69,7 +83,7 @@ LIST;
         <tbody id="myTable">
         <tr>
             <th scope="row">{$lang['picture']}</th>
-            <td></td>
+            <td>{$imgPictures}</td>
         </tr>
         <tr>
             <th scope="row">{$lang['description']}</th>
@@ -105,6 +119,16 @@ LIST;
         </tr>
         </tbody>
     </table>
+    <script>
+        document.getElementById('image-gallery').onclick = function (event) {
+            event = event || window.event;
+            var target = event.target || event.srcElement,
+                link = target.src ? target.parentNode : target,
+                options = {index: link, event: event},
+                links = this.getElementsByTagName('a');
+            blueimp.Gallery(links, options);
+        };
+    </script>
 GEARDETAIL;
         TemplateHelper::renderFooter();
     }

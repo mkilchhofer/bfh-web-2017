@@ -77,15 +77,15 @@ GEARLIST;
             // Receipts
             if($attachment->typeId == 2){
                 $type = explode('/', $attachment->mimeType)[1];
-                $imgReceipt .= "- <a href=\"../showAttachment/$attachment->id\">
+                $imgReceipt .= "- <a href=\"../../Attachment/show/$attachment->id\">
                                     $attachment->description ($type)
                                   </a><br />";
             }
 
             // Pictures
             if($attachment->typeId == 1){
-                $imgPictures .= "<a href=\"../showAttachment/$attachment->id\" title=\"{$attachment->description}\">
-                                    <img src=\"../showAttachmentPreview/$attachment->id\" alt=\"{$attachment->description}\" />
+                $imgPictures .= "<a href=\"../../Attachment/show/$attachment->id\" title=\"{$attachment->description}\">
+                                    <img src=\"../../Attachment/preview/$attachment->id\" alt=\"{$attachment->description}\" />
                                  </a> ";
             }
 
@@ -97,7 +97,7 @@ GEARLIST;
             {$title}
         </h3>
         <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="../uploadAttachment/{$item->id}" class="btn btn-outline-primary"><i class="fa fa-upload" aria-hidden="true"></i></a>
+            <a href="../../Attachment/upload/{$item->id}" class="btn btn-outline-primary"><i class="fa fa-upload" aria-hidden="true"></i></a>
             <a href="../edit/{$item->id}" class="btn btn-outline-primary" role="button">{$lang['edit']}</a>
             <a href="../sell/{$item->id}" class="btn btn-outline-primary" role="button">{$lang['sell']}</a>
             <a href="../delete/{$item->id}" class="btn btn-outline-danger" role="button">{$lang['delete']}</a>
@@ -202,49 +202,4 @@ GEARADD;
         TemplateHelper::renderFooter();
     }
 
-    public function renderAttachment($attachment){
-        header("Content-type: $attachment->mimeType");
-        echo $attachment->data;
-    }
-
-    public function renderAttachmentResized($attachment, $size) {
-        require_once(__DIR__ . '/../core/smart_resize_image.function.php');
-        smart_resize_image(null, $attachment->data, $size, $size,true,'browser',false,false,100);
-    }
-
-    public function renderGearUploadAttachment($userId, $id, $attachmentTypes) {
-        global $lang;
-        $title = $lang['addAttachments'];
-        TemplateHelper::renderHeader($title);
-
-        $select_attachmentType = '';
-        foreach ($attachmentTypes as $attachmentType) {
-            $select_attachmentType .= "<option value=\"$attachmentType->id\">$attachmentType->title</option>";
-        }
-
-        echo <<< GEARADD
-        <h3>
-            {$title}
-        </h3>
-        <form action="../processAttachment" method="post" enctype="multipart/form-data">
-
-        <div class="form-group">
-            <label for="typeId">{$lang['category']}</label>
-            <select class="form-control" name="typeId">
-            {$select_attachmentType}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="uploadPicture">{$lang['description']}</label>
-            <input type="hidden" class="form-control" name="userId" value="{$userId}">
-            <input type="hidden" class="form-control" name="gearId" value="{$id}">
-            <input type="text" class="form-control" name="attachmentDescription">
-            <label for="uploadPicture">{$lang['picture']}</label>
-            <input type="file" class="form-control" name="attachmentData">
-        </div>
-        <button type="submit" class="btn btn-default">Upload</button>
-        </form>
-GEARADD;
-        TemplateHelper::renderFooter();
-    }
 }

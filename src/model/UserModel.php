@@ -37,35 +37,16 @@ class UserModel {
     }
 
     public static function validate($regData) {
-        echo 'Entering validation...';
-        echo '<br />';
-
         $notNullOrEmpty = self::areNotNullOrEmpty($regData);
-        echo 'notNullOrEmpty=';
-        var_dump($notNullOrEmpty);
-        echo '<br />';
-
-        $isEmailAddress = filter_var($regData['email'], FILTER_VALIDATE_EMAIL);
-        echo 'isEmailAddress=';
-        var_dump($isEmailAddress);
-        echo '<br />';
-
+        $isEmailAddress = self::isEmailAddress($regData['email']);
         $passwordsAreMatching = $regData['password'] === $regData['passwordConfirmation'];
-        echo 'passwordsAreMatching=';
-        var_dump($passwordsAreMatching);
-        echo '<br />';
-
         $userNameDoesNotExists = is_null(self::getUserByUserName($regData['userName']));
-        echo 'userNameDoesNotExists=';
-        var_dump($userNameDoesNotExists);
-        echo '<br />';
-
         $emailAddressDoesNotExists = is_null(self::getUserByEmail($regData['email']));
-        echo 'emailAddressDoesNotExists=';
-        var_dump($emailAddressDoesNotExists);
-        echo '<br />';
-
         return $notNullOrEmpty && $isEmailAddress && $passwordsAreMatching && $userNameDoesNotExists && $emailAddressDoesNotExists;
+    }
+
+    public static function isEmailAddress($email) {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
 
@@ -79,21 +60,25 @@ class UserModel {
 
         if ($result->num_rows == 0) {
             return null;
+        } elseif ($result->num_rows == 1) {
+
+            $userData = $result->fetch_assoc();
+
+            $user = new User(
+                $userData['id'],
+                $userData['userName'],
+                $userData['firstName'],
+                $userData['lastName'],
+                $userData['email'],
+                $userData['street'],
+                $userData['zip'],
+                $userData['city']
+            );
+            return $user;
+        } else {
+            echo "Corrupted database state";
         }
 
-        $userData = $result->fetch_assoc();
-
-        $user = new User(
-            $userData['id'],
-            $userData['userName'],
-            $userData['firstName'],
-            $userData['lastName'],
-            $userData['email'],
-            $userData['street'],
-            $userData['zip'],
-            $userData['city']
-        );
-        return $user;
     }
 
     public static function getUserByEmail($email) {

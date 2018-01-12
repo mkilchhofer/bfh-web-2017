@@ -59,6 +59,7 @@ LOGINFORM;
             <div class="form-group">
                 <label for="login">{$lang['userName']}</label>
                 <input type="text" class="form-control" name="userName" required>
+                <div class="invalid-feedback">{$lang['username_not_available']}</div>
             </div>
             
             <div class="form-group">
@@ -84,6 +85,7 @@ LOGINFORM;
             <div class="form-group">
                 <label for="text">{$lang['email']}</label>
                 <input type="text" class="form-control" name="email"required>
+                <div class="invalid-feedback">{$lang['email_not_available']}</div>
             </div>
             
             <div class="form-group">
@@ -103,16 +105,78 @@ LOGINFORM;
         
             <button type="submit" class="btn btn-default">{$lang['register']}</button>
         </form>
+        <script>
+        $(document).ready(function(){
+            $("input[name=userName]").focusout(function(){
+                checkUserNameAvailability();
+            });
+            $("input[name=email]").focusout(function(){
+                checkEmailAvailability();
+            });
+        });
+        
+        function checkUserNameAvailability(){  
+            var userName = $("input[name=userName]").val();
+            console.log(userName);
+            $.post("/en/User/userNameDoesNotExists/" + userName, { userName: userName },  
+                function(result){  
+                    console.log(result);
+                    $("input[name=userName]").removeClass("is-valid is-invalid");
+                    if(result == 1) { 
+                        console.log("is available");
+                        $("input[name=userName]").addClass("is-valid");
+                        
+                    } else if (result == 0) {  
+                        console.log("is not available");
+                        $("input[name=userName]").addClass("is-invalid");
+                    }  else {
+                        console.log("Did not receive an answer from the server");
+                    }
+            });  
+        }
+        
+        function checkEmailAvailability(){  
+            var email = $("input[name=email]").val();
+            console.log(email);
+            $.post("/en/User/emailDoesNotExists/" + email, { email: email },  
+                function(result){  
+                    console.log(result);
+                    $("input[name=email]").removeClass("is-valid is-invalid");
+                    if(result == 1) { 
+                        console.log("is available");
+                        $("input[name=email]").addClass("is-valid");
+                        
+                    } else if (result == 0) {  
+                        console.log("is not available");
+                        $("input[name=email]").addClass("is-invalid");
+                    }  else {
+                        console.log("Did not receive an answer from the server");
+                    } 
+            });  
+        }       
+        </script>
 REGISTERFORM;
 
         TemplateHelper::renderFooter();
     }
 
     public function renderRegisterConfirmation() {
+        global $lang;
+        global $language;
 
         TemplateHelper::renderHeader();
-        echo "<h3>Registration Confirmation</h3>";
+        echo "<div class=\"alert alert-success\" role=\"alert\">{$lang['reg_successful']}</div>";
         TemplateHelper::renderFooter();
     }
+
+    public function renderRegisterError() {
+        global $lang;
+        global $language;
+
+        TemplateHelper::renderHeader();
+        echo "<div class=\"alert alert-danger\" role=\"alert\">{$lang['reg_failed']}</div>";
+        TemplateHelper::renderFooter();
+    }
+
 
 }

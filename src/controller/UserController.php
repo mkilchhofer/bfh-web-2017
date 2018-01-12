@@ -17,7 +17,7 @@ class UserController
         $this->view->renderLogin();
     }
 
-    public function Logout(){
+    public function Logout() {
         $this->view->renderLogout();
     }
 
@@ -25,12 +25,26 @@ class UserController
         $this->view->renderRegisterForm();
     }
 
+    public function userNameDoesNotExists($userName) {
+        if (is_null($this->model->getUserByUserName($userName))) {
+            echo 1;
+        } else {
+            echo 0;
+        }
+    }
+
+    public function emailDoesNotExists($email) {
+        if (is_null($this->model->getUserByEmail($email))) {
+            echo 1;
+        }
+        else {
+            echo 0;
+        }
+    }
+
     public function processRegistration() {
-        $regData = $_POST;
+        $regData = array_map('strip_tags', $_POST);
         $valid = $this->model->validate($regData);
-        echo 'Validation result=';
-        var_dump($valid);
-        echo '<br />';
 
         if ($valid) {
             $user = new User(null,
@@ -41,17 +55,11 @@ class UserController
                 $regData['street'],
                 $regData['zip'],
                 $regData['city']);
-            echo 'Creating User...';
-            echo '<br />';
-            $result = $this->model->add($user, $regData['password']);
-            #$this->view->renderRegisterConfirmation();
-            echo 'Insert Result= ';
-            var_dump($result);
+            
+            $this->model->add($user, $regData['password']);
+            $this->view->renderRegisterConfirmation();
         } else {
-            echo 'User Creation failed';
-            echo '<br />';
+            $this->view->renderRegisterError();
         }
-        echo 'Processing finished';
-        echo '<br />';
     }
 }

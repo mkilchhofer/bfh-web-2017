@@ -37,7 +37,7 @@ class MyGearView
             </div>
         </div>
         <br />
-        <table class="table table-striped">
+        <table class="table table-striped table-responsive">
             <thead>
             <tr>
                 <th>{$lang['name']}</th>
@@ -104,7 +104,7 @@ GEARLIST;
         </div>
         <br /><br />
 
-        <table class="table table-striped">
+        <table class="table table-striped table-responsive">
             <tbody id="myTable">
             <tr>
                 <th scope="row">{$lang['picture']}</th>

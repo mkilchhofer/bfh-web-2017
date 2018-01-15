@@ -29,7 +29,7 @@ class MarketplaceView
          <h3>{$lang['nav_marketplace']}</h3>
             <input class="form-control" id="myInput" type="text" placeholder="{$lang['search']}">
             <br>
-            <table class="table table-striped">
+            <table class="table table-striped table-responsive">
                 <thead>
                 <tr>
                     <th>{$lang['name']}</th>
@@ -79,7 +79,7 @@ LIST;
         TemplateHelper::renderHeader();
         echo <<< GEARDETAIL
 <h3>{$saleById->name}</h3>
-    <table class="table table-striped">
+    <table class="table table-striped table-responsive">
         <tbody id="myTable">
         <tr>
             <th scope="row">{$lang['picture']}</th>

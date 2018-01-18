@@ -20,7 +20,7 @@ class DashboardView
   <div class="row">
     <div class="col-sm-6">
             <h3>My Items on sale</h3>
-            <table class="table table-striped table-responsive">
+            <table class="table table-striped">
                 <thead>
                 <tr>
                     <th>{$lang['name']}</th>

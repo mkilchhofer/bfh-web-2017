@@ -45,6 +45,7 @@ $lang['zip']            = 'ZIP code';
 $lang['city']           = 'City';
 $lang['warranty']       = 'Warranty';
 $lang['addAttachments'] = 'Add new attachment';
+$lang['contactSeller']  = 'Contact Seller';
 
 $lang['btn_add']        = 'Add Device';
 
@@ -60,3 +61,5 @@ $lang['username_not_available'] = 'User name is not available!';
 $lang['email_not_available']    = 'Email address is not available!';
 $lang['reg_successful']         = 'Your Registration was successful! You can now log in.';
 $lang['reg_failed']             = 'Your Registration failed! Please try again.';
+$lang['mail_successful']        = 'Message sent!';
+$lang['mail_failed']            = 'Message not sent. Please try again.';

@@ -47,6 +47,7 @@ $lang['zip']            = 'PLZ';
 $lang['city']           = 'Stadt';
 $lang['warranty']       = 'Garantie';
 $lang['addAttachments'] = 'Anhang hinzufügen';
+$lang['contactSeller']  = 'Verkäufer kontaktieren';
 
 
 $lang['btn_add']        = 'Gerät erfassen';
@@ -63,3 +64,5 @@ $lang['username_not_available'] = 'Benutzername ist nicht verfügbar!';
 $lang['email_not_available']    = 'E-Mail-Adresse ist nicht verfügbar';
 $lang['reg_successful']         = 'Die Registrierung war erfolgreich! Sie können sich nun anmelden.';
 $lang['reg_failed']             = 'Die Registrierung war nicht erfolgreich! Bitte versuchen Sie es erneut.';
+$lang['mail_successful']        = 'Ihre Nachricht wurde versendet! Bitte haben Sie einwenig Geduld.';
+$lang['mail_failed']            = 'Ihre Nachricht wurde *nicht* versendet! Bitte versuchen Sie es erneut.';

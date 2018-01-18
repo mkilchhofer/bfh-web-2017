@@ -81,6 +81,37 @@ class UserModel {
 
     }
 
+    public static function getUserById($id) {
+        $sql_query = "SELECT * FROM User WHERE id= ?";
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) {
+            return null;
+        } elseif ($result->num_rows == 1) {
+
+            $userData = $result->fetch_assoc();
+
+            $user = new User(
+                $userData['id'],
+                $userData['userName'],
+                $userData['firstName'],
+                $userData['lastName'],
+                $userData['email'],
+                $userData['street'],
+                $userData['zip'],
+                $userData['city']
+            );
+            return $user;
+        } else {
+            echo "Corrupted database state";
+        }
+
+    }
+
     public static function getUserByEmail($email) {
         $sql_query = "SELECT * FROM User WHERE email= ?";
         $db = DB::getInstance();

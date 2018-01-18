@@ -79,6 +79,10 @@ LIST;
         TemplateHelper::renderHeader();
         echo <<< GEARDETAIL
 <h3>{$saleById->name}</h3>
+    <a href="../contactSeller/{$saleId}" class="btn btn-outline-primary" role="button">{$lang['contactSeller']}</a>
+    <br />
+    <br />
+
     <table class="table table-striped">
         <tbody id="myTable">
         <tr>
@@ -130,6 +134,45 @@ LIST;
         };
     </script>
 GEARDETAIL;
+        TemplateHelper::renderFooter();
+    }
+
+    public function renderBuyContactForm($userId, $saleId) {
+        global $lang;
+        TemplateHelper::renderHeader();
+
+        echo <<< REGISTERFORM
+        <h3>{$lang['contactSeller']}</h3>
+        <form action="../processMessage" method="post">
+          <div class="form-group">
+            <input type="hidden" class="form-control" name="userId" value="{$userId}">
+            <input type="hidden" class="form-control" name="saleId" value="{$saleId}">
+            <label for="exampleTextarea">Mitteilung an Inserent</label>
+            <textarea class="form-control" id="exampleTextarea" rows="10" name="message"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+REGISTERFORM;
+
+        TemplateHelper::renderFooter();
+    }
+
+    public function renderContactConfirmation() {
+        global $lang;
+        global $language;
+
+        TemplateHelper::renderHeader();
+        echo "<div class=\"alert alert-success\" role=\"alert\">{$lang['mail_successful']}</div>";
+        TemplateHelper::renderFooter();
+    }
+
+    public function renderContactError($errorMsg) {
+        global $lang;
+        global $language;
+
+        TemplateHelper::renderHeader();
+        echo "<div class=\"alert alert-danger\" role=\"alert\">{$lang['mail_failed']}</div>";
+        echo $errorMsg;
         TemplateHelper::renderFooter();
     }
 }

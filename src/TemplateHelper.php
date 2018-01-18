@@ -17,6 +17,8 @@ class TemplateHelper {
     <link href="/css/custom.css" rel="stylesheet">
     <script src="https://use.fontawesome.com/4574efd0ac.js"></script>
     <link rel="stylesheet" href="/modules/blueimp-gallery/css/blueimp-gallery.min.css">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
 </head>
 <body>
 <script src="/modules/blueimp-gallery/js/blueimp-gallery.min.js"></script>

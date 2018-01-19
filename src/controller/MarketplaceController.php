@@ -37,13 +37,13 @@ class MarketplaceController
         $cleanPOST = array_map('strip_tags', $_POST);
 
         if($cleanPOST['userId'] != $userId){
-            $this->errorView->render("something went wrong");
+            $this->view->renderContactError("something went wrong");
             exit;
         }
         $saleById = $this->model->getSaleById((int)$cleanPOST['saleId']);
 
         if(!isset($saleById)){
-            echo "Error";
+            $this->view->renderContactError('Unknown Sale Id');
             exit;
         }
 
@@ -70,12 +70,12 @@ class MarketplaceController
 
             //Recipients
             $mail->setFrom(getenv('MAIL_FROM_ADDRESS'), 'MyGear');
-            $mail->addAddress($seller->email, $seller->firstName.' '.$seller->lastName);     // Add a recipient
+            $mail->addAddress($seller->email, $seller->firstName.' '.$seller->lastName);
             $mail->addReplyTo($user->email, $user->firstName.' '.$user->lastName);
             $mail->addCC($user->email, $user->firstName.' '.$user->lastName);
 
             //Content
-            $mail->isHTML(false);                                  // Set email format to HTML
+            $mail->isHTML(false);
             $mail->Subject = "Nachricht erhalten - \"$saleById->name\"";
             $mail->Body = $cleanPOST['message'];
 

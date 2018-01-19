@@ -13,42 +13,44 @@ class DashboardView
     {
         require_once('core/authentication.inc.php');
         global $lang;
-        $saleItems = $this->model->getSales($_SESSION['userId']);
+        $userId = $_SESSION['userId'];
+        $saleItems = $this->model->getSales($userId);
+        $userModel = new UserModel();
+        $user = $userModel->getUserById($userId);
 
-        TemplateHelper::renderHeader();
-        echo <<< LIST1
-  <div class="row">
-    <div class="col-sm-6">
-            <h3>My Items on sale</h3>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>{$lang['name']}</th>
-                    <th>{$lang['salesPrice']}</th>
-                    <th>{$lang['salesEnd']}</th>
-                </tr>
-                </thead>
-                <tbody id="myTable">
-LIST1;
-
+        $itemsOnSale = '';
         foreach ($saleItems as $saleItem) {
-            echo "<tr>";
-            echo " <td><a href=\"../MyGear/showDetail/" . $saleItem->gearId . "\">" . $saleItem->name . "</a></td>";
-            echo " <td>" . $saleItem->salesPrice . "</td>";
-            echo " <td>" . $saleItem->salesEnd . "</td>";
-            echo "</tr>";
+            $itemsOnSale .= "<tr>";
+            $itemsOnSale .= "<td><a href=\"../MyGear/showDetail/" . $saleItem->gearId . "\">" . $saleItem->name . "</a></td>";
+            $itemsOnSale .= "<td>" . $saleItem->salesPrice . "</td>";
+            $itemsOnSale .= "<td>" . $saleItem->salesEnd . "</td>";
+            $itemsOnSale .= "</tr>";
         }
 
-        echo <<< LIST2
-                </tbody>
-            </table>
-    </div>
-    <div class="col-sm-6">
-    <h3>Other Things</h3>
-    Welcome back, User {$_SESSION['userId']}
-    </div>
-  </div>
-LIST2;
+        TemplateHelper::renderHeader();
+        echo <<< LIST
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>{$lang['yourSaleItems']}</h3>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>{$lang['name']}</th>
+                        <th>{$lang['salesPrice']}</th>
+                        <th>{$lang['salesEnd']}</th>
+                    </tr>
+                    </thead>
+                    <tbody id="myTable">
+                        {$itemsOnSale}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-6">
+            <h3>{$lang['news']}</h3>
+            {$lang['welcomeBack']}, {$user->firstName} {$user->lastName}
+            </div>
+        </div>
+LIST;
         TemplateHelper::renderFooter();
     }
 }

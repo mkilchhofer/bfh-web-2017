@@ -46,6 +46,9 @@ $lang['city']           = 'City';
 $lang['warranty']       = 'Warranty';
 $lang['addAttachments'] = 'Add new attachment';
 $lang['contactSeller']  = 'Contact Seller';
+$lang['news']           = 'News';
+$lang['yourSaleItems']  = 'Your Items on sale';
+$lang['welcomeBack']    = 'Welcome back';
 
 $lang['btn_add']        = 'Add Device';
 

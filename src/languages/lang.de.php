@@ -48,7 +48,9 @@ $lang['city']           = 'Stadt';
 $lang['warranty']       = 'Garantie';
 $lang['addAttachments'] = 'Anhang hinzufügen';
 $lang['contactSeller']  = 'Verkäufer kontaktieren';
-
+$lang['news']           = 'Neuigkeiten';
+$lang['yourSaleItems']  = 'Deine aktuellen Verkäufe';
+$lang['welcomeBack']    = 'Willkommen zurück';
 
 $lang['btn_add']        = 'Gerät erfassen';
 

@@ -92,6 +92,13 @@ GEARLIST;
         }
         $imgPictures .= '</div>';
 
+        $sellButton = '';
+        if(!isset($item->saleId)) {
+            $sellButton = "<a href=\"../../Marketplace/sell/{$item->id}\" class=\"btn btn-outline-primary\" role=\"button\">{$lang['sell']}</a>";
+        } else {
+            $sellButton = "<a href=\"../../Marketplace/sellStop/{$item->id}\" class=\"btn btn-outline-primary\" role=\"button\">{$lang['sellStop']}</a>";
+        }
+
         echo <<< GEARDETAIL
         <h3>
             {$title}
@@ -99,7 +106,7 @@ GEARLIST;
         <div class="btn-group" role="group" aria-label="Basic example">
             <a href="../../Attachment/upload/{$item->id}" class="btn btn-outline-primary"><i class="fa fa-upload" aria-hidden="true"></i></a>
             <a href="../edit/{$item->id}" class="btn btn-outline-primary" role="button">{$lang['edit']}</a>
-            <a href="../../Marketplace/sell/{$item->id}" class="btn btn-outline-primary" role="button">{$lang['sell']}</a>
+            {$sellButton}
             <a href="../delete/{$item->id}" class="btn btn-outline-danger" role="button">{$lang['delete']}</a>
         </div>
         <br /><br />

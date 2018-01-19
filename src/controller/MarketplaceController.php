@@ -92,6 +92,12 @@ class MarketplaceController
         require_once('core/authentication.inc.php');
         $userId = $_SESSION['userId'];
 
+        $saleById = $this->model->getSaleByGearId($id);
+        if(isset($saleById)){
+            $this->view->renderContactError('Already on sale');
+            exit;
+        }
+
         $gearModel = new GearModel();
         $gear = $gearModel->getGearById($userId, $id);
         if(isset($gear)){

@@ -27,6 +27,7 @@ $lang['search']         = 'Search..';
 $lang['delete']         = 'Delete';
 $lang['edit']           = 'Edit';
 $lang['sell']           = 'Sell';
+$lang['sellStop']       = 'Sell end';
 $lang['seller']         = 'Seller Id';
 $lang['salesPrice']     = 'Sales Price';
 $lang['salesId']        = 'Sales Id';

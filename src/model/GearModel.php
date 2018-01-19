@@ -10,7 +10,8 @@ class Gear extends EntityBase {
         $purchasePrice,
         $purchaseDate,
         $purchasePlace,
-        $warranty;
+        $warranty,
+        $saleId;
 }
 
 class Category extends EntityBase {
@@ -73,9 +74,11 @@ class GearModel
             GearItem.purchasePlace,
             GearItem.warranty,
             Category.id,
-            Category.title_$language AS CategoryDescription
+            Category.title_$language AS CategoryDescription,
+            Sale.id
         FROM GearItem
         INNER JOIN Category ON GearItem.categoryId = Category.id
+        LEFT JOIN Sale ON GearItem.id = Sale.gearId
         WHERE GearItem.id = ? AND GearItem.currentOwnerId = ?";
 
         $db = DB::getInstance();
@@ -83,7 +86,7 @@ class GearModel
         $stmt->bind_param('ii', $itemId, $userId);
         $stmt->execute();
 
-        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_warranty, $row_categoryId, $row_categoryDescription);
+        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_warranty, $row_categoryId, $row_categoryDescription, $row_saleId);
 
         $gear = null;
         while ($stmt->fetch()) {
@@ -97,6 +100,7 @@ class GearModel
             $gear->purchaseDate = strip_tags($row_purchaseDate);
             $gear->purchasePlace = strip_tags($row_purchasePlace);
             $gear->warranty = strip_tags($row_warranty);
+            $gear->saleId = $row_saleId;
         }
 
         return $gear;

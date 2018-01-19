@@ -27,7 +27,7 @@ $sites = [
         'showLoggedOut' => true,
     ],
     'logout' => [
-        'title' => $lang['nav_logout'].' ('.$_SESSION['userId'].')',
+        'title' => $lang['nav_logout'].' ('.$_SESSION['firstName'].')',
         'targetUrl' => '/'.$language.'/User/Logout',
         'showLoggedIn' => true,
         'showLoggedOut' => false,

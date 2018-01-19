@@ -10,6 +10,7 @@ if(isset($_POST["login"]) && isset($_POST["pw"])) {
     if($check["verified"]) {
         $_SESSION["userId"] = $check["userId"];
         $_SESSION["isAdmin"] = $check["isAdmin"];
+        $_SESSION["firstName"] = $check["firstName"];
         setcookie("loggedIn", "true", time() + (86400 / 24), "/");
     }
 }
@@ -35,5 +36,5 @@ function checklogin($userName,$password) {
     }
     $row = $result->fetch_assoc();
 
-    return array('verified' => password_verify($password, $row["password"]), 'userId' => $row["id"], 'isAdmin' => $row['admin']);
+    return array('verified' => password_verify($password, $row["password"]), 'userId' => $row["id"], 'isAdmin' => $row['admin'],'firstName' => $row['firstName']);
 }

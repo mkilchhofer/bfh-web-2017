@@ -112,6 +112,41 @@ class UserModel {
 
     }
 
+    public static function getUsers() {
+        $sql_query = "SELECT
+            id,
+            userName,
+            firstName,
+            lastName,
+            email,
+            street,
+            zip,
+            city
+        FROM User";
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->execute();
+
+        $stmt->bind_result($row_id, $row_userName, $row_firstName, $row_lastName, $row_email, $row_street, $row_zip, $row_city);
+
+        $result = array();
+        while ($stmt->fetch()) {
+            $user = new User(
+                $row_id,
+                $row_userName,
+                $row_firstName,
+                $row_lastName,
+                $row_email,
+                $row_street,
+                $row_zip,
+                $row_city);
+
+            $result[] = $user;
+        }
+
+        return $result;
+    }
+
     public static function getUserByEmail($email) {
         $sql_query = "SELECT * FROM User WHERE email= ?";
         $db = DB::getInstance();
@@ -147,6 +182,17 @@ class UserModel {
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
         $stmt->bind_param('sssssisss', $user->userName, $user->firstName, $user->lastName, $user->email, $user->street, $user->zip, $user->city, $passwordHash, $registrationDate);
+        return $stmt->execute();
+    }
+    public static function delete($id)
+    {
+        $sql_query = "DELETE
+        FROM User
+        WHERE id = ?";
+
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('i', $id);
         return $stmt->execute();
     }
 }

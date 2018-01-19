@@ -38,4 +38,10 @@ $sites = [
         'showLoggedIn' => false,
         'showLoggedOut' => true,
     ],
+    'admin' => [
+        'title' => $lang['nav_admin'],
+        'targetUrl' => '/'.$language.'/Admin/showUsers',
+        'showLoggedIn' => false,
+        'showLoggedOut' => false,
+    ],
 ];

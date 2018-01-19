@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Jan 12, 2018 at 04:35 PM
+-- Generation Time: Jan 19, 2018 at 03:25 PM
 -- Server version: 10.2.8-MariaDB
 -- PHP Version: 7.0.10
 
@@ -34,17 +34,6 @@ CREATE TABLE `Appearance` (
   `title_de` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `Appearance`
---
-
-INSERT INTO `Appearance` (`id`, `title_en`, `title_de`) VALUES
-(0, 'not set', 'nicht gesetzt'),
-(1, 'No traces of use', 'Keine Gebrauchsspuren'),
-(2, 'Slight traces of use', 'Leichte Gebrauchsspuren'),
-(3, 'Heavy traces of use', 'Schwere Gebrauchsspuren'),
-(4, 'Extreme traces of use', 'Extreme Gebrauchsspuren');
-
 -- --------------------------------------------------------
 
 --
@@ -72,14 +61,6 @@ CREATE TABLE `AttachmentType` (
   `title_de` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `AttachmentType`
---
-
-INSERT INTO `AttachmentType` (`id`, `title_en`, `title_de`) VALUES
-(1, 'Picture', 'Bild'),
-(2, 'Receipt', 'Quittung');
-
 -- --------------------------------------------------------
 
 --
@@ -92,18 +73,6 @@ CREATE TABLE `Category` (
   `title_de` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `Category`
---
-
-INSERT INTO `Category` (`id`, `title_en`, `title_de`) VALUES
-(1, 'smart phone', 'Smartphone'),
-(2, 'laptop', 'Laptop'),
-(3, 'tablet computer', 'Tablet'),
-(4, 'Camera Body', 'Kamera Body'),
-(5, 'Camera Lens', 'Kamera Objektiv'),
-(6, 'kitchen device', 'Küchengerät');
-
 -- --------------------------------------------------------
 
 --
@@ -115,17 +84,6 @@ CREATE TABLE `Functioning` (
   `title_en` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title_de` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `Functioning`
---
-
-INSERT INTO `Functioning` (`id`, `title_en`, `title_de`) VALUES
-(0, 'not set', 'nicht gesetzt'),
-(1, 'Flawless functioning', 'Einwandfreie Funktion'),
-(2, 'Slight functional limitations', 'Leichte Funktionseinschränkung'),
-(3, 'Severe functional limitations', 'Schwere Funktionseinschränkung'),
-(4, 'Defective', 'Defekter Artikel');
 
 -- --------------------------------------------------------
 
@@ -144,16 +102,6 @@ CREATE TABLE `GearItem` (
   `warranty` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `GearItem`
---
-
-INSERT INTO `GearItem` (`id`, `name`, `currentOwnerId`, `categoryId`, `purchasePrice`, `purchaseDate`, `purchasePlace`, `warranty`) VALUES
-(1, 'Lenovo X1 Carbon', 2, 2, '2213.00', '2012-01-01', 'Neptun', '2017-01-01'),
-(3, 'Sony Kamera', 1, 4, '650.00', '2008-02-02', 'Digitec', '2011-02-02'),
-(4, 'iPhone 6s', 2, 1, '650.00', '2008-02-02', 'Digitec', '2010-02-02'),
-(5, 'Canon 50mm 1.8 STM', 1, 5, '105.00', '2015-01-10', 'Digitec', '2010-10-10');
-
 -- --------------------------------------------------------
 
 --
@@ -165,16 +113,6 @@ CREATE TABLE `Packaging` (
   `title_en` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title_de` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `Packaging`
---
-
-INSERT INTO `Packaging` (`id`, `title_en`, `title_de`) VALUES
-(0, 'not set', 'nicht gesetzt'),
-(1, 'Unopened', 'Ungeöffnet'),
-(2, 'Opened and with original packaging', 'Geöffnet mit Originalverpackung'),
-(3, 'Without original packaging', 'Ohne Originalverpackung');
 
 -- --------------------------------------------------------
 
@@ -194,14 +132,6 @@ CREATE TABLE `Sale` (
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `Sale`
---
-
-INSERT INTO `Sale` (`id`, `gearId`, `salesPrice`, `salesStart`, `salesEnd`, `appearanceId`, `functioningId`, `packagingId`, `description`) VALUES
-(1, 1, '200.00', '2017-12-19 00:00:00', '2018-01-10 00:00:00', 1, 1, 2, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \r\n\r\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.   \r\n\r\nUt wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.   \r\n\r\nNam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer'),
-(2, 3, '149.95', '2017-12-21 22:17:50', '2018-01-31 00:00:00', 1, 1, 3, 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.');
-
 -- --------------------------------------------------------
 
 --
@@ -218,16 +148,9 @@ CREATE TABLE `User` (
   `zip` int(11) NOT NULL,
   `city` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `registrationDate` datetime NOT NULL
+  `registrationDate` datetime NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `User`
---
-
-INSERT INTO `User` (`id`, `userName`, `firstName`, `lastName`, `email`, `street`, `zip`, `city`, `password`, `registrationDate`) VALUES
-(1, 'mkilchhofer', 'Marco', 'Kilchhofer', 'marco@kilchhofer.info', 'Seilerweg 11', 2557, 'Studen', '$2y$12$VKce9H3G3Q9JgpCBL3M6suWZDp9Dj7ONd8v9MBojCN9uy0uFrsvL6', '2017-09-17 00:00:00'),
-(2, 'mschmutz', 'Manuel', 'Schmutz', '', '', 0, '', '$2y$12$Xj.3V91pDNjlojcVQpd7dewEJq79LkOh.w4rnese9jr7mGZFtSxXG', '2017-09-17 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -309,7 +232,7 @@ ALTER TABLE `Appearance`
 -- AUTO_INCREMENT for table `Attachment`
 --
 ALTER TABLE `Attachment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `AttachmentType`
@@ -333,7 +256,7 @@ ALTER TABLE `Functioning`
 -- AUTO_INCREMENT for table `GearItem`
 --
 ALTER TABLE `GearItem`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `Packaging`
@@ -345,13 +268,13 @@ ALTER TABLE `Packaging`
 -- AUTO_INCREMENT for table `Sale`
 --
 ALTER TABLE `Sale`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `User`
 --
 ALTER TABLE `User`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

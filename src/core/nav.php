@@ -29,6 +29,9 @@ if (isset($_SESSION['userId'])) {
     }
 }
 
+if( $_SESSION['isAdmin']) {
+    echo "<li class=\"nav-item\"><a class=\"nav-link\" href=" . $sites['admin']['targetUrl'] . ">"  . $sites['admin']['title'] . "</a></li>";
+}
 
 $url = substr($_SERVER['REQUEST_URI'], 3);
 

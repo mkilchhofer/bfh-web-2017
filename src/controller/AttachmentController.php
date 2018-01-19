@@ -52,6 +52,11 @@ class AttachmentController
             exit;
         }
 
+        if($_FILES['attachmentData']['size'] > 1048576) { // 1*1024*1024
+            $this->errorView->render("size too big");
+            exit;
+        }
+
         $imagePath = $_FILES['attachmentData']['tmp_name'];
         $fileinfo = finfo_open(FILEINFO_MIME_TYPE);
 

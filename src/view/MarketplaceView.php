@@ -175,4 +175,74 @@ REGISTERFORM;
         echo $errorMsg;
         TemplateHelper::renderFooter();
     }
+
+    public function renderSellForm($userId, $gearId) {
+        global $lang;
+        $title = 'Verkaufen';
+        TemplateHelper::renderHeader($title);
+
+
+        $appearanceList = $this->model->getAppearance();
+        $functioningList = $this->model->getFunctioning();
+        $packagingList = $this->model->getPackaging();
+
+        $select_appearance = '';
+        foreach ($appearanceList as $appearance) {
+            $select_appearance .= "<option value=\"$appearance->id\">$appearance->title</option>";
+        }
+
+        $select_functioning = '';
+        foreach ($functioningList as $functioning) {
+            $select_functioning .= "<option value=\"$functioning->id\">$functioning->title</option>";
+        }
+
+        $select_packaging = '';
+        foreach ($packagingList as $packaging) {
+            $select_packaging .= "<option value=\"$packaging->id\">$packaging->title</option>";
+        }
+
+        echo <<< GEARADD
+        <h3>
+            {$title}
+        </h3>
+        <form action="../processSale" method="post">
+
+            <div class="form-group">
+                <label for="category">Select appearance</label>
+                <select class="form-control" name="appearanceId">
+                {$select_appearance}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="category">Select functioning</label>
+                <select class="form-control" name="functioningId">
+                {$select_functioning}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="category">Select packaging</label>
+                <select class="form-control" name="packagingId">
+                {$select_packaging}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="purchasePrice">{$lang['salesPrice']}</label>
+                <input type="number" class="form-control" name="salesPrice" min="0.00" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="purchaseDate">{$lang['salesEnd']}</label>
+                <input type="date" class="form-control" name="salesEnd">
+            </div>
+            <div class="form-group">
+            <label for="exampleTextarea">Beschreibung</label>
+            <input type="hidden" class="form-control" name="userId" value="{$userId}">
+            <input type="hidden" class="form-control" name="gearId" value="{$gearId}">
+            <textarea class="form-control" id="exampleTextarea" rows="10" name="description"></textarea>
+          </div>
+
+            <button type="submit" class="btn btn-default">{$title}</button>
+        </form>
+GEARADD;
+        TemplateHelper::renderFooter();
+    }
 }

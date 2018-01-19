@@ -3,6 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require_once('model/SaleModel.php');
+require_once('model/GearModel.php');
 require_once('view/MarketplaceView.php');
 
 class MarketplaceController
@@ -84,6 +85,63 @@ class MarketplaceController
         } catch (Exception $e) {
             $this->view->renderContactError($mail->ErrorInfo);
         }
+    }
 
+
+    public function sell($id) {
+        require_once('core/authentication.inc.php');
+        $userId = $_SESSION['userId'];
+
+        $gearModel = new GearModel();
+        $gear = $gearModel->getGearById($userId, $id);
+        if(isset($gear)){
+            $this->view->renderSellForm($userId, $id);
+        } else {
+            $this->view->renderContactError('Gear not found or no permission');
+        }
+    }
+
+    public function processSale() {
+        require_once('core/authentication.inc.php');
+        $userId = $_SESSION['userId'];
+        global $language;
+        $cleanPOST = array_map('strip_tags', $_POST);
+        $salesStart = date("Y-m-d H:i:s");
+
+        if($cleanPOST['userId'] != $userId){
+            $this->view->renderContactError("something went wrong");
+            exit;
+        }
+
+        $gearModel = new GearModel();
+        $gear = $gearModel->getGearById($userId, $cleanPOST['gearId']);
+        if(!isset($gear)){
+            $this->view->renderContactError('Gear not found or no permission');
+            exit;
+        }
+
+        $saleById = $this->model->getSaleByGearId($cleanPOST['gearId']);
+        if(isset($saleById)){
+            $this->view->renderContactError('Already on sale');
+            exit;
+        }
+
+        $sale = new Sale();
+        $sale->description = $cleanPOST['description'];
+        $sale->salesEnd = $cleanPOST['salesEnd']." 23:59:59";
+        $sale->appearance = (int)$cleanPOST['appearanceId'];
+        $sale->functioning = (int)$cleanPOST['functioningId'];
+        $sale->packaging = (int)$cleanPOST['packagingId'];
+        $sale->gearId = (int)$cleanPOST['gearId'];
+        $sale->salesStart = $salesStart;
+        $sale->salesPrice = (double)$cleanPOST['salesPrice'];
+
+        $result = $this->model->addSale($userId, $sale);
+
+        if(isset($result)) {
+            header("location:/$language/Marketplace/showDetail/$result");
+        } else {
+            echo "Error insert";
+        }
     }
 }

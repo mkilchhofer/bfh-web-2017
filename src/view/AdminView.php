@@ -11,15 +11,12 @@ class AdminView
     }
 
     public function renderList($userId) {
-
         global $lang;
         global $language;
         TemplateHelper::renderHeader();
         $title = 'Admin';
-        $userModel = new UserModel();
 
         $users = $this->model->getUsers();
-
 
         $tableData = '';
         foreach ($users as $user) {
@@ -28,6 +25,12 @@ class AdminView
             $tableData .= " <td>".$user->firstName."</td>";
             $tableData .= " <td>".$user->lastName."</td>";
             $tableData .= " <td>".$user->email."</td>";
+            if($user->admin){
+                $tableData .= "<td><i class=\"fa fa-check\" aria-hidden=\"true\"></i></td>";
+            } else {
+                $tableData .= "<td></td>";
+            }
+
             if($userId != $user->id){
                 $tableData .= " <td><a href=\"deleteUser/".$user->id."\">".$lang['delete']."</a></td>";
             } else {
@@ -51,6 +54,7 @@ class AdminView
                 <th>{$lang['firstName']}</th>
                 <th>{$lang['lastName']}</th>
                 <th>{$lang['email']}</th>
+                <th>{$lang['admin']}</th>
                 <th>{$lang['actions']}</th>
             </tr>
             </thead>

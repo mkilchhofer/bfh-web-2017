@@ -51,6 +51,7 @@ $lang['news']           = 'News';
 $lang['yourSaleItems']  = 'Your Items on sale';
 $lang['welcomeBack']    = 'Welcome back';
 $lang['actions']        = 'Actions';
+$lang['admin']          = 'Admin';
 
 $lang['btn_add']        = 'Add Device';
 

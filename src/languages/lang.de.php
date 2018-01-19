@@ -53,6 +53,7 @@ $lang['news']           = 'Neuigkeiten';
 $lang['yourSaleItems']  = 'Deine aktuellen Verkäufe';
 $lang['welcomeBack']    = 'Willkommen zurück';
 $lang['actions']        = 'Aktionen';
+$lang['admin']          = 'Admin';
 
 $lang['btn_add']        = 'Gerät erfassen';
 

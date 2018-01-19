@@ -9,18 +9,8 @@ class User extends EntityBase {
         $email,
         $street,
         $zip,
-        $city;
-
-    function __construct($id, $userName, $firstName, $lastName, $email, $street, $zip, $city) {
-        $this->id = $id;
-        $this->userName = $userName;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->email = $email;
-        $this->street = $street;
-        $this->zip = $zip;
-        $this->city = $city;
-    }
+        $city,
+        $admin;
 }
 
 
@@ -64,16 +54,17 @@ class UserModel {
 
             $userData = $result->fetch_assoc();
 
-            $user = new User(
-                $userData['id'],
-                $userData['userName'],
-                $userData['firstName'],
-                $userData['lastName'],
-                $userData['email'],
-                $userData['street'],
-                $userData['zip'],
-                $userData['city']
-            );
+            $user = new User();
+            $user->id = $userData['id'];
+            $user->userName = $userData['userName'];
+            $user->firstName = $userData['firstName'];
+            $user->lastName = $userData['lastName'];
+            $user->email = $userData['email'];
+            $user->street = $userData['street'];
+            $user->zip = $userData['zip'];
+            $user->city = $userData['city'];
+            $user->admin = $userData['admin'];
+
             return $user;
         } else {
             echo "Corrupted database state";
@@ -95,16 +86,17 @@ class UserModel {
 
             $userData = $result->fetch_assoc();
 
-            $user = new User(
-                $userData['id'],
-                $userData['userName'],
-                $userData['firstName'],
-                $userData['lastName'],
-                $userData['email'],
-                $userData['street'],
-                $userData['zip'],
-                $userData['city']
-            );
+            $user = new User();
+            $user->id = $userData['id'];
+            $user->userName = $userData['userName'];
+            $user->firstName = $userData['firstName'];
+            $user->lastName = $userData['lastName'];
+            $user->email = $userData['email'];
+            $user->street = $userData['street'];
+            $user->zip = $userData['zip'];
+            $user->city = $userData['city'];
+            $user->admin = $userData['admin'];
+
             return $user;
         } else {
             echo "Corrupted database state";
@@ -121,25 +113,27 @@ class UserModel {
             email,
             street,
             zip,
-            city
+            city,
+            admin
         FROM User";
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
         $stmt->execute();
 
-        $stmt->bind_result($row_id, $row_userName, $row_firstName, $row_lastName, $row_email, $row_street, $row_zip, $row_city);
+        $stmt->bind_result($row_id, $row_userName, $row_firstName, $row_lastName, $row_email, $row_street, $row_zip, $row_city, $row_admin);
 
         $result = array();
         while ($stmt->fetch()) {
-            $user = new User(
-                $row_id,
-                $row_userName,
-                $row_firstName,
-                $row_lastName,
-                $row_email,
-                $row_street,
-                $row_zip,
-                $row_city);
+            $user = new User();
+            $user->id = $row_id;
+            $user->userName = $row_userName;
+            $user->firstName = $row_firstName;
+            $user->lastName = $row_lastName;
+            $user->email = $row_email;
+            $user->street = $row_street;
+            $user->zip = $row_zip;
+            $user->city = $row_city;
+            $user->admin = $row_admin;
 
             $result[] = $user;
         }
@@ -160,16 +154,17 @@ class UserModel {
         }
 
         $userData = $result->fetch_assoc();
-        $user = new User(
-            $userData['id'],
-            $userData['userName'],
-            $userData['firstName'],
-            $userData['lastName'],
-            $userData['email'],
-            $userData['street'],
-            $userData['zip'],
-            $userData['city']
-        );
+        $user = new User();
+        $user->id = $userData['id'];
+        $user->userName = $userData['userName'];
+        $user->firstName = $userData['firstName'];
+        $user->lastName = $userData['lastName'];
+        $user->email = $userData['email'];
+        $user->street = $userData['street'];
+        $user->zip = $userData['zip'];
+        $user->city = $userData['city'];
+        $user->admin = $userData['admin'];
+
         return $user;
     }
 

@@ -47,15 +47,15 @@ class UserController
         $valid = $this->model->validate($regData);
 
         if ($valid) {
-            $user = new User(null,
-                $regData['userName'],
-                $regData['firstName'],
-                $regData['lastName'],
-                $regData['email'],
-                $regData['street'],
-                $regData['zip'],
-                $regData['city']);
-            
+            $user = new User();
+            $user->userName = $regData['userName'];
+            $user->firstName = $regData['firstName'];
+            $user->lastName = $regData['lastName'];
+            $user->email = $regData['email'];
+            $user->street = $regData['street'];
+            $user->zip = $regData['zip'];
+            $user->city = $regData['city'];
+
             $this->model->add($user, $regData['password']);
             $this->view->renderRegisterConfirmation();
         } else {

@@ -1,5 +1,7 @@
 #Assignment 1
-Unsere Webseite MyGear. erlaubt es Benutzern, Ihr "Gear" (Technische Geräte wie Smartphones, Computer, Kameras usw.) zu inventarisieren später bei einem Verkauf an einen neuen Benutzer zu übertragen.
+Unsere Webseite MyGear. erlaubt es Benutzern, Ihr "Gear" (Technische Geräte wie Smartphones,
+Computer, Kameras usw.) zu inventarisieren später bei einem Verkauf an einen neuen Benutzer
+zu übertragen.
 
 #Assignment 2
 Erledigt - Keine weiteren Kommentare
@@ -18,8 +20,7 @@ Erledigt - Kommentare:
 Erledigt - Keine weiteren Kommentare
 
 #Assignment 7
-Erledigt - Kommentare:
-Auf eine Implementierung einer Admin-Oberfläche wurde verzichtet. Die Webseite kann durch die Benutzer selbst mit neuen Inhalten erweitert werden. So ist eine ähnliche Funtkionalität wie die geforderte Admin-Oberfläche gegeben.
+Erledigt - Keine weiteren Kommentare
 
 #Assignemnt 8
 Erledigt - Keine weiteren Kommentare
@@ -29,7 +30,8 @@ Erledigt - Keine weiteren Kommentare
 
 #Assignment 10
 Erledigt - Kommentare:
-Bei der Benutzerregistrierung wird die Verfügbarkeit von Benutzername und E-Mail-Adresse mittels AJAX überprüft.
+Bei der Benutzerregistrierung wird die Verfügbarkeit von Benutzername und E-Mail-Adresse mittels
+AJAX überprüft.
 
 #Assigment 11
 Erledigt - Keine weiteren Kommentare

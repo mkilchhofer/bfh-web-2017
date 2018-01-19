@@ -11,7 +11,8 @@ class Gear extends EntityBase {
         $purchaseDate,
         $purchasePlace,
         $warranty,
-        $saleId;
+        $saleId,
+        $ownerUserName;
 }
 
 class Category extends EntityBase {
@@ -55,6 +56,48 @@ class GearModel
             $gear->purchaseDate = strip_tags($row_purchaseDate);
             $gear->purchasePlace = strip_tags($row_purchasePlace);
             $gear->warranty = strip_tags($row_warranty);
+
+            $result[] = $gear;
+        }
+
+        return $result;
+    }
+
+    public static function getGears()
+    {
+        global $language;
+        $sql_query = "SELECT
+            GearItem.id,
+            GearItem.name,
+            GearItem.currentOwnerId,
+            GearItem.purchasePrice,
+            GearItem.purchaseDate,
+            GearItem.purchasePlace,
+            GearItem.warranty,
+            Category.title_$language AS CategoryDescription,
+            User.userName
+        FROM GearItem
+        INNER JOIN Category ON GearItem.categoryId = Category.id
+        INNER JOIN User ON GearItem.currentOwnerId = User.id
+        ORDER BY GearItem.id ASC";
+
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->execute();
+
+        $stmt->bind_result($row_id, $row_gearName, $row_currentOwnerId, $row_purchasePrice, $row_purchaseDate, $row_purchasePlace, $row_warranty, $row_categoryDescription, $row_ownerUserName);
+        $result = array();
+        while ($stmt->fetch()) {
+            $gear = new Gear();
+            $gear->id = strip_tags($row_id);
+            $gear->name = strip_tags($row_gearName);
+            $gear->currentOwnerId = strip_tags($row_currentOwnerId);
+            $gear->categoryDescription = strip_tags($row_categoryDescription);
+            $gear->purchasePrice = strip_tags($row_purchasePrice);
+            $gear->purchaseDate = strip_tags($row_purchaseDate);
+            $gear->purchasePlace = strip_tags($row_purchasePlace);
+            $gear->warranty = strip_tags($row_warranty);
+            $gear->ownerUserName = strip_tags($row_ownerUserName);
 
             $result[] = $gear;
         }
@@ -106,16 +149,16 @@ class GearModel
         return $gear;
     }
 
-    public static function deleteGearById($userId, $itemId)
+    public static function deleteGearById($itemId)
     {
         global $language;
         $sql_query = "DELETE
         FROM GearItem
-        WHERE id = ? AND currentOwnerId = ?";
+        WHERE id = ?";
 
         $db = DB::getInstance();
         $stmt = $db->prepare($sql_query);
-        $stmt->bind_param('ii', $itemId, $userId);
+        $stmt->bind_param('i', $itemId);
         return $stmt->execute();
     }
 

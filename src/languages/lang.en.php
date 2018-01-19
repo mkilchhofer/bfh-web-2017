@@ -52,6 +52,8 @@ $lang['yourSaleItems']  = 'Your Items on sale';
 $lang['welcomeBack']    = 'Welcome back';
 $lang['actions']        = 'Actions';
 $lang['admin']          = 'Admin';
+$lang['manageUser']     = 'Manage User';
+$lang['manageGear']     = 'Manage Gear';
 
 $lang['btn_add']        = 'Add Device';
 
@@ -62,7 +64,7 @@ $lang['nav_login']      = 'Login';
 $lang['nav_logout']     = 'Logout';
 $lang['nav_register']   = 'Register';
 $lang['nav_language']   = 'Language';
-$lang['nav_admin']      = 'Admin';
+$lang['nav_admin']      = 'Administration';
 
 $lang['username_not_available'] = 'User name is not available!';
 $lang['email_not_available']    = 'Email address is not available!';

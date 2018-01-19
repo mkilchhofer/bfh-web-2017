@@ -38,10 +38,15 @@ $sites = [
         'showLoggedIn' => false,
         'showLoggedOut' => true,
     ],
-    'admin' => [
-        'title' => $lang['nav_admin'],
-        'targetUrl' => '/'.$language.'/Admin/showUsers',
-        'showLoggedIn' => false,
-        'showLoggedOut' => false,
+];
+
+$adminSites = [
+    'useradmin' => [
+        'title' => $lang['manageUser'],
+        'targetUrl' => '/'.$language.'/Admin/manageUsers',
+    ],
+    'gearadmin' => [
+        'title' => $lang['manageGear'],
+        'targetUrl' => '/'.$language.'/Admin/manageGear',
     ],
 ];

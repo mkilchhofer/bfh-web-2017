@@ -54,6 +54,10 @@ $lang['yourSaleItems']  = 'Deine aktuellen Verkäufe';
 $lang['welcomeBack']    = 'Willkommen zurück';
 $lang['actions']        = 'Aktionen';
 $lang['admin']          = 'Admin';
+$lang['manageUser']     = 'Benutzer verwalten';
+$lang['manageGear']     = 'Geräte verwalten';
+$lang['allDevices']     = 'Admin: Alle Geräte';
+$lang['allUsers']       = 'Admin: Alle Benutzer';
 
 $lang['btn_add']        = 'Gerät erfassen';
 
@@ -64,7 +68,7 @@ $lang['nav_login']      = 'Anmelden';
 $lang['nav_logout']     = 'Abmelden';
 $lang['nav_register']   = 'Registrieren';
 $lang['nav_language']   = 'Sprache';
-$lang['nav_admin']      = 'Admin';
+$lang['nav_admin']      = 'Administration';
 
 $lang['username_not_available'] = 'Benutzername ist nicht verfügbar!';
 $lang['email_not_available']    = 'E-Mail-Adresse ist nicht verfügbar';

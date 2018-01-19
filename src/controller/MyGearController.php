@@ -106,7 +106,7 @@ class MyGearController
             exit;
         }
 
-        $result = $this->model->deleteGearById($userId, $id);
+        $result = $this->model->deleteGearById($id);
 
         if($result){
             header("location:/$language/MyGear/showList");

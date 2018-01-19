@@ -1,0 +1,2 @@
+<?php
+header("Location: https://github.com/mkilchhofer/bfh-web-2017/archive/development.zip", true, 301);

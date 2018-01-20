@@ -2,5 +2,3 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 
 RewriteRule ^(.*)$ index.php [QSA]
-AddType application/x-httpd-php .zip
-AddType application/x-httpd-php .sql

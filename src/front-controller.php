@@ -16,6 +16,16 @@ $mygearVersion = substr(getenv('OPENSHIFT_BUILD_COMMIT'),0,7);
 $path = parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH);
 $urlComponents = explode('/', $path);
 
+// Serve requirements of lecturer
+if($urlComponents[1] === "source.zip") {
+    header("Location: https://github.com/mkilchhofer/bfh-web-2017/archive/development.zip", true, 301);
+    exit;
+}
+if($urlComponents[1] === "db.sql") {
+    header("Location: https://github.com/mkilchhofer/bfh-web-2017/raw/development/db/mygear.sql", true, 301);
+    exit;
+}
+
 // Language
 if(!empty($urlComponents[1])) {
     $urlLanguage = $urlComponents[1];

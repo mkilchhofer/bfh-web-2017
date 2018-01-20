@@ -97,7 +97,7 @@ GEARLIST;
             $tableData .= " <td>".$item->name."</td>";
             $tableData .= " <td>".$item->categoryDescription."</td>";
             $tableData .= " <td>".$item->ownerUserName."</td>";
-            $tableData .= ' <td><a href="deleteGear/'.$item->id.'">'.$lang['delete'].'</a></td>';
+            $tableData .= ' <td><a href="deleteGear/'.$item->id.'" class="btn btn-outline-danger btn-sm" role="button">'.$lang['delete'].'</a></td>';
             $tableData .= "</tr>";
         }
 

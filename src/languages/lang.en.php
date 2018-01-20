@@ -54,6 +54,8 @@ $lang['actions']        = 'Actions';
 $lang['admin']          = 'Admin';
 $lang['manageUser']     = 'Manage User';
 $lang['manageGear']     = 'Manage Gear';
+$lang['allDevices']     = 'Admin: All Devices';
+$lang['allUsers']       = 'Admin: All Users';
 
 $lang['btn_add']        = 'Add Device';
 

@@ -35,13 +35,13 @@ class AdminView extends ViewBase
 
             if($userId != $user->id){
                 $tableData .= ' <td>
-                                  <a href="deleteUser/'.$user->id.'">'.$lang['delete'].'</a>
-                                  <a href="toggleAdmin/'.$user->id.'">'.$lang['toggleAdmin'].'</a>
+                                  <a href="deleteUser/'.$user->id.'" class="btn btn-outline-danger btn-sm" role="button">'.$lang['delete'].'</a>
+                                  <a href="toggleAdmin/'.$user->id.'" class="btn btn-outline-warning btn-sm" role="button">'.$lang['toggleAdmin'].'</a>
                                 </td>';
             } else {
                 $tableData .= ' <td>
-                                  <s>'.$lang['delete'].'</s>
-                                  <s>'.$lang['toggleAdmin'].'</s>
+                                  <a href="#" class="btn btn-outline-secondary btn-sm" role="button"><s>'.$lang['delete'].'</s></a>
+                                  <a href="#" class="btn btn-outline-secondary btn-sm" role="button"><s>'.$lang['toggleAdmin'].'</s></a>
                                 </td>';
             }
             $tableData .= '</tr>';

@@ -3,18 +3,15 @@
 require_once('model/GearModel.php');
 require_once('model/AttachmentModel.php');
 require_once('view/MyGearView.php');
-require_once('view/ErrorView.php');
 
 class MyGearController
 {
     private $model;
     private $view;
-    private $errorView;
 
     public function __construct() {
         $this->model = new GearModel();
         $this->view = new MyGearView($this->model);
-        $this->errorView = new ErrorView();
     }
 
     public function showList() {
@@ -36,7 +33,7 @@ class MyGearController
         if(isset($gear)) {
             $this->view->renderDetailView($gear, $attachments);
         } else {
-            $this->errorView->render("no permission or gear not found");
+            $this->view->showError("no permission or gear not found");
         }
     }
 
@@ -56,7 +53,7 @@ class MyGearController
         $cleanPOST = array_map('strip_tags', $_POST);
 
         if($cleanPOST['userId'] != $userId){
-            $this->errorView->render("something went wrong");
+            $this->view->showError("something went wrong");
             exit;
         }
 
@@ -73,6 +70,8 @@ class MyGearController
 
         if(isset($result)) {
             header("location:/$language/MyGear/showDetail/$result");
+        } else {
+            $this->view->showError("error on store");
         }
     }
 
@@ -102,7 +101,7 @@ class MyGearController
         $gear = $this->model->getGearById($userId, $id);
 
         if($gear->currentOwnerId != $userId){
-            echo "permission denied";
+            $this->view->showError("permission denied");
             exit;
         }
 
@@ -111,7 +110,7 @@ class MyGearController
         if($result){
             header("location:/$language/MyGear/showList");
         } else {
-            echo "error on delete";
+            $this->view->showError("error on delete");
         }
 
     }
@@ -123,7 +122,7 @@ class MyGearController
         $cleanPOST = array_map('strip_tags', $_POST);
 
         if($cleanPOST['userId'] != $userId){
-            $this->errorView->render("something went wrong");
+            $this->view->showError("something went wrong");
             exit;
         }
 
@@ -140,6 +139,8 @@ class MyGearController
 
         if(isset($result)) {
             header("location:/$language/MyGear/showDetail/$gear->id");
+        } else {
+            $this->view->showError("error on update");
         }
     }
 }

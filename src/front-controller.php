@@ -89,6 +89,6 @@ if (isset($action) and !isset($actionParam)) {
 
 //Display error(s)
 if (!empty($errorMessage)){
-    $errorView = new ErrorView();
-    $errorView->render($errorMessage);
+    $view = new ViewBase();
+    $view->showError($errorMessage);
 }

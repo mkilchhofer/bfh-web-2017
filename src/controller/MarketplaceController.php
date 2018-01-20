@@ -38,13 +38,13 @@ class MarketplaceController
         $cleanPOST = array_map('strip_tags', $_POST);
 
         if($cleanPOST['userId'] != $userId){
-            $this->view->renderContactError("something went wrong");
+            $this->view->showError("something went wrong");
             exit;
         }
         $saleById = $this->model->getSaleById((int)$cleanPOST['saleId']);
 
         if(!isset($saleById)){
-            $this->view->renderContactError('Unknown Sale Id');
+            $this->view->showError('Unknown Sale Id');
             exit;
         }
 
@@ -83,7 +83,7 @@ class MarketplaceController
             $mail->send();
             $this->view->renderContactConfirmation();
         } catch (Exception $e) {
-            $this->view->renderContactError($mail->ErrorInfo);
+            $this->view->showError($mail->ErrorInfo);
         }
     }
 
@@ -94,7 +94,7 @@ class MarketplaceController
 
         $saleById = $this->model->getSaleByGearId($id);
         if(isset($saleById)){
-            $this->view->renderContactError('Already on sale');
+            $this->view->showError('Already on sale');
             exit;
         }
 
@@ -103,7 +103,7 @@ class MarketplaceController
         if(isset($gear)){
             $this->view->renderSellForm($userId, $id);
         } else {
-            $this->view->renderContactError('Gear not found or no permission');
+            $this->view->showError('Gear not found or no permission');
         }
     }
 
@@ -115,20 +115,20 @@ class MarketplaceController
         $salesStart = date("Y-m-d H:i:s");
 
         if($cleanPOST['userId'] != $userId){
-            $this->view->renderContactError("something went wrong");
+            $this->view->showError("something went wrong");
             exit;
         }
 
         $gearModel = new GearModel();
         $gear = $gearModel->getGearById($userId, $cleanPOST['gearId']);
         if(!isset($gear)){
-            $this->view->renderContactError('Gear not found or no permission');
+            $this->view->showError('Gear not found or no permission');
             exit;
         }
 
         $saleById = $this->model->getSaleByGearId($cleanPOST['gearId']);
         if(isset($saleById)){
-            $this->view->renderContactError('Already on sale');
+            $this->view->showError('Already on sale');
             exit;
         }
 
@@ -147,7 +147,7 @@ class MarketplaceController
         if(isset($result)) {
             header("location:/$language/Marketplace/showDetail/$result");
         } else {
-            echo "Error insert";
+            $this->view->showError("Error insert");
         }
     }
 }

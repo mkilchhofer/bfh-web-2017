@@ -1,7 +1,8 @@
 <?php
 require_once(__DIR__ . '/../TemplateHelper.php');
+require_once(__DIR__ . '/ViewBase.php');
 
-class MarketplaceView
+class MarketplaceView extends ViewBase
 {
     private $model;
 

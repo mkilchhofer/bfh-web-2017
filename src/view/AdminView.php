@@ -1,7 +1,8 @@
 <?php
 require_once(__DIR__ . '/../TemplateHelper.php');
+require_once(__DIR__ . '/ViewBase.php');
 
-class AdminView
+class AdminView extends ViewBase
 {
 
     private $model;

@@ -1,7 +1,8 @@
 <?php
 require_once(__DIR__ . '/../TemplateHelper.php');
+require_once(__DIR__ . '/ViewBase.php');
 
-class AttachmentView
+class AttachmentView extends ViewBase
 {
     public function renderAttachment($attachment){
         header("Content-type: $attachment->mimeType");

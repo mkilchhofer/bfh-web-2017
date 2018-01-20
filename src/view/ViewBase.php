@@ -1,16 +1,16 @@
 <?php
 require_once(__DIR__ . '/../TemplateHelper.php');
 
-class ErrorView
+class ViewBase
 {
 
-    public function render($errorMsg)
+    public function showError($errorMessage)
     {
         global $lang;
 
         TemplateHelper::renderHeader();
         echo "<h3>Error</h3>";
-        echo "Es sind Fehler augetreten:<br />$errorMsg<br />";
+        echo "Es sind Fehler augetreten:<br />$errorMessage<br />";
         echo '<a href="javascript:history.back()">Go Back</a>';
         TemplateHelper::renderFooter();
     }

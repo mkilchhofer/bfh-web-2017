@@ -8,13 +8,11 @@ class AdminController
     private $userModel;
     private $gearModel;
     private $view;
-    private $errorView;
 
     public function __construct() {
         $this->userModel = new UserModel();
         $this->gearModel = new GearModel();
         $this->view = new AdminView($this->userModel);
-        $this->errorView = new ErrorView();
     }
 
     public function manageUsers() {
@@ -24,7 +22,7 @@ class AdminController
         if($_SESSION['isAdmin']){
             $this->view->renderList($userId);
         } else {
-            $this->errorView->render('no permissinons');
+            $this->view->showError('no permissinons');
         }
     }
 
@@ -37,8 +35,7 @@ class AdminController
             $this->userModel->delete($id);
             header("Location: /$language/Admin/manageUsers");
         } else {
-            $errorView = new ErrorView();
-            $errorView->render('no permissinons to delete user');
+            $this->view->showError('no permissinons to delete user');
         }
     }
 
@@ -51,7 +48,7 @@ class AdminController
         if($_SESSION['isAdmin']){
             $this->view->renderGearList($gearItems);
         } else {
-            $this->errorView->render('no permissinons to delete user');
+            $this->view->showError('no permissinons to delete user');
         }
     }
 
@@ -64,8 +61,7 @@ class AdminController
             $this->gearModel->deleteGearById($id);
             header("Location: /$language/Admin/manageGear");
         } else {
-            $errorView = new ErrorView();
-            $errorView->render('no permissinons to delete gear');
+            $this->view->showError('no permissinons to delete gear');
         }
     }
 }

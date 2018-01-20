@@ -2,18 +2,15 @@
 require_once('model/AttachmentModel.php');
 require_once('model/GearModel.php');
 require_once('view/AttachmentView.php');
-require_once('view/ErrorView.php');
 
 class AttachmentController
 {
     private $model;
     private $view;
-    private $errorView;
 
     public function __construct() {
         $this->model = new AttachmentModel();
         $this->view = new AttachmentView($this->model);
-        $this->errorView = new ErrorView();
     }
 
     public function show($id) {
@@ -36,7 +33,7 @@ class AttachmentController
         if(isset($gear)){
             $this->view->renderGearUploadAttachment($userId, $id, $attachmentTypes);
         } else {
-            $this->errorView->render("no permission or gear not found");
+            $this->view->showError("no permission or gear not found");
         }
     }
 
@@ -48,12 +45,12 @@ class AttachmentController
         $cleanPOST = array_map('strip_tags', $_POST);
 
         if($cleanPOST['userId'] != $userId){
-            $this->errorView->render("something went wrong");
+            $this->view->showError("something went wrong");
             exit;
         }
 
         if($_FILES['attachmentData']['size'] > 1048576) { // 1*1024*1024
-            $this->errorView->render("size too big");
+            $this->view->showError("size too big");
             exit;
         }
 
@@ -75,7 +72,7 @@ class AttachmentController
         }
 
         if(!in_array($attachment->mimeType, $allowed)) {
-            $this->errorView->render('Only jpg, gif and png files are allowed.');
+            $this->view->showError('Only jpg, gif and png files are allowed.');
             exit;
         }
         $gear = $gearModel->getGearById($userId, $attachment->gearId);
@@ -86,7 +83,7 @@ class AttachmentController
             if($result){
                 header("Location: /$language/MyGear/showDetail/$attachment->gearId");
             } else {
-                $this->errorView->render("Insert to DB failed");
+                $this->view->showError("Insert to DB failed");
                 exit;
             }
         }
@@ -106,7 +103,7 @@ class AttachmentController
         $gear = $gearModel->getGearById($userId, $attachment->gearId);
 
         if($gear->currentOwnerId != $userId){
-            echo "permission denied";
+            $this->view->showError("permission denied");
             exit;
         }
 
@@ -115,7 +112,7 @@ class AttachmentController
         if($result){
             header("Location: /$language/MyGear/showDetail/$attachment->gearId");
         } else {
-            echo "error on delete";
+            $this->view->showError("error on delete");
         }
 
     }

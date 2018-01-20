@@ -56,6 +56,7 @@ $lang['manageUser']     = 'Manage User';
 $lang['manageGear']     = 'Manage Gear';
 $lang['allDevices']     = 'Admin: All Devices';
 $lang['allUsers']       = 'Admin: All Users';
+$lang['toggleAdmin']    = 'Admin';
 
 $lang['btn_add']        = 'Add Device';
 

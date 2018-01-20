@@ -190,4 +190,28 @@ class UserModel {
         $stmt->bind_param('i', $id);
         return $stmt->execute();
     }
+
+    public static function toggleAdmin($userId) {
+        $sql_query = "SELECT admin FROM User WHERE id= ?";
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+
+        $stmt->bind_result($row_admin);
+        $stmt->fetch();
+
+        if($row_admin == 1){
+            $admin = 0;
+        } else {
+            $admin = 1;
+        }
+
+        $stmt->close();
+        $sql_query = "UPDATE User SET admin = ? WHERE id = ?";
+        $db = DB::getInstance();
+        $stmt = $db->prepare($sql_query);
+        $stmt->bind_param('ii', $admin, $userId);
+        $stmt->execute();
+    }
 }

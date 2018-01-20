@@ -58,6 +58,7 @@ $lang['manageUser']     = 'Benutzer verwalten';
 $lang['manageGear']     = 'Geräte verwalten';
 $lang['allDevices']     = 'Admin: Alle Geräte';
 $lang['allUsers']       = 'Admin: Alle Benutzer';
+$lang['toggleAdmin']    = 'Admin';
 
 $lang['btn_add']        = 'Gerät erfassen';
 

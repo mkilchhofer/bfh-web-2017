@@ -64,4 +64,17 @@ class AdminController
             $this->view->showError('no permissinons to delete gear');
         }
     }
+
+    public function toggleAdmin($id){
+        require_once('core/authentication.inc.php');
+        $userId = $_SESSION['userId'];
+        global $language;
+
+        if ($_SESSION['isAdmin'] and $id != $userId) {
+            $this->userModel->toggleAdmin((int)$id);
+            header("Location: /$language/Admin/manageUsers");
+        } else {
+            $this->view->showError('no permissinons to toggle admin');
+        }
+    }
 }
